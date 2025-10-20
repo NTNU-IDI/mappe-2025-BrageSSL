@@ -7,12 +7,12 @@ This file uses Mark Down syntax. For more information see [here](https://www.mar
 
 [//]: # (TODO: Fill inn your name and student ID)
 
-STUDENT NAME = "Your name"  
-STUDENT ID = "Your ID"
+STUDENT NAME = "Brage. S. Sandli-Løvgren"  
+STUDENT ID = "157280"
 
 ## Project description
 
-[//]: # (TODO: Write a short description of your project/product here.)
+[//]: # (TODO: Lage en kryptert dagbok.)
 
 ## Project structure
 
@@ -20,7 +20,7 @@ STUDENT ID = "Your ID"
 
 ## Link to repository
 
-[//]: # (TODO: Include a link to your GitHub repository here.)
+[//]: # (TODO: [Include a link to your GitHub repository here](https://github.com/NTNU-IDI/mappe-2025-BrageSSL).)
 
 ## How to run the project
 
