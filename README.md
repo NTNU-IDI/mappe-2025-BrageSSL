@@ -12,7 +12,7 @@ STUDENT ID = "157280"
 
 ## Project description
 
-[//]: # (TODO: Lage en kryptert dagbok.)
+Lage en kryptert dagbok
 
 ## Project structure
 
@@ -20,7 +20,7 @@ STUDENT ID = "157280"
 
 ## Link to repository
 
-[//]: # (TODO: [Include a link to your GitHub repository here](https://github.com/NTNU-IDI/mappe-2025-BrageSSL).)
+https://github.com/NTNU-IDI/mappe-2025-BrageSSL
 
 ## How to run the project
 
