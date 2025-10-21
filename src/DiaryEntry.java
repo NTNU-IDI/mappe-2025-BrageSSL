@@ -7,28 +7,22 @@ import java.util.UUID;
 public class DiaryEntry {
 
     private String id;
-    private String authorId;
+    private String author;
     private String title;
     private LocalDateTime date;
     private String mood;
     private byte[] encryptedContent;
 
-    private encryptionUtil encryptionUtil;
-    private userAuth userAuth;
-
-    public diaryEntry(String id, String authorId, String title, LocalDateTime date, String mood, byte[] encryptedContent) {
+    public DiaryEntry(String id, String authorId, String title, LocalDateTime date, String mood, byte[] encryptedContent) {
         this.id = id;
-        this.authorId = authorId;
+        this.author = authorId;
         this.title = title;
         this.date = date;
         this.mood = mood;
         this.encryptedContent = encryptedContent;
-
-        this.encryptionUtil = new encryptionUtil();
-        this.userAuth = new userAuth();
     }
 
-    public void createDiaryEntry() {
+    public void createDiaryEntry(User user) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter diary title: ");
@@ -42,13 +36,13 @@ public class DiaryEntry {
         System.out.print("Enter diary content: ");
         String content = scanner.nextLine();
 
-        encryptedContent = EncryptionUtil.encrypt(content, EncryptionUtil.getSecretKey());
+        byte[] encryptedContent = EncryptionUtil.encrypt(content, user.getUserKey());
 
         String id = UUID.randomUUID().toString();
 
-        authorId = userAuth.getUserId();
+        String author = user.getUserName();
 
-        diaryEntry entry = new diaryEntry(id, authorId, title, date, mood, encryptedContent);
+        DiaryEntry entry = new DiaryEntry(id, author, title, date, mood, encryptedContent);
         // Save the entry using DiaryManager (not shown here)
     }
 

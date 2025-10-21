@@ -13,25 +13,37 @@ public class User {
         this.userName = username;
         this.userKey = userKey;
         this.userPassword = password;
-        this.userId = java.util.UUID.randomUUID().toString();
+
     }
 
     public void generateUser() throws Exception {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter username: ");
-        String userName = scanner.nextLine();
+        this.userName = scanner.nextLine();
 
         System.out.print("Enter password: ");
-        String userPassword = scanner.nextLine();
+        String tempPassword = scanner.nextLine();
 
-        SecretKey userKey = EncryptionUtil.generateSecretKey();
-        String encryptedPassword = EncryptionUtil.hashPassword(userPassword, userKey);
+        this.userKey = EncryptionUtil.generateSecretKey();
+        this.userPassword = EncryptionUtil.hashPassword(tempPassword, userKey);
 
-        User newUser = new User(userName, userKey, encryptedPassword);
+        this.userId = java.util.UUID.randomUUID().toString();
     }
 
     public SecretKey getUserKey() {
         return userKey;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
     }
 }
