@@ -1,3 +1,4 @@
+// DiaryEntry.java
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -6,44 +7,62 @@ import java.util.UUID;
 
 public class DiaryEntry {
 
-    private String id;
-    private String author;
-    private String title;
-    private LocalDateTime date;
-    private String mood;
-    private byte[] encryptedContent;
+    //creates all variables needed for a diary entry
+    private final String id;
+    private final String author;
+    private final String title;
+    private final LocalDateTime date;
+    private final String mood;
+    private final byte[] encryptedContent;
 
-    public DiaryEntry(String id, String authorId, String title, LocalDateTime date, String mood, byte[] encryptedContent) {
-        this.id = id;
-        this.author = authorId;
-        this.title = title;
-        this.date = date;
-        this.mood = mood;
-        this.encryptedContent = encryptedContent;
-    }
-
-    public void createDiaryEntry(User user) throws Exception {
+    //method to create a diary entry
+    public DiaryEntry(User user) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
+        //gathers all information needed for a diary entry
         System.out.print("Enter diary title: ");
-        String title = scanner.nextLine();
+        this.title = scanner.nextLine();
 
+        //gathers mood
         System.out.print("Enter mood: ");
-        String mood = scanner.nextLine();
+        this.mood = scanner.nextLine();
 
-        LocalDateTime date = LocalDateTime.now();
-
+        //gathers diary content
         System.out.print("Enter diary content: ");
         String content = scanner.nextLine();
 
-        byte[] encryptedContent = EncryptionUtil.encrypt(content, user.getUserKey());
+        //encrypts the diary content using the user's key
+        this.encryptedContent = EncryptionUtil.encrypt(content, user.getUserKey());
 
-        String id = UUID.randomUUID().toString();
+        //sets date, id, and author
+        this.date = LocalDateTime.now();
+        this.id = UUID.randomUUID().toString();
+        this.author = user.getUserName();
+    }
 
-        String author = user.getUserName();
+    //getters for diary entry class
+    public String getId() {
+        return id;
+    }
 
-        DiaryEntry entry = new DiaryEntry(id, author, title, date, mood, encryptedContent);
-        // Save the entry using DiaryManager (not shown here)
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public String getMood() {
+        return mood;
+    }
+
+    public byte[] getEncryptedContent() {
+        return encryptedContent;
     }
 
 }
