@@ -2,7 +2,12 @@
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
+import java.util.Base64;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DiaryEntry {
 
@@ -13,9 +18,31 @@ public class DiaryEntry {
     private final LocalDateTime date;
     private final String mood;
     private final String location;
+    private final String encodedContent;
+
+    @JsonIgnore
     private final byte[] encryptedContent;
 
     //method to create a diary entry
+    @JsonCreator
+    public DiaryEntry(
+            @JsonProperty("id") String id,
+            @JsonProperty("author") String author,
+            @JsonProperty("title") String title,
+            @JsonProperty("date") LocalDateTime date,
+            @JsonProperty("mood") String mood,
+            @JsonProperty("location") String location,
+            @JsonProperty("encodedContent") String encodedContent) {
+
+        this.id = id;
+        this.author = author;
+        this.title = title;
+        this.date = date;
+        this.mood = mood;
+        this.location = location;
+        this.encodedContent = encodedContent;
+    }
+
     public DiaryEntry(User user) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
@@ -37,19 +64,43 @@ public class DiaryEntry {
 
         //encrypts the diary content using the user's key
         this.encryptedContent = EncryptionUtil.encrypt(content, user.getUserKey());
+        this.encodedContent = Base64.getEncoder().encodeToString(encryptedContent);
 
         //sets date, id, and author
         this.date = LocalDateTime.now();
-        String User = 
-        this.id = User;User.getUserId();
+        this.id = UUID.randomUUID().toString();
         this.author = user.getUserName();
     }
-    public String getId() {return id;}
-    public String getAuthor() {return author;}
-    public String getTitle() {return title;}
-    public LocalDateTime getDate() {return date;}
-    public String getUMood() {return mood;}
-    public String getLocation() {return location;}
-    public byte[] getEncryptedContent() {return encryptedContent;}
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public String getMood() {
+        return mood;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public byte[] getEncryptedContent() {
+        if (encryptedContent == null && encodedContent != null) {
+            return Base64.getDecoder().decode(encodedContent);
+        }
+        return encryptedContent;
+    }
 
 }

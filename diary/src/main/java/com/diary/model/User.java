@@ -20,7 +20,17 @@ public class User {
     private SecretKey userKey;
 
     // Default constructor for Jackson
-    public User() {
+    @JsonCreator
+    public User(
+            @JsonProperty("userId") String userId,
+            @JsonProperty("userName") String userName,
+            @JsonProperty("userPassword") String userPassword,
+            @JsonProperty("encodedKey") String encodedKey) {
+
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.encodedKey = encodedKey;
     }
 
     // Constructor for interactive user creation
