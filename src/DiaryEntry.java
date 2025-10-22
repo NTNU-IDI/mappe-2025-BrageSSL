@@ -40,16 +40,16 @@ public class DiaryEntry {
 
         //sets date, id, and author
         this.date = LocalDateTime.now();
-        String User = User.getUserId();
-        this.id = User;
+        String User = 
+        this.id = User;User.getUserId();
         this.author = user.getUserName();
     }
-    public String getId() {return Id;}
+    public String getId() {return id;}
     public String getAuthor() {return author;}
     public String getTitle() {return title;}
-    public LocalDateTime getUserId() {return userId;}
-    public String getUMood() {return userId;}
-    public String getLocation() {return userId;}
-    public byte[] getEncryptedContent() {return userId;}
+    public LocalDateTime getDate() {return date;}
+    public String getUMood() {return mood;}
+    public String getLocation() {return location;}
+    public byte[] getEncryptedContent() {return encryptedContent;}
 
 }
