@@ -12,6 +12,7 @@ public class DiaryEntry {
     private final String title;
     private final LocalDateTime date;
     private final String mood;
+    private final String location;
     private final byte[] encryptedContent;
 
     //method to create a diary entry
@@ -26,6 +27,10 @@ public class DiaryEntry {
         System.out.print("Enter mood: ");
         this.mood = scanner.nextLine();
 
+        //gathers location
+        System.out.print("Enter current location: ");
+        this.location = scanner.nextLine();
+
         //gathers diary content
         System.out.print("Enter diary content: ");
         String content = scanner.nextLine();
@@ -35,33 +40,16 @@ public class DiaryEntry {
 
         //sets date, id, and author
         this.date = LocalDateTime.now();
-        this.id = UUID.randomUUID().toString();
+        String User = User.getUserId();
+        this.id = User;
         this.author = user.getUserName();
     }
-
-    //getters for diary entry class
-    public String getId() {
-        return id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public String getMood() {
-        return mood;
-    }
-
-    public byte[] getEncryptedContent() {
-        return encryptedContent;
-    }
+    public String getId() {return Id;}
+    public String getAuthor() {return author;}
+    public String getTitle() {return title;}
+    public LocalDateTime getUserId() {return userId;}
+    public String getUMood() {return userId;}
+    public String getLocation() {return userId;}
+    public byte[] getEncryptedContent() {return userId;}
 
 }

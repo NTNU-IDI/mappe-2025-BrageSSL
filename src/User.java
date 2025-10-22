@@ -3,6 +3,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import javax.crypto.SecretKey;
 
+
 public class User {
 
     // creates all variables needed for a user
@@ -52,23 +53,10 @@ public class User {
         System.out.println("Successfully created User: " + userName);
     }
 
-    // getters for user class
-    public SecretKey getUserKey() {
-        return userKey;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
+    public String getUserId() {return userId;}
+    public SecretKey getUserKey() {return userKey;}
+    public String getUserName() {return userName;}
+    public String getUserPassword() {return userPassword;}
     // should be static later
     public void UserAuth() throws Exception {
         Scanner scanner = new Scanner(System.in);
@@ -87,5 +75,7 @@ public class User {
         if (!inputUsername.equals(getUserName()) || !hashedInputPassword.equals(getUserPassword())) {
             throw new Exception("Authentication failed: Incorrect password or username");
         }
+    
     }
+
 }
