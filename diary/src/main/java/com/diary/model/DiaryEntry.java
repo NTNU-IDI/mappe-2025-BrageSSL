@@ -1,4 +1,5 @@
-// DiaryEntry.java
+package com.diary.model;
+import com.diary.util.EncryptionUtil;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -41,6 +42,13 @@ public class DiaryEntry {
         this.mood = mood;
         this.location = location;
         this.encodedContent = encodedContent;
+
+          // Decode the base64 string to initialize the final field
+        if (encodedContent != null) {
+            this.encryptedContent = Base64.getDecoder().decode(encodedContent);
+        } else {
+            this.encryptedContent = null;
+        }
     }
 
     public DiaryEntry(User user) throws Exception {

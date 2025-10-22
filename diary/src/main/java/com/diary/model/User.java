@@ -1,3 +1,5 @@
+package com.diary.model;
+import com.diary.util.EncryptionUtil;
 
 import java.util.Arrays;
 import java.util.Base64;

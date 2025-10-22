@@ -1,3 +1,4 @@
+package com.diary;
 
 public class Main {
 

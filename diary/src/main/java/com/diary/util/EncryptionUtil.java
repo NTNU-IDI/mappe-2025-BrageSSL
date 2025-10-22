@@ -1,4 +1,4 @@
-// EncryptionUtil.java
+package com.diary.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -22,7 +22,7 @@ public class EncryptionUtil {
         byte[] iv = new byte[IV_SIZE];
         SecureRandom random = new SecureRandom();
         random.nextBytes(iv);
-        
+
         IvParameterSpec ivSpec = new IvParameterSpec(iv);
         // Create cipher instance and initialize it for encryption
         Cipher cipher = Cipher.getInstance(ALGORITHM);
