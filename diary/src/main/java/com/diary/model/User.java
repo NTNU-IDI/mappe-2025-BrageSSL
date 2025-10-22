@@ -1,81 +1,107 @@
 
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Scanner;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
 
-    // creates all variables needed for a user
-    private final String userId;
-    private final SecretKey userKey;
-    private final String userName;
-    private final String userPassword;
+    private String userId;
+    private String userName;
+    private String userPassword;
+    private String encodedKey; // Base64 version of SecretKey
 
-    // method to generate a new user
+    @JsonIgnore
+    private SecretKey userKey;
+
+    // Default constructor for Jackson
     public User() {
+    }
+
+    // Constructor for interactive user creation
+    public User(boolean interactive) {
+        if (!interactive) {
+            return; // only do this if true
+        }
         Scanner scanner = new Scanner(System.in);
 
-        // gathers username and id
         System.out.print("Enter username: ");
         this.userName = scanner.nextLine();
         this.userId = java.util.UUID.randomUUID().toString();
 
-        //initializes the passwords before the loop
         char[] tempPassword;
         char[] tempPassword2;
 
-        // gathers password
-        // makes sure user inputs the wanted password 
-        while (true) { 
+        while (true) {
             System.out.print("Enter password: ");
             tempPassword = scanner.nextLine().toCharArray();
             System.out.print("Repeat password: ");
             tempPassword2 = scanner.nextLine().toCharArray();
             if (Arrays.equals(tempPassword, tempPassword2)) {
-                Arrays.fill(tempPassword2, ' '); // clear from memory
+                Arrays.fill(tempPassword2, ' ');
                 break;
             }
             System.out.println("Passwords do not match. Please try again.");
-            Arrays.fill(tempPassword, ' '); // clear from memory
-            Arrays.fill(tempPassword2, ' '); // clear from memory
+            Arrays.fill(tempPassword, ' ');
+            Arrays.fill(tempPassword2, ' ');
         }
 
-        // generates user key and hashes password
         try {
             this.userKey = EncryptionUtil.generateSecretKey();
             this.userPassword = EncryptionUtil.hashPassword(new String(tempPassword), userKey);
-            Arrays.fill(tempPassword, ' '); // clear from memory
-        } catch (java.security.NoSuchAlgorithmException e) {
-            throw new RuntimeException("Failed to create user: algorithm", e);
+            this.encodedKey = Base64.getEncoder().encodeToString(userKey.getEncoded());
+            Arrays.fill(tempPassword, ' ');
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create user", e);
         }
-        
+
         System.out.println("Successfully created User: " + userName);
     }
 
-    public String getUserId() {return userId;}
-    public SecretKey getUserKey() {return userKey;}
-    public String getUserName() {return userName;}
-    public String getUserPassword() {return userPassword;}
-    // should be static later
+    // Getters for Jackson
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public String getEncodedKey() {
+        return encodedKey;
+    }
+
+    @JsonIgnore
+    public SecretKey getUserKey() {
+        if (userKey == null && encodedKey != null) {
+            byte[] decoded = Base64.getDecoder().decode(encodedKey);
+            userKey = new SecretKeySpec(decoded, 0, decoded.length, "AES");
+        }
+        return userKey;
+    }
+
+    // Authentication logic
     public void UserAuth() throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        // gathers username and password
         System.out.print("Enter username: ");
         String inputUsername = scanner.nextLine();
 
         System.out.print("Enter password: ");
         String inputPassword = scanner.nextLine();
 
-        // hashes input password and compares to stored username and password
-        // improve later so that it searches for username in a database
-        // and gets the corresponding password hash to compare with
-        String hashedInputPassword = EncryptionUtil.hashPassword(inputPassword, userKey);
+        String hashedInputPassword = EncryptionUtil.hashPassword(inputPassword, getUserKey());
         if (!inputUsername.equals(getUserName()) || !hashedInputPassword.equals(getUserPassword())) {
-            throw new Exception("Authentication failed: Incorrect password or username");
+            throw new Exception("Authentication failed: Incorrect username or password");
         }
-    
     }
-
 }
