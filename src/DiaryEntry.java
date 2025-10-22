@@ -2,7 +2,6 @@
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
-import javax.crypto.SecretKey;
 import java.util.UUID;
 
 public class DiaryEntry {

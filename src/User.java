@@ -1,4 +1,5 @@
 
+import java.util.Arrays;
 import java.util.Scanner;
 import javax.crypto.SecretKey;
 
@@ -11,21 +12,44 @@ public class User {
     private final String userPassword;
 
     // method to generate a new user
-    public User() throws Exception {
+    public User() {
         Scanner scanner = new Scanner(System.in);
 
-        // gathers username and password
+        // gathers username and id
         System.out.print("Enter username: ");
         this.userName = scanner.nextLine();
+        this.userId = java.util.UUID.randomUUID().toString();
+
+        //initializes the passwords before the loop
+        char[] tempPassword;
+        char[] tempPassword2;
 
         // gathers password
-        System.out.print("Enter password: ");
-        String tempPassword = scanner.nextLine();
+        // makes sure user inputs the wanted password 
+        while (true) { 
+            System.out.print("Enter password: ");
+            tempPassword = scanner.nextLine().toCharArray();
+            System.out.print("Repeat password: ");
+            tempPassword2 = scanner.nextLine().toCharArray();
+            if (Arrays.equals(tempPassword, tempPassword2)) {
+                Arrays.fill(tempPassword2, ' '); // clear from memory
+                break;
+            }
+            System.out.println("Passwords do not match. Please try again.");
+            Arrays.fill(tempPassword, ' '); // clear from memory
+            Arrays.fill(tempPassword2, ' '); // clear from memory
+        }
 
         // generates user key and hashes password
-        this.userKey = EncryptionUtil.generateSecretKey();
-        this.userPassword = EncryptionUtil.hashPassword(tempPassword, userKey);
-        this.userId = java.util.UUID.randomUUID().toString();
+        try {
+            this.userKey = EncryptionUtil.generateSecretKey();
+            this.userPassword = EncryptionUtil.hashPassword(new String(tempPassword), userKey);
+            Arrays.fill(tempPassword, ' '); // clear from memory
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new RuntimeException("Failed to create user: algorithm", e);
+        }
+        
+        System.out.println("Successfully created User: " + userName);
     }
 
     // getters for user class
