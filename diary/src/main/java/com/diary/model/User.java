@@ -36,11 +36,8 @@ public class User {
     }
 
     // Constructor for interactive user creation
-    public User(boolean interactive) {
-        if (!interactive) {
-            return; // only do this if true
-        }
-        Scanner scanner = new Scanner(System.in);
+    public User(boolean interactive, Scanner scanner) {
+        if (!interactive) return;
 
         System.out.print("Enter username: ");
         this.userName = scanner.nextLine();
@@ -72,7 +69,7 @@ public class User {
             throw new RuntimeException("Failed to create user", e);
         }
 
-        System.out.println("Successfully created User: " + userName);
+    System.out.println("Successfully created User: " + userName);
     }
 
     // Getters for Jackson
@@ -102,9 +99,7 @@ public class User {
     }
 
     // Authentication logic
-    public void UserAuth() throws Exception {
-        Scanner scanner = new Scanner(System.in);
-
+    public void UserAuth(Scanner scanner) throws Exception {
         System.out.print("Enter username: ");
         String inputUsername = scanner.nextLine();
 

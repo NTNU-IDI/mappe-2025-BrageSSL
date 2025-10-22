@@ -13,7 +13,6 @@
     <name>Diary</name>
 
     <properties>
-        <!-- Updated for Java 25 -->
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
         <jackson.version>2.18.0</jackson.version>
@@ -25,6 +24,13 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- Java 8+ Date/Time support -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
         </dependency>
 
@@ -46,7 +52,7 @@
     <build>
         <resources>
             <resource>
-                <directory>resources</directory>
+                <directory>data</directory>
                 <includes>
                     <include>**/*.json</include>
                 </includes>

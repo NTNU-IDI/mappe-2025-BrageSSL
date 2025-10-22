@@ -8,35 +8,28 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
+
 
 public class EncryptionUtil {
 
     // Creates secret key variable
     private static SecretKey secretKey;
-    private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
-    private static final int IV_SIZE = 16;
+    private static final String ALGORITHM = "AES";
 
     // Encrypts the given content using the provided secret key
     public static byte[] encrypt(String content, SecretKey key) throws Exception {
-        byte[] iv = new byte[IV_SIZE];
-        SecureRandom random = new SecureRandom();
-        random.nextBytes(iv);
-
-        IvParameterSpec ivSpec = new IvParameterSpec(iv);
         // Create cipher instance and initialize it for encryption
         Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
         return cipher.doFinal(content.getBytes(StandardCharsets.UTF_8));
     }
 
     // Decrypts the given encrypted content using the provided secret key
     public static String decrypt(byte[] encryptedContent, SecretKey key) throws Exception {
         // Using a zero IV for simplicity; in production, store and use the actual IV
-        IvParameterSpec ivSpec = new IvParameterSpec(new byte[IV_SIZE]);
         // Create cipher instance and initialize it for decryption
         Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
+        cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decryptedBytes = cipher.doFinal(encryptedContent);
         return new String(decryptedBytes, StandardCharsets.UTF_8);
     }
