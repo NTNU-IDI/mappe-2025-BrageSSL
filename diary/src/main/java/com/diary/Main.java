@@ -1,13 +1,14 @@
 package com.diary;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.diary.manager.DiaryManager;
 import com.diary.model.DiaryEntry;
 import com.diary.model.User;
 import com.diary.util.DiaryRead;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -19,23 +20,34 @@ public class Main {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-            // ---------- Load user ----------
+            
             User user = null;
+
+            // ---------- Load users ----------
             File userFile = new File("diary/data/user.json");
-            List<User> users = new ArrayList<>();
-            if (userFile.exists() && userFile.length() > 0) {
-                User[] loadedUsers = mapper.readValue(userFile, User[].class);
-                for (User u : loadedUsers) users.add(u);
-            }
+            List<User> users = DiaryManager.loadUser(userFile, mapper);
+
+             // ---------- Load diary entries ----------
+            File diaryFile = new File("diary/data/diary.json");
+            List<DiaryEntry> entries = DiaryManager.loadEntries(diaryFile, mapper);
+            
+            // ---------- Load locations ----------
+            File locationFile = new File("diary/data/location.json");
+            List<DiaryManager> location = DiaryManager.loadLocations(locationFile, mapper);
+            
+            // ---------- Load moods ----------
+            File moodFile = new File("diary/data/mood.json");
+            List<DiaryManager> mood = DiaryManager.loadMood(moodFile, mapper);
+
             if (users.isEmpty()){
                 System.out.println("--- No users found, creating new user ---");
                 user = new User(true, scanner);
                 users.add(user);
-                mapper.writeValue(userFile, users);
+                mapper.writeValue(userFile, user);
                 System.out.println("----Logging inn----");
                 user = User.userAuth(users, scanner);              
             }
+
             else{
                 System.out.println("1. Logg inn\n2. Register");
                 int choice = scanner.nextInt();
@@ -56,13 +68,6 @@ public class Main {
                 }
             }  
 
-            // ---------- Load diary entries ----------
-            File diaryFile = new File("diary/data/diary.json");
-            List<DiaryEntry> entries = new ArrayList<>();
-            if (diaryFile.exists() && diaryFile.length() > 0) {
-                DiaryEntry[] loaded = mapper.readValue(diaryFile, DiaryEntry[].class);
-                for (DiaryEntry e : loaded) entries.add(e);
-            }
             boolean running = true;
             while (running) { 
                 System.out.println("What do you want to do? \n1. create new diary entry? \n2. See Diary Index? \n3. See Your diaries? \n4. See other author's diaries? \n5. Exit");
@@ -70,11 +75,13 @@ public class Main {
                 scanner.nextLine(); // consume leftover newline
                 switch (choice) {
                     case 1:
-                        DiaryEntry newEntry = new DiaryEntry(user, scanner);
+                        DiaryEntry newEntry = new DiaryEntry(user, moodFile, locationFile, scanner, mapper);
                         entries.add(newEntry);
                         // Save diary entries
                         mapper.writeValue(diaryFile, entries);
-                        System.out.println("Diary entry saved successfully!");                
+                        System.out.println("Diary entry saved successfully!"); 
+                        location = DiaryManager.loadLocations(locationFile, mapper);
+                        mood = DiaryManager.loadMood(moodFile, mapper);               
                         break;
                     case 2:
                         DiaryRead.showIndex(diaryFile);

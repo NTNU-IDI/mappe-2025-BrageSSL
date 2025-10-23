@@ -1,33 +1,81 @@
 [ {
-  "id" : "b83dddeb-664b-4dc0-a0e9-f9f1a43cfa17",
-  "author" : "Carl",
-  "title" : "Authorisation",
-  "date" : [ 2025, 10, 23, 13, 25, 46, 796311900 ],
+  "id" : "49ba32e2-a723-4972-b95e-f03f16f94858",
+  "author" : "gangsta",
+  "title" : "so gangsta",
+  "date" : [ 2025, 10, 23, 15, 56 ],
+  "mood" : "very gangsta",
+  "location" : "gangstahouse",
+  "encodedContent" : "",
+  "publicContent" : "feeling so gangsta. better than gangsta. are you also gangsta?",
+  "encrypted" : false
+}, {
+  "id" : "e91dfc9e-2d03-4940-9fe1-34a5198804bc",
+  "author" : "Carrrl",
+  "title" : "Bomboclat",
+  "date" : [ 2025, 10, 23, 16, 1 ],
+  "mood" : "Bombastic",
+  "location" : "Edgehouse",
+  "encodedContent" : "t4DV6k8rgc6CqcBCsUbBlXckQFnTcRtdnz7jvRGtze3zX0PWkyIQd/nHpHnZIpYo",
+  "publicContent" : "",
+  "encrypted" : true
+}, {
+  "id" : "af09033e-9571-493c-9591-d410d0bb84c2",
+  "author" : "Carrrl",
+  "title" : "big babool",
+  "date" : [ 2025, 10, 23, 16, 6 ],
+  "mood" : "chupa",
+  "location" : "chups",
+  "encodedContent" : "",
+  "publicContent" : "chupa chups big babol",
+  "encrypted" : false
+}, {
+  "id" : "62c472d7-520f-4fe8-9fcb-f9c4ff9a43c5",
+  "author" : "Carrrl",
+  "title" : "Stork",
+  "date" : [ 2025, 10, 23, 16, 7 ],
+  "mood" : "Glamorus",
+  "location" : "Trondheim",
+  "encodedContent" : "rtTLH+y1e/vWL9D4TsEyGrbFq/queWyiv0t7qJpHVBI=",
+  "publicContent" : "",
+  "encrypted" : true
+}, {
+  "id" : "773898fc-2d4b-420c-80e1-89dc69507146",
+  "author" : "Brage",
+  "title" : "Clean",
+  "date" : [ 2025, 10, 23, 19, 20 ],
   "mood" : "Happy",
-  "location" : "Math class",
-  "encodedContent" : "y1TJsnr6nhXKvaf5uK/Gd/+lSfPa4uwUF9yJIxYEDfhWyw2GzwfKSYZR/OQwgrKny4YYacVZ6kB51UV2wW94MROtkIj6gasUGMtjeimebITvaHpV7aEPkqgI0dZDLtqZMpWwaQuUWmWE9MTT33oftw49MY/FpZxCmIyNiclOKr0="
+  "location" : "Bedroom",
+  "encodedContent" : "UYodfgxrAlje2seUHbNPUoIL/VgT72l16sBpLZ1DrLdDINHInJw3Z1H5097KXw9Eek2YUr+C/ouFu604drLCgg==",
+  "publicContent" : "",
+  "encrypted" : true
 }, {
-  "id" : "e94fda64-8f9d-47fd-a6e7-ada9c7ba036d",
+  "id" : "8fe66ffd-fac0-47dc-bde3-afeed4c121a4",
   "author" : "Brage",
-  "title" : "test to",
-  "date" : [ 2025, 10, 23, 13, 27, 13, 997456500 ],
-  "mood" : "skeptisk",
-  "location" : "math class",
-  "encodedContent" : "dzgIHGf4GCXElWddM4giNix20PnWLIOX2Rr9UUA/B2k0QFd+XEH+2vsDl++sXlC3M3pGSWV5Q528upbLlVNchK4kHtofb93A6/dvleZc5acMRbOP6CG/WkU0M0OlmC258MqJhlmn+J4BNXJx1kPd7w=="
+  "title" : "Shiii",
+  "date" : [ 2025, 10, 23, 21, 30 ],
+  "mood" : "weary",
+  "location" : "My room",
+  "encodedContent" : "6nPz7K3dgXNY9dl9oGZ1egzhieernzb+azDqxDfEW3ypSaisO8wntPhKiqj/gGuW",
+  "publicContent" : "",
+  "encrypted" : true
 }, {
-  "id" : "5ebaa7b4-f373-4d6b-925f-f15a07376b20",
+  "id" : "5ce190d7-ff88-4b0c-bb87-2e67a0bcc9b8",
   "author" : "Brage",
-  "title" : "VS code",
-  "date" : [ 2025, 10, 23, 14, 56, 57, 241028100 ],
-  "mood" : "Confused",
-  "location" : "Urds veg 1",
-  "encodedContent" : "U3MWUwndEsjZoQfgetf1BULiA6dLnWCfL2vplv9szrjWIVjkL3e0mwogEOBFnJki1GWj9enmkJQF+kT4O5/apwl+GV/fY7FuiuQ46CUHWcPvxrpil8mWa4dAa1HXgl0D"
+  "title" : "Gaming",
+  "date" : [ 2025, 10, 23, 22, 15 ],
+  "mood" : "pleased",
+  "location" : "My room",
+  "encodedContent" : "MA29LTm/qV/zKNYYSbiDSOz7r9ShT65bs39LdLcjE6zHTQTA146c/R2oSdAEJ50cSzqJ+MS47iLxe6c9xsdFFJKLGu4j1sgF3cuDK/1wyFdVaZSW/XA8xwdV/rCkSo8GmqpfNOn4cNxt2JLnkqIlc2/gevdD+H786lMappskcgBKWxB5m15D7gjQoLAYBQ0KjRtXQWfN3Hh/+9lbHulDbIf2ssTBoddIF7ulnxyefLpszqb3HfR+mW6jGwQN//KET/PzMRl35F/8j1FY4xPLhy6T57L6pS6COIQKktJOdAR+hnIxWy009NSWbXu5V1n8zw81urrsabywDBIrfHvMvdlmXcut/Mwkopeg+Z3DZd0=",
+  "publicContent" : "",
+  "encrypted" : true
 }, {
-  "id" : "ec1a1e75-f64c-4965-9389-87446b7027b1",
-  "author" : "Brage",
-  "title" : "VS code funker",
-  "date" : [ 2025, 10, 23, 15, 8, 33, 603929300 ],
-  "mood" : "Happy",
-  "location" : "Urds veg 1 Stua",
-  "encodedContent" : "XNWthnHxvc7vPvcSpjZFRO5eQrzezacrlR4Nb5dOoyxLsgXLEJW5QL7cOqxFBWtnMKATpJ+a0GV55HdonY+tjYIKJ8/d7pMjOFcXyOcipWVMznMfzhKjymLvpbCaKGqq32dg8P1tMBPzjZ1n8SRrBG2BDVlndRDR50ZMRTmvoqs2KVop347NW0/48S78g6vFRf5zDf8bLppdZZn53rTuxn7hn2WIKotR8CRpg3BChtzZ7tM7bmjhaEQzdVA8HZJ9k52j+3eYKx94mxYb05MgaPON7b5aNKAwRxRlL8B7fG9JFGXr1HGL61E/VTBcT8eV"
+  "id" : "60b1188d-98af-4cd6-a2e8-56289714ee87",
+  "author" : "Carrrl",
+  "title" : "CARRRRRRL TIME",
+  "date" : [ 2025, 10, 23, 22, 26 ],
+  "mood" : "moody",
+  "location" : "Prison",
+  "encodedContent" : "ZZS8M7Q9XgHLXzLAllCsg6YOw4st9zwxqZ7nPJ3cXf0=",
+  "publicContent" : "",
+  "encrypted" : true
 } ]

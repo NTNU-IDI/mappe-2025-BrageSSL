@@ -1,11 +1,16 @@
 [ {
-  "userId" : "b43527a5-9f56-4ed6-86dc-450e40ae950c",
-  "userName" : "Brage",
-  "userPassword" : "oBBDG0Bn3eLaWXGNQMPqASBf2mM7ByA35tu7Ss67Ycg=",
-  "encodedKey" : "JGltktl3DoHw87kt2T/H6OdsyyEa+qH6HQ5golmcZf4="
+  "userId" : "80bc9e81-9aa9-40ee-a2a7-9108a6f05e57",
+  "userName" : "gangsta",
+  "userPassword" : "ULMyliNYHeMe8KsSHH1Mqw5TXycuOuSwPQwIhoUAjLw=",
+  "encodedKey" : "u7HUeyM4g62KPMp6tRdUCUXTKcHITuzIFlrTyxFCCU4="
 }, {
-  "userId" : "d451c887-0a51-49ba-b786-d82d48c35a4d",
-  "userName" : "Carl",
-  "userPassword" : "h70aN0ju18sT1eTRGeTiaGNsUPAhNSuXsC7ozq/3CnE=",
-  "encodedKey" : "f+ghQ3lCH2S3jaulU5zoivmdOvQUj/WL3ziYcSc9puw="
+  "userId" : "432ac421-7ef0-4624-8214-931cfbf07ac2",
+  "userName" : "Carrrl",
+  "userPassword" : "dZ8irCWCnmDwkSce/HlcQc+huVaABsvPlk7V9cct5i0=",
+  "encodedKey" : "sj7XTtOY8uNGA7tjAlfQE6NpuIQQ4+DYwVbjsTKrmy4="
+}, {
+  "userId" : "19b1435f-6f10-4a7f-9bbf-99267857ac2e",
+  "userName" : "Brage",
+  "userPassword" : "FFR4w5PZBpe/NC6f4XoyXJP45m8T4lGJiMI4Nh7pSkc=",
+  "encodedKey" : "yziagoXxNutchdixxGP2dhUTyL1+yeGKih0XEdDtrvc="
 } ]
