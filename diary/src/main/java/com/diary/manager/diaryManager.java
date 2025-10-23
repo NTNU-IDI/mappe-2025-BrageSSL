@@ -95,13 +95,14 @@ public class DiaryManager {
     }
     public static List<DiaryManager> chooseMood( Scanner scanner, String userName, File moodFile, ObjectMapper mapper) {
         List<DiaryManager> moods = loadMood(moodFile, mapper);
+        if (moods == null) moods = new ArrayList<>();
         List<DiaryManager> userMood = new ArrayList<>();
 
         // Show moods created by the current user
         System.out.println("======= Your Moods =======");
         List<DiaryManager> userCreatedMoods = new ArrayList<>();
         for (DiaryManager m : moods) {
-            if (m.getCreator().equals(userName)) {
+            if (userName.equals(m.getCreator())) {
                 userCreatedMoods.add(m);
             }
         }
@@ -143,14 +144,15 @@ public class DiaryManager {
         return userMood;
     }
     public static List<DiaryManager> chooseLocation( Scanner scanner, String userName, File locationFile, ObjectMapper mapper) {
-        List<DiaryManager> location = loadLocations(locationFile, mapper);
+        List<DiaryManager> locations = loadLocations(locationFile, mapper);
+        if (locations == null) locations = new ArrayList<>();
         List<DiaryManager> userLocation = new ArrayList<>();
 
-        // Show moods created by the current user
+        // Show locations created by the current user
         System.out.println("======= Your Locations =======");
         List<DiaryManager> userCreatedLocations = new ArrayList<>();
-        for (DiaryManager l : location) {
-            if (l.getCreator().equals(userName)) {
+        for (DiaryManager l : locations) {
+            if (userName.equals(l.getCreator())) { // null-safe check
                 userCreatedLocations.add(l);
             }
         }
@@ -161,6 +163,7 @@ public class DiaryManager {
 
         System.out.println((userCreatedLocations.size() + 1) + ". Create a new Location");
         System.out.print("Choose a Location by number: ");
+        
         int choice = scanner.nextInt();
         scanner.nextLine();
 
@@ -176,18 +179,19 @@ public class DiaryManager {
             newLocation.setCreator(userName);
 
             userLocation.add(newLocation);
-            location.add(newLocation);
+            locations.add(newLocation);
 
             try {
-                mapper.writeValue(locationFile, location);
+                mapper.writeValue(locationFile, locations);
+                System.out.println("New Location saved!");
             } catch (Exception e) {
                 e.printStackTrace();
+                System.out.println("Failed to save the new location.");
             }
-
-            System.out.println("New Location saved!");
         } else {
             System.out.println("Invalid choice.");
         }
-        return userLocation;
+
+    return userLocation;
     }
 }

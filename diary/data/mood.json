@@ -6,4 +6,12 @@
   "mood" : "weary",
   "creator" : "Brage",
   "location" : null
+}, {
+  "mood" : "pleased",
+  "creator" : "Brage",
+  "location" : null
+}, {
+  "mood" : "moody",
+  "creator" : "Carrrl",
+  "location" : null
 } ]
