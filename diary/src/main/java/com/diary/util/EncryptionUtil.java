@@ -26,7 +26,6 @@ public class EncryptionUtil {
 
     // Decrypts the given encrypted content using the provided secret key
     public static String decrypt(byte[] encryptedContent, SecretKey key) throws Exception {
-        // Using a zero IV for simplicity; in production, store and use the actual IV
         // Create cipher instance and initialize it for decryption
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, key);

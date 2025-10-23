@@ -6,6 +6,7 @@ import java.util.Base64;
 
 import com.diary.model.DiaryEntry;
 import com.diary.model.User;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -52,9 +53,13 @@ public class DiaryRead {
             System.out.println("=== Diary Entries ===");
             for (DiaryEntry entry : diaryList) {
                 if (!entry.getAuthor().equals(user.getUserName())) continue; // only show this user's entries
-
-                byte[] encrypted = Base64.getDecoder().decode(entry.getEncodedContent());
-                String content = EncryptionUtil.decrypt(encrypted, user.getUserKey());
+                String content;    
+                if(entry.getEncrypted() == false){
+                        content = entry.getPublicContent();
+                    } else {
+                        byte[] encrypted = Base64.getDecoder().decode(entry.getEncodedContent());
+                        content = EncryptionUtil.decrypt(encrypted, user.getUserKey()); 
+                    }
 
                 System.out.println("Title: " + entry.getTitle());
                 System.out.println("Date: " + entry.getDate());
@@ -88,7 +93,9 @@ public class DiaryRead {
                 System.out.print("Title: " + entry.getTitle());
                 System.out.print(" / Date: " + entry.getDate());
                 System.out.print(" / Mood: " + entry.getMood());
-                System.out.println(" / Location: " + entry.getLocation());
+                System.out.print(" / Location: " + entry.getLocation());
+                if (entry.getEncrypted() == false){System.out.println(" / Content: " + entry.getPublicContent());}
+                else {System.out.println("");}
                 System.out.println("---------------------------------------------------------------");
             }
 

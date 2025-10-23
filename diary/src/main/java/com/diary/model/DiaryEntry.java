@@ -17,9 +17,9 @@ public class DiaryEntry {
     private final LocalDateTime date;
     private final String mood;
     private final String location;
-
-    // This will be saved in JSON
     private final String encodedContent;
+    private final String publicContent;
+    private final boolean encrypted;
 
     // This will not be saved in JSON
     @JsonIgnore
@@ -34,7 +34,9 @@ public class DiaryEntry {
             @JsonProperty("date") LocalDateTime date,
             @JsonProperty("mood") String mood,
             @JsonProperty("location") String location,
-            @JsonProperty("encodedContent") String encodedContent) {
+            @JsonProperty("encodedContent") String encodedContent,
+            @JsonProperty("publicContent") String publicContent,
+            @JsonProperty("encrypt") boolean encrypted) {
 
         this.id = id;
         this.author = author;
@@ -43,6 +45,8 @@ public class DiaryEntry {
         this.mood = mood;
         this.location = location;
         this.encodedContent = encodedContent;
+        this.publicContent = publicContent;
+        this.encrypted = encrypted;
 
         if (encodedContent != null) {
             this.encryptedContent = Base64.getDecoder().decode(encodedContent);
@@ -65,12 +69,39 @@ public class DiaryEntry {
         System.out.print("Enter diary content: ");
         String content = scanner.nextLine();
 
-        // Encrypt and encode
-        byte[] encrypted = EncryptionUtil.encrypt(content, user.getUserKey());
-        this.encryptedContent = encrypted;
-        this.encodedContent = Base64.getEncoder().encodeToString(encrypted);
+        System.out.println("Do you wish to encrypt the content? \n1. yes: \n2. no ");
+        int choice  = scanner.nextInt();
+        boolean valg = true;
+        boolean encrypt = true;
+        while (valg) { 
+            switch (choice) {
+                case 1 :
+                    encrypt = true;
+                    valg = false;
+                    break;
+                case 2:
+                    encrypt = false;
+                    valg = false;
+                    break;
+                default :
+                    System.out.print("Not a valid awnser try again ");
+                    break;
+            } 
+        }
+        this.encrypted =encrypt;
+        byte[] encrypts = EncryptionUtil.encrypt(content, user.getUserKey());
+        this.encryptedContent = encrypts;
 
-        this.date = LocalDateTime.now();
+        if (encrypt == false){
+            this.encodedContent = "";
+            this.publicContent = content;
+        } else {  
+            this.encodedContent = Base64.getEncoder().encodeToString(encrypts);
+            this.publicContent = "";
+        }
+        
+        LocalDateTime now = LocalDateTime.now();
+        this.date = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(), now.getMinute());
         this.id = UUID.randomUUID().toString();
         this.author = user.getUserName();
     }
@@ -83,6 +114,8 @@ public class DiaryEntry {
     public String getMood() { return mood; }
     public String getLocation() { return location; }
     public String getEncodedContent() { return encodedContent; }
+    public String getPublicContent() { return publicContent; }
+    public boolean getEncrypted() { return encrypted; }
 
     @JsonIgnore
     public byte[] getEncryptedContent() {
