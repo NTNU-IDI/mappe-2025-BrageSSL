@@ -15,13 +15,13 @@ All stored diaries have their main content encrypted upon storing, and decrypted
 I am using MAVEN
 ```
 diary/
-├── pom.xml                                # Maven build descriptor
-├── data/                                  # App data files (runtime)
+├── pom.xml
+├── data/ 
 │   ├── users.json
 │   └── diary.json
 ├── src/
 │   ├── main/
-│   │   ├── java/                          # Application source code
+│   │   ├── java/
 │   │   │   └── com/
 │   │   │       └── diary/
 │   │   │           ├── Main.java
@@ -33,9 +33,9 @@ diary/
 │   │   │           └── model/
 │   │   │               ├── DiaryEntry.java
 │   │   │               └── User.java
-│   │   └── resources/                     # Non-code app resources
-│   │       └── log4j2.xml                 # Example (logging config)
-│   └── test/                              # Unit & integration tests
+│   │   └── resources/
+│   │       └── log4j2.xml
+│   └── test/
 │       ├── java/
 │       │   └── com/
 │       │       └── diary/
