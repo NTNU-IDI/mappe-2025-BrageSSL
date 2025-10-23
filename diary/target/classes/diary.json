@@ -38,4 +38,14 @@
   "encodedContent" : "rtTLH+y1e/vWL9D4TsEyGrbFq/queWyiv0t7qJpHVBI=",
   "publicContent" : "",
   "encrypted" : true
+}, {
+  "id" : "773898fc-2d4b-420c-80e1-89dc69507146",
+  "author" : "Brage",
+  "title" : "Clean",
+  "date" : [ 2025, 10, 23, 19, 20 ],
+  "mood" : "Happy",
+  "location" : "Bedroom",
+  "encodedContent" : "UYodfgxrAlje2seUHbNPUoIL/VgT72l16sBpLZ1DrLdDINHInJw3Z1H5097KXw9Eek2YUr+C/ouFu604drLCgg==",
+  "publicContent" : "",
+  "encrypted" : true
 } ]

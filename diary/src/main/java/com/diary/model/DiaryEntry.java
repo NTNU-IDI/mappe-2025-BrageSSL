@@ -1,9 +1,11 @@
 package com.diary.model;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
+import com.diary.manager.DiaryManager;
 import com.diary.util.EncryptionUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
