@@ -1,6 +1,11 @@
-{
-  "userId" : "a19d211c-72bf-44e4-8e16-c08ded135fd8",
+[ {
+  "userId" : "b43527a5-9f56-4ed6-86dc-450e40ae950c",
   "userName" : "Brage",
-  "userPassword" : "YSKu9JRQyzmi6EgdwbFBKoLBadtDxbYg7MyoVJJtVAs=",
-  "encodedKey" : "YKIef8eniJrv9Bn3s4iUJVmJ37zQ8GDBiC6+Mdba0Es="
-}
+  "userPassword" : "oBBDG0Bn3eLaWXGNQMPqASBf2mM7ByA35tu7Ss67Ycg=",
+  "encodedKey" : "JGltktl3DoHw87kt2T/H6OdsyyEa+qH6HQ5golmcZf4="
+}, {
+  "userId" : "d451c887-0a51-49ba-b786-d82d48c35a4d",
+  "userName" : "Carl",
+  "userPassword" : "h70aN0ju18sT1eTRGeTiaGNsUPAhNSuXsC7ozq/3CnE=",
+  "encodedKey" : "f+ghQ3lCH2S3jaulU5zoivmdOvQUj/WL3ziYcSc9puw="
+} ]

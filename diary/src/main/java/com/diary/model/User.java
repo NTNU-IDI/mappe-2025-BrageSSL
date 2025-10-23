@@ -2,6 +2,7 @@ package com.diary.model;
 
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.crypto.SecretKey;
@@ -100,16 +101,40 @@ public class User {
     }
 
     // Authentication logic
-    public void UserAuth(Scanner scanner) throws Exception {
-        System.out.print("Enter username: ");
-        String inputUsername = scanner.nextLine();
+    public void passwordAuth(String userName, Scanner scanner) throws Exception {
 
         System.out.print("Enter password: ");
         String inputPassword = scanner.nextLine();
 
         String hashedInputPassword = EncryptionUtil.hashPassword(inputPassword, getUserKey());
-        if (!inputUsername.equals(getUserName()) || !hashedInputPassword.equals(getUserPassword())) {
+        if (!userName.equals(getUserName()) || !hashedInputPassword.equals(getUserPassword())) {
             throw new Exception("Authentication failed: Incorrect username or password");
+        }
+    }
+    public static User userAuth(List<User> users, Scanner scanner){
+        while (true){
+            System.out.print("Enter username: ");
+            String userName = scanner.nextLine();
+
+            User found = null;
+            for (User u : users) {
+                if (u.getUserName().equals(userName)){
+                    found = u;
+                    break;
+                }
+            }
+            if (found == null){
+                System.out.println("User not found, try again.");
+                continue;
+            }
+            try {
+                // Call the instance method on the found user
+                found.passwordAuth(userName, scanner);
+                System.out.println("\n\n\n=====Login succsess=====");
+                return found; // successful login, return this user
+            } catch (Exception e) {
+                System.out.println(e.getMessage() + " Try again.");
+            }
         }
     }
 }
