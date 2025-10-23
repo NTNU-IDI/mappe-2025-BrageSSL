@@ -102,19 +102,28 @@ public class DiaryManager {
         System.out.println("======= Your Moods =======");
         List<DiaryManager> userCreatedMoods = new ArrayList<>();
         for (DiaryManager m : moods) {
-            if (userName.equals(m.getCreator())) {
-                userCreatedMoods.add(m);
-            }
+        if (m != null && userName.equals(m.getCreator())) {
+            userCreatedMoods.add(m);
         }
+}
 
         for (int i = 0; i < userCreatedMoods.size(); i++) {
             System.out.println((i + 1) + ". " + userCreatedMoods.get(i).getMood());
         }
+        
+        int choice;
+        while (true) {    
+            System.out.println((userCreatedMoods.size() + 1) + ". Create a new mood");
+            System.out.print("Choose a mood by number: ");
+            String input = scanner.nextLine().trim();
 
-        System.out.println((userCreatedMoods.size() + 1) + ". Create a new mood");
-        System.out.print("Choose a mood by number: ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+            try {
+                choice = Integer.parseInt(input); // safely parse
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number a valid number");
+            }
+        }
 
         if (choice > 0 && choice <= userCreatedMoods.size()) {
             userMood.add(userCreatedMoods.get(choice - 1));
@@ -152,7 +161,7 @@ public class DiaryManager {
         System.out.println("======= Your Locations =======");
         List<DiaryManager> userCreatedLocations = new ArrayList<>();
         for (DiaryManager l : locations) {
-            if (userName.equals(l.getCreator())) { // null-safe check
+            if (l != null && userName.equals(l.getCreator())) {
                 userCreatedLocations.add(l);
             }
         }
@@ -161,11 +170,21 @@ public class DiaryManager {
             System.out.println((i + 1) + ". " + userCreatedLocations.get(i).getLocation());
         }
 
-        System.out.println((userCreatedLocations.size() + 1) + ". Create a new Location");
-        System.out.print("Choose a Location by number: ");
-        
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        int choice;
+        while (true) {
+            System.out.println((userCreatedLocations.size() + 1) + ". Create a new Location");
+            System.out.print("Choose a Location by number: ");
+
+            String input = scanner.nextLine().trim();
+            
+
+            try {
+                choice = Integer.parseInt(input); // safely parse
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number a valid number");
+            }
+        }
 
         if (choice > 0 && choice <= userCreatedLocations.size()) {
             userLocation.add(userCreatedLocations.get(choice - 1));

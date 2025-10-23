@@ -1,5 +1,6 @@
 package com.diary.model;
 
+import java.io.Console;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
@@ -40,6 +41,10 @@ public class User {
     // Constructor for interactive user creation
     public User(boolean interactive, Scanner scanner) {
         if (!interactive) return;
+        Console console = System.console();
+        if (console == null) {
+            throw new RuntimeException("No console available. Run from a terminal.");
+        }
 
         System.out.print("Enter username: ");
         this.userName = scanner.nextLine();
@@ -49,14 +54,14 @@ public class User {
         char[] tempPassword2;
 
         while (true) {
-            System.out.print("Enter password: ");
-            tempPassword = scanner.nextLine().toCharArray();
-            System.out.print("Repeat password: ");
-            tempPassword2 = scanner.nextLine().toCharArray();
+            tempPassword = console.readPassword("Enter password: ");
+            tempPassword2 = console.readPassword("Repeat password: ");
+
             if (Arrays.equals(tempPassword, tempPassword2)) {
                 Arrays.fill(tempPassword2, ' ');
                 break;
             }
+            
             System.out.println("Passwords do not match. Please try again.");
             Arrays.fill(tempPassword, ' ');
             Arrays.fill(tempPassword2, ' ');
@@ -102,9 +107,14 @@ public class User {
 
     // Authentication logic
     public void passwordAuth(String userName, Scanner scanner) throws Exception {
+        Console console = System.console();
+        if (console == null) {
+            throw new Exception("No console available. Run from a terminal.");
+        }
 
-        System.out.print("Enter password: ");
-        String inputPassword = scanner.nextLine();
+        char[] passwordChars = console.readPassword("Enter password: ");
+        String inputPassword = new String(passwordChars);
+        Arrays.fill(passwordChars, ' '); // Clear password from memory
 
         String hashedInputPassword = EncryptionUtil.hashPassword(inputPassword, getUserKey());
         if (!userName.equals(getUserName()) || !hashedInputPassword.equals(getUserPassword())) {
