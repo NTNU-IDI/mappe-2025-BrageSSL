@@ -13,7 +13,7 @@ All stored diaries have their main content encrypted upon storing, and decrypted
 
 ## Project structure
 I am using MAVEN
-'''
+```
 diary/
 ├── pom.xml                                # Maven build descriptor
 ├── data/                                  # App data files (runtime)
@@ -49,7 +49,7 @@ diary/
     ├── test-classes/                      
     ├── diary-1.0-SNAPSHOT.jar             
     └── surefire-reports/  
-'''
+```
 
 ## Link to repository
 https://github.com/NTNU-IDI/mappe-2025-BrageSS
