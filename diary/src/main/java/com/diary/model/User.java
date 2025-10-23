@@ -1,12 +1,13 @@
 package com.diary.model;
-import com.diary.util.EncryptionUtil;
 
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Scanner;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.diary.util.EncryptionUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

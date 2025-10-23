@@ -1,14 +1,13 @@
 package com.diary.model;
+import java.time.LocalDateTime;
+import java.util.Base64;
+import java.util.Scanner;
+import java.util.UUID;
 
 import com.diary.util.EncryptionUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.Scanner;
-import java.util.UUID;
 
 public class DiaryEntry {
 
