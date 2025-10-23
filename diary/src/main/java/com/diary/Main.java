@@ -50,8 +50,17 @@ public class Main {
 
             else{
                 System.out.println("1. Logg inn\n2. Register");
-                int choice = scanner.nextInt();
-                scanner.nextLine(); // consume leftover newline
+                String input = scanner.nextLine().trim();
+                int choice;
+                while (true) {
+                    try {
+                        choice = Integer.parseInt(input); // safely parse
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a number 1 or 2");
+                        continue; // restart the loop
+                    }
+                }
                 switch (choice) {
                     case 1:
                         System.out.println("----Logging inn----");
@@ -71,8 +80,14 @@ public class Main {
             boolean running = true;
             while (running) { 
                 System.out.println("What do you want to do? \n1. create new diary entry? \n2. See Diary Index? \n3. See Your diaries? \n4. See other author's diaries? \n5. Exit");
-                int choice = scanner.nextInt();
-                scanner.nextLine(); // consume leftover newline
+                String input = scanner.nextLine().trim();
+                int choice;
+                try {
+                    choice = Integer.parseInt(input); // safely parse
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a number between 1 and 5.");
+                    continue; // restart the loop
+                }
                 switch (choice) {
                     case 1:
                         DiaryEntry newEntry = new DiaryEntry(user, moodFile, locationFile, scanner, mapper);
@@ -96,6 +111,9 @@ public class Main {
                         break;
                     case 5:
                         running = false;
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
                         break;
                 }
             }

@@ -63,8 +63,6 @@ public class DiaryEntry {
 
     // Constructor used to create a new diary entry interactively
     public DiaryEntry(User user, File moodFile, File locationFile, Scanner scanner, ObjectMapper mapper) throws Exception {
-        File moodfile = moodFile;
-        File locationfile = locationFile;
 
         System.out.print("Enter diary title: ");
         this.title = scanner.nextLine();
@@ -79,11 +77,20 @@ public class DiaryEntry {
         System.out.print("Enter diary content: ");
         String content = scanner.nextLine();
 
-        System.out.println("Do you wish to encrypt the content? \n1. yes: \n2. no ");
-        int choice  = scanner.nextInt();
+        
         boolean valg = true;
         boolean encrypt = true;
         while (valg) { 
+
+            System.out.println("Do you wish to encrypt the content? \n1. yes: \n2. no ");
+            String input = scanner.nextLine().trim();
+            int choice;
+            try {
+                choice = Integer.parseInt(input); // safely parse
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number between 1 and 5.");
+                continue; // restart the loop
+            }
             switch (choice) {
                 case 1 :
                     encrypt = true;
@@ -92,9 +99,6 @@ public class DiaryEntry {
                 case 2:
                     encrypt = false;
                     valg = false;
-                    break;
-                default :
-                    System.out.print("Not a valid awnser try again ");
                     break;
             } 
         }

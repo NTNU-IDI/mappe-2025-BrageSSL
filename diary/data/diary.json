@@ -78,4 +78,24 @@
   "encodedContent" : "ZZS8M7Q9XgHLXzLAllCsg6YOw4st9zwxqZ7nPJ3cXf0=",
   "publicContent" : "",
   "encrypted" : true
+}, {
+  "id" : "ac6440e7-9891-4dc9-a867-2970bb55cb9a",
+  "author" : "Irmelin",
+  "title" : "Babe Tage",
+  "date" : [ 2025, 10, 23, 23, 15 ],
+  "mood" : "Innnt�rket",
+  "location" : "tages skrotum",
+  "encodedContent" : "lUB/8DZ61VU2eWV3azEOFrggO0CAQsNSW33n8xeZTEWadoD0SEdZZ4F3hNK+Y+wpMnio5nRkIIyVHjmifKGM4ZBBPrDtb7EhxQoSvchb514S95QtMI5HFXpMDvpaEfzi79qToKmwlIoHyqzG47Z/JSS+iCKpkqJAotPXQ2Ua0Ng=",
+  "publicContent" : "",
+  "encrypted" : true
+}, {
+  "id" : "a85b4221-d8cf-4c94-baca-9478c4eb635e",
+  "author" : "Lucas",
+  "title" : "LOL Fan",
+  "date" : [ 2025, 10, 24, 0, 26 ],
+  "mood" : "Looming",
+  "location" : "Toilet",
+  "encodedContent" : "",
+  "publicContent" : "Lukas spiller leauge p� dass hele dagen",
+  "encrypted" : false
 } ]
