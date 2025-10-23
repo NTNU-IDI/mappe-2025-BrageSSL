@@ -22,7 +22,7 @@ public class Main {
 
             // ---------- Load user ----------
             User user = null;
-            File userFile = new File("data/user.json");
+            File userFile = new File("diary/data/user.json");
             List<User> users = new ArrayList<>();
             if (userFile.exists() && userFile.length() > 0) {
                 User[] loadedUsers = mapper.readValue(userFile, User[].class);
@@ -57,7 +57,7 @@ public class Main {
             }  
 
             // ---------- Load diary entries ----------
-            File diaryFile = new File("data/diary.json");
+            File diaryFile = new File("diary/data/diary.json");
             List<DiaryEntry> entries = new ArrayList<>();
             if (diaryFile.exists() && diaryFile.length() > 0) {
                 DiaryEntry[] loaded = mapper.readValue(diaryFile, DiaryEntry[].class);
