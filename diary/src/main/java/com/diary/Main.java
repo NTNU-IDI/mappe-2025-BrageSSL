@@ -75,7 +75,7 @@ public class Main {
                 scanner.nextLine(); // consume leftover newline
                 switch (choice) {
                     case 1:
-                        DiaryEntry newEntry = new DiaryEntry(user, scanner);
+                        DiaryEntry newEntry = new DiaryEntry(user, moodFile, locationFile, scanner, mapper);
                         entries.add(newEntry);
                         // Save diary entries
                         mapper.writeValue(diaryFile, entries);

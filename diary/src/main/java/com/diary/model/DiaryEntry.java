@@ -1,15 +1,19 @@
 package com.diary.model;
-import java.time.LocalDateTime;
+
 import java.util.Base64;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
+
+import java.time.LocalDateTime;
+import java.io.File;
 
 import com.diary.manager.DiaryManager;
 import com.diary.util.EncryptionUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DiaryEntry {
 
@@ -58,15 +62,19 @@ public class DiaryEntry {
     }
 
     // Constructor used to create a new diary entry interactively
-    public DiaryEntry(User user, Scanner scanner) throws Exception {
+    public DiaryEntry(User user, File moodFile, File locationFile, Scanner scanner, ObjectMapper mapper) throws Exception {
+        File moodfile = moodFile;
+        File locationfile = locationFile;
+
         System.out.print("Enter diary title: ");
         this.title = scanner.nextLine();
-
-        System.out.print("Enter mood: ");
-        this.mood = scanner.nextLine();
-
-        System.out.print("Enter location: ");
-        this.location = scanner.nextLine();
+        
+        // Choose mood
+        List<DiaryManager> moods = DiaryManager.chooseMood(scanner, user.getUserName(),moodFile, mapper);
+        this.mood = moods.get(0).getMood();
+        // Choose location
+        List<DiaryManager> locations = DiaryManager.chooseLocation(scanner, user.getUserName(),locationFile, mapper);
+        this.location = locations.get(0).getLocation();
 
         System.out.print("Enter diary content: ");
         String content = scanner.nextLine();
