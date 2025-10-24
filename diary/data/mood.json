@@ -10,4 +10,16 @@
   "mood" : "murderous",
   "creator" : "Brage",
   "location" : null
+}, {
+  "mood" : "ambigeous",
+  "creator" : "Brage",
+  "location" : null
+}, {
+  "mood" : "forgetfull",
+  "creator" : "Brage",
+  "location" : null
+}, {
+  "mood" : "Dreadfull",
+  "creator" : "Carl",
+  "location" : null
 } ]

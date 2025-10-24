@@ -7,7 +7,8 @@ import java.util.Scanner;
 
 import com.diary.model.DiaryEntry;
 import com.diary.model.User;
-
+import com.diary.util.DiaryRead;
+import com.diary.util.EncryptionUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DiaryManager {
@@ -84,8 +85,8 @@ public class DiaryManager {
         for (DiaryManager m : moods) {
         if (m != null && userName.equals(m.getCreator())) {
             userCreatedMoods.add(m);
-        }
-}
+            }
+        }   
 
         for (int i = 0; i < userCreatedMoods.size(); i++) {
             System.out.println((i + 1) + ". " + userCreatedMoods.get(i).getMood());
@@ -138,6 +139,7 @@ public class DiaryManager {
         
         return userMood;
     }
+
     public static List<DiaryManager> chooseLocation( Scanner scanner, String userName, File locationFile, ObjectMapper mapper) {
         List<DiaryManager> locations = loadLocations(locationFile, mapper);
         if (locations == null) locations = new ArrayList<>();
@@ -153,13 +155,13 @@ public class DiaryManager {
         }
 
         for (int i = 0; i < userCreatedLocations.size(); i++) {
-            System.out.println((i + 1) + ". " + userCreatedLocations.get(i).getLocation());
+            System.out.println("|" + (i + 1) + "| " + userCreatedLocations.get(i).getLocation());
         }
 
         int choice;
         while (true) {
-            System.out.println((userCreatedLocations.size() + 1) + ". Create a new Location");
-            System.out.print("Choose a Location by number: ");
+            System.out.println("|"+ (userCreatedLocations.size() + 1) + "| Create a new Location");
+            System.out.print("~~~~| Choose a Location by number: |~~~~ ");
 
             String input = scanner.nextLine().trim();
             
@@ -167,13 +169,13 @@ public class DiaryManager {
             try {
                 choice = Integer.parseInt(input); // safely parse
                 if (choice > userCreatedLocations.size()+1){
-                    System.out.println("Invalid input. Please enter a valid number");
+                    System.out.println("---| Invalid input. Please enter a valid number |---");
                 }
                 else{
                     break; 
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number a valid number");
+                System.out.println("---| Invalid input. Please enter a number a valid number |---");
             }
         }
 
@@ -181,7 +183,7 @@ public class DiaryManager {
             userLocation.add(userCreatedLocations.get(choice - 1));
         } else if (choice == userCreatedLocations.size() + 1) {
             // Create new location
-            System.out.print("Enter your new Location: ");
+            System.out.print("~~~~| Enter your new Location: |~~~~");
             String newLocationName = scanner.nextLine();
 
             DiaryManager newLocation = new DiaryManager();
@@ -193,16 +195,86 @@ public class DiaryManager {
 
             try {
                 mapper.writeValue(locationFile, locations);
-                System.out.println("New Location saved!");
+                System.out.println("=====New Location saved!=====");
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("Failed to save the new location.");
+                System.out.println("---| Failed to save the new location. |---");
             }
         } else {
-            System.out.println("Invalid choice.");
+            System.out.println("---| Invalid choice. |---");
         }
 
     return userLocation;
+    }
+
+    public static void showEntry(String entryId, List<DiaryEntry> entries, User user) {
+
+        DiaryEntry entry = entries.stream()
+                .filter(e -> e.getId().equals(entryId))
+                .findFirst()
+                .orElse(null);
+
+        if (entry == null) {
+            System.out.println("---| No entry found with ID: " + entryId + " |---");
+            return;
+        }
+        System.out.println("~~~~~~ Diary Entry Details ~~~~~~~");
+        System.out.println("Title: " + entry.getTitle());
+        System.out.println("Author: " + entry.getAuthor());
+        System.out.println("Date: " + entry.getDate());
+        System.out.println("Mood: " + entry.getMood());
+        System.out.println("Location: " + entry.getLocation());
+        if (entry.getEncrypted()) {
+            try {
+                String decrypted = EncryptionUtil.decrypt(entry.getEncryptedContent(), user.getUserKey());
+                System.out.println("Content:\n" + decrypted);
+            } catch (Exception e) {
+                System.out.println("---| Content: [ENCRYPTED - unable to decrypt] |---");
+            }
+
+        } else {
+            System.out.println("Content:\n" + entry.getPublicContent());
+        }
+        System.out.println("================================");
+    }
+
+    public static void showOtherEntry(String entryId, List<DiaryEntry> entries) {
+
+        DiaryEntry entry = entries.stream()
+                .filter(e -> e.getId().equals(entryId))
+                .findFirst()
+                .orElse(null);
+
+        if (entry == null) {
+            System.out.println("---| No entry found with ID: " + entryId + " |---");
+            return;
+        }
+        System.out.println("~~~~~~ Diary Entry Details ~~~~~~");
+        System.out.println("Title: " + entry.getTitle());
+        System.out.println("Date: " + entry.getDate());
+        System.out.println("Mood: " + entry.getMood());
+        System.out.println("Location: " + entry.getLocation());
+        if (entry.getEncrypted()){}
+        else {System.out.println("Content: " + entry.getPublicContent());}
+        System.out.println("================================");
+    }
+
+    public static void showIndexEntry(String entryId, List<DiaryEntry> entries) {
+
+        DiaryEntry entry = entries.stream()
+                .filter(e -> e.getId().equals(entryId))
+                .findFirst()
+                .orElse(null);
+
+        if (entry == null) {
+            System.out.println("---| No entry found with ID: " + entryId + " |---");
+            return;
+        }
+        System.out.println("~~~~~~ Diary Entry Details ~~~~~~");
+        System.out.println("Author: " + entry.getAuthor());
+        System.out.println("Title: " + entry.getTitle());
+        System.out.println("Date: " + entry.getDate());
+        System.out.println("================================");
     }
     
     public String getMood() {return mood;}

@@ -38,4 +38,44 @@
   "encodedContent" : "",
   "publicContent" : "Ur dead, no cap",
   "encrypted" : false
+}, {
+  "id" : "27f327eb-ba5e-408d-9299-a463d4c87f69",
+  "author" : "Brage",
+  "title" : "progres is smooth",
+  "date" : [ 2025, 10, 24, 18, 8 ],
+  "mood" : "ambigeous",
+  "location" : "Urds veg 1 Rom 1",
+  "encodedContent" : "7wfRL7Ll1/8JekKkRA/FZK4GfEqJF1+uhIgDT5HRmxPCT94DSp1lzCrlttgPQsCjicDOjTLp+QPoSJ3U6hCdcAsu1TkyMgquDGmvfTEGZAVLNzZ9T97j7A4cJfAQRjk+EvyZ3mTM6pnDqLgzLPJoHu0CQIOgIU+j4AvH6CTCRT+mAiCIIZEurNG63iyMcGfklBDXkQMHvnsdmiix/mWOrA==",
+  "publicContent" : "",
+  "encrypted" : true
+}, {
+  "id" : "6dbd67c9-0c99-40c7-9364-405ff6023a19",
+  "author" : "Brage",
+  "title" : "Shit",
+  "date" : [ 2025, 10, 24, 18, 9 ],
+  "mood" : "forgetfull",
+  "location" : "Urds veg 1 Rom 1",
+  "encodedContent" : "",
+  "publicContent" : "Jeg glemte � gj�re det slik at  Author vises i option 4 My bad",
+  "encrypted" : false
+}, {
+  "id" : "d8105102-eed0-4e9f-a383-121560663cad",
+  "author" : "Brage",
+  "title" : "Ahhh",
+  "date" : [ 2025, 10, 24, 18, 10 ],
+  "mood" : "forgetfull",
+  "location" : "Urds veg 1 Rom 1",
+  "encodedContent" : "",
+  "publicContent" : "Nvm det gir mening. man s�kler jo pp en Author  til � starte med... Bruh!!!",
+  "encrypted" : false
+}, {
+  "id" : "b0326a83-6cc0-48c4-ab10-415f46ea27ff",
+  "author" : "Carl",
+  "title" : "The Apocalypse",
+  "date" : [ 2025, 10, 24, 19, 5 ],
+  "mood" : "Dreadfull",
+  "location" : "georgia",
+  "encodedContent" : "+W+dG24kC6he4w8cGBMLggVngyCFr4wzAmGiZB/iRzXrp3T/4NDxLnrxPciWCbqhw+1hitPy0Y+/wHRSCLK59Dhn08TQ/LMyUzUP+5jMWOHlBW3o+mOWf28TdD8QB5fdXK8va4k+Cx2b/QLUHTTIEuf36TZt2Y4agAEYoZgtLpc=",
+  "publicContent" : "",
+  "encrypted" : true
 } ]

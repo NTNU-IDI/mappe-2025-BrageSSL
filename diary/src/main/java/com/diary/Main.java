@@ -40,18 +40,18 @@ public class Main {
             List<DiaryManager> mood = DiaryManager.loadMood(moodFile, mapper);
 
             if (users.isEmpty()){
-                System.out.println("--- No users found, creating new user ---");
+                System.out.println("---| No users found, creating new user |---");
                 User newUser = new User(scanner);
                 users.add(newUser);
                 mapper.writeValue(userFile, users);
                 DiaryRead.clearConsole();
-                System.out.println("----Logging inn----");
+                System.out.println("~~~~~~| Logging inn |~~~~~~");
                 user = User.userAuth(users, scanner);              
             }
 
             else{
                 DiaryRead.clearConsole();
-                System.out.println("1. Logg inn\n2. Register");
+                System.out.println("|1| Logg inn \n|2| Register");
                 String input = scanner.nextLine().trim();
                 int choice;
                 while (true) {
@@ -66,25 +66,26 @@ public class Main {
                 switch (choice) {
                     case 1:
                         DiaryRead.clearConsole();
-                        System.out.println("----Logging inn----");
+                        System.out.println("~~~~~~| Logging inn |~~~~~~");
                         user = User.userAuth(users, scanner);
                         break;
                     case 2:
                         DiaryRead.clearConsole();
-                        System.out.println("----Creating new user----");
+                        System.out.println("~~~~~~| Creating new user |~~~~~~");
                         user = new User(scanner);
                         users.add(user);
                         mapper.writeValue(userFile, users);
                         DiaryRead.clearConsole();
-                        System.out.println("----Logg inn----");
+                        System.out.println("~~~~~~| Logg inn |~~~~~~");
                         user = User.userAuth(users, scanner);
                         break;
                 }
             }  
 
             boolean running = true;
+
+            DiaryRead.clearConsole();
             while (running) { 
-                DiaryRead.clearConsole();
                 System.out.println("What do you want to do? \n1. create new diary entry? \n2. See Diary Index? \n3. See Your diaries? \n4. See other author's diaries? \n5. Exit");
                 String input = scanner.nextLine().trim();
                 int choice;
@@ -120,6 +121,7 @@ public class Main {
                         DiaryRead.otherIndex(Author, diaryFile);
                         break;
                     case 5:
+                        DiaryRead.clearConsole();
                         running = false;
                         break;
                     default:

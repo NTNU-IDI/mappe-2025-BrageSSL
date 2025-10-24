@@ -64,7 +64,7 @@ public class DiaryEntry {
     // Constructor used to create a new diary entry interactively
     public DiaryEntry(User user, File moodFile, File locationFile, Scanner scanner, ObjectMapper mapper) throws Exception {
 
-        System.out.print("Enter diary title: ");
+        System.out.print("~~~~~~| Enter diary title: |~~~~~~");
         this.title = scanner.nextLine();
         
         // Choose mood
@@ -74,21 +74,32 @@ public class DiaryEntry {
         List<DiaryManager> locations = DiaryManager.chooseLocation(scanner, user.getUserName(),locationFile, mapper);
         this.location = locations.get(0).getLocation();
 
-        System.out.print("Enter diary content: ");
-        String content = scanner.nextLine();
+        System.out.println("~~~~| Enter diary content (type 'END' on a new line to finish) |~~~~");
+        StringBuilder contentBuilder = new StringBuilder();
+        String line;
+
+        while (true) {
+            line = scanner.nextLine();
+            if (line.equalsIgnoreCase("END")) {
+                break;
+            }
+            contentBuilder.append(line).append(System.lineSeparator());
+        }
+
+        String content = contentBuilder.toString().trim();
 
         
         boolean valg = true;
         boolean encrypt = true;
         while (valg) { 
 
-            System.out.println("Do you wish to encrypt the content? \n1. yes: \n2. no ");
+            System.out.println("~~~~| Do you wish to encrypt the content? |~~~~ \n|1| yes: \n|2| no ");
             String input = scanner.nextLine().trim();
             int choice;
             try {
                 choice = Integer.parseInt(input); // safely parse
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number between 1 and 5.");
+                System.out.println("---| Invalid input. Please enter a number between 1 and 5. |---");
                 continue; // restart the loop
             }
             switch (choice) {
@@ -106,18 +117,19 @@ public class DiaryEntry {
         byte[] encrypts = EncryptionUtil.encrypt(content, user.getUserKey());
         this.encryptedContent = encrypts;
 
-        if (encrypt == false){
-            this.encodedContent = "";
-            this.publicContent = content;
-        } else {  
+        if (encrypt){
             this.encodedContent = Base64.getEncoder().encodeToString(encrypts);
             this.publicContent = "";
+        } else {  
+            this.encodedContent = "";
+            this.publicContent = content;
         }
         
         LocalDateTime now = LocalDateTime.now();
         this.date = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(), now.getMinute());
         this.id = UUID.randomUUID().toString();
         this.author = user.getUserName();
+        DiaryManager.showEntry(this.id, List.of(this), user);
     }
     
     @JsonIgnore
