@@ -10,6 +10,7 @@ import java.util.Scanner;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.diary.util.DiaryRead;
 import com.diary.util.EncryptionUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -93,13 +94,13 @@ public class User {
         if (console == null) {
             throw new Exception("No console available. Run from a terminal.");
         }
-
         char[] passwordChars = console.readPassword("Enter password: ");
         String inputPassword = new String(passwordChars);
         Arrays.fill(passwordChars, ' '); // Clear password from memory
 
         String hashedInputPassword = EncryptionUtil.hashPassword(inputPassword, getUserKey());
         if (!userName.equals(getUserName()) || !hashedInputPassword.equals(getUserPassword())) {
+            DiaryRead.clearConsole();
             throw new Exception("Authentication failed: Incorrect username or password");
         }
     }
@@ -116,6 +117,7 @@ public class User {
                 }
             }
             if (found == null){
+                DiaryRead.clearConsole();
                 System.out.println("User not found, try again.");
                 continue;
             }
@@ -125,6 +127,7 @@ public class User {
                 System.out.println("\n\n\n=====Login succsess=====");
                 return found; // successful login, return this user
             } catch (Exception e) {
+                DiaryRead.clearConsole();
                 System.out.println(e.getMessage() + " Try again.");
             }
         }

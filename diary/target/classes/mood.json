@@ -6,4 +6,8 @@
   "mood" : "Im hungry!!!",
   "creator" : "Brage",
   "location" : null
+}, {
+  "mood" : "murderous",
+  "creator" : "Brage",
+  "location" : null
 } ]

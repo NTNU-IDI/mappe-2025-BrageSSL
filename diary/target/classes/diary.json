@@ -28,4 +28,14 @@
   "encodedContent" : "wmJbg29C5rK8KTgqMsv3PymVVTJigVsExYwCnTL5bRC4CxoG+FU7kGb7/QF8eDf1",
   "publicContent" : "",
   "encrypted" : true
+}, {
+  "id" : "ed3570a3-955b-4b1b-8105-5855051f5c74",
+  "author" : "Brage",
+  "title" : "Bloos",
+  "date" : [ 2025, 10, 24, 16, 1 ],
+  "mood" : "murderous",
+  "location" : "Gloshaugen R4 114",
+  "encodedContent" : "",
+  "publicContent" : "Ur dead, no cap",
+  "encrypted" : false
 } ]

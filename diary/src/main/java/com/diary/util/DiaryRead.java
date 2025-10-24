@@ -86,6 +86,8 @@ public class DiaryRead {
             
             List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
 
+            clearConsole();
+            
             System.out.println("=== Diary Entries ===");
             for (DiaryEntry entry : diaryList) {
                 if (!entry.getAuthor().equals(User)) continue; // only show this user's entries
@@ -102,6 +104,17 @@ public class DiaryRead {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Failed to read diary entries.");
+        }
+    }
+    public static void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (Exception e) {
+            System.out.println("Could not clear console");
         }
     }
 

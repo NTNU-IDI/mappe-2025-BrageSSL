@@ -44,11 +44,13 @@ public class Main {
                 User newUser = new User(scanner);
                 users.add(newUser);
                 mapper.writeValue(userFile, users);
+                DiaryRead.clearConsole();
                 System.out.println("----Logging inn----");
                 user = User.userAuth(users, scanner);              
             }
 
             else{
+                DiaryRead.clearConsole();
                 System.out.println("1. Logg inn\n2. Register");
                 String input = scanner.nextLine().trim();
                 int choice;
@@ -63,14 +65,17 @@ public class Main {
                 }
                 switch (choice) {
                     case 1:
+                        DiaryRead.clearConsole();
                         System.out.println("----Logging inn----");
                         user = User.userAuth(users, scanner);
                         break;
                     case 2:
+                        DiaryRead.clearConsole();
                         System.out.println("----Creating new user----");
                         user = new User(scanner);
                         users.add(user);
                         mapper.writeValue(userFile, users);
+                        DiaryRead.clearConsole();
                         System.out.println("----Logg inn----");
                         user = User.userAuth(users, scanner);
                         break;
@@ -79,6 +84,7 @@ public class Main {
 
             boolean running = true;
             while (running) { 
+                DiaryRead.clearConsole();
                 System.out.println("What do you want to do? \n1. create new diary entry? \n2. See Diary Index? \n3. See Your diaries? \n4. See other author's diaries? \n5. Exit");
                 String input = scanner.nextLine().trim();
                 int choice;
@@ -90,6 +96,7 @@ public class Main {
                 }
                 switch (choice) {
                     case 1:
+                        DiaryRead.clearConsole();
                         DiaryEntry newEntry = new DiaryEntry(user, moodFile, locationFile, scanner, mapper);
                         entries.add(newEntry);
                         // Save diary entries
@@ -99,12 +106,15 @@ public class Main {
                         mood = DiaryManager.loadMood(moodFile, mapper);               
                         break;
                     case 2:
+                        DiaryRead.clearConsole();
                         DiaryRead.showIndex(diaryFile);
                         break;
                     case 3:
+                        DiaryRead.clearConsole();
                         DiaryRead.myIndex(user, diaryFile);
                         break;
                     case 4:
+                        DiaryRead.clearConsole();
                         System.out.print("Choose author:");
                         String Author = scanner.nextLine();
                         DiaryRead.otherIndex(Author, diaryFile);
@@ -113,6 +123,7 @@ public class Main {
                         running = false;
                         break;
                     default:
+                        DiaryRead.clearConsole();
                         System.out.println("Invalid choice. Please try again.");
                         break;
                 }
