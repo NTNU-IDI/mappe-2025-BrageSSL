@@ -52,10 +52,10 @@ public class User {
     public User(Scanner scanner) {
         Console console = System.console();
         if (console == null) {
-            throw new RuntimeException("No console available. Run from a terminal.");
+            throw new RuntimeException("---| No console available. Run from a terminal. |---");
         }
 
-        System.out.print("Enter username: ");
+        System.out.print("| Enter username: ");
         this.userName = scanner.nextLine();
         this.userId = UUID.randomUUID().toString();
 
@@ -63,15 +63,15 @@ public class User {
         char[] tempPassword2;
 
         while (true) {
-            tempPassword = console.readPassword("Enter password: ");
-            tempPassword2 = console.readPassword("Repeat password: ");
+            tempPassword = console.readPassword("| Enter password: ");
+            tempPassword2 = console.readPassword("| Repeat password: ");
 
             if (Arrays.equals(tempPassword, tempPassword2)) {
                 Arrays.fill(tempPassword2, ' ');
                 break;
             }
             
-            System.out.println("Passwords do not match. Please try again.");
+            System.out.println("---| Passwords do not match. Please try again. |---");
             Arrays.fill(tempPassword, ' ');
             Arrays.fill(tempPassword2, ' ');
         }
@@ -82,37 +82,37 @@ public class User {
             this.encodedKey = Base64.getEncoder().encodeToString(userKey.getEncoded());
             Arrays.fill(tempPassword, ' ');
         } catch (Exception e) {
-            throw new RuntimeException("Failed to create user", e);
+            throw new RuntimeException("---| Failed to create user |---", e);
         }
 
-    System.out.println("Successfully created User: " + userName);
+    System.out.println("~~~~| Successfully created User: " + userName +" |~~~~");
     }
 
     // Authentication logic
     public void passwordAuth(String userName, Scanner scanner) throws Exception {
         Console console = System.console();
         if (console == null) {
-            throw new Exception("No console available. Run from a terminal.");
+            throw new Exception("---| No console available. Run from a terminal. |---");
         }
-        char[] passwordChars = console.readPassword("Enter password: ");
+        char[] passwordChars = console.readPassword("| Enter password: ");
         String inputPassword = new String(passwordChars);
         Arrays.fill(passwordChars, ' '); // Clear password from memory
 
         String hashedInputPassword = EncryptionUtil.hashPassword(inputPassword, getUserKey());
         if (!userName.equals(getUserName()) || !hashedInputPassword.equals(getUserPassword())) {
-            
+            System.out.print("---| Authentication failed: Incorrect username or password |---");
             try {
                 Thread.sleep(3000); // wait 3 seconds before throwing
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                System.out.print("Authentication failed: Incorrect username or password");
+                
             }
             throw new Exception();
         }
     }
     public static User userAuth(List<User> users, Scanner scanner){
         while (true){
-            System.out.print("Enter username: ");
+            System.out.print("| Enter username: ");
             String userName = scanner.nextLine();
 
             User found = null;
@@ -124,7 +124,7 @@ public class User {
             }
             if (found == null){
                 DiaryRead.clearConsole();
-                System.out.println("User not found, try again.");
+                System.out.println("---| User not found, try again. |---");
                 continue;
             }
             try {
@@ -134,7 +134,7 @@ public class User {
                 return found; // successful login, return this user
             } catch (Exception e) {
                 DiaryRead.clearConsole();
-                System.out.println(e.getMessage() + " Try again.");
+                System.out.println("---| Wrong Password Try again. |---");
             }
         }
     }

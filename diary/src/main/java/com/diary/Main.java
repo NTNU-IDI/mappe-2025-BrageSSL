@@ -38,6 +38,7 @@ public class Main {
             // ---------- Load moods ----------
             File moodFile = new File("diary/data/mood.json");
             List<DiaryManager> mood = DiaryManager.loadMood(moodFile, mapper);
+            
             boolean running = true;
             if (users.isEmpty()){
                 System.out.println("---| No users found, creating new user |---");
@@ -58,7 +59,7 @@ public class Main {
                     try {
                         choice = Integer.parseInt(input); // safely parse
                     } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a number 1 or 2");
+                        System.out.println("---| Invalid input. Please enter a number 1 or 2 |---");
                         continue;
                     }
                     switch (choice) {
@@ -97,7 +98,7 @@ public class Main {
 
             DiaryRead.clearConsole();
             while (running) { 
-                System.out.println("What do you want to do? \n1. create new diary entry? \n2. See Diary Index? \n3. See Your diaries? \n4. See other author's diaries? \n5. Exit");
+                DiaryManager.menuOptions();                
                 String input = scanner.nextLine().trim();
                 int choice;
                 try {

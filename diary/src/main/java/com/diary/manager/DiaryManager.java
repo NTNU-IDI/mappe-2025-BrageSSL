@@ -219,11 +219,11 @@ public class DiaryManager {
             return;
         }
         System.out.println("~~~~~~ Diary Entry Details ~~~~~~~");
-        System.out.println("Title:      " + entry.getTitle());
-        System.out.println("Author:     " + entry.getAuthor());
-        System.out.println("Date:       " + entry.getDate());
-        System.out.println("Mood:       " + entry.getMood());
-        System.out.println("Location:   " + entry.getLocation());
+        System.out.println("| Title:      " + entry.getTitle());
+        System.out.println("| Author:     " + entry.getAuthor());
+        System.out.println("| Date:       " + entry.getDate());
+        System.out.println("| Mood:       " + entry.getMood());
+        System.out.println("| Location:   " + entry.getLocation());
         if (entry.getEncrypted()) {
             try {
                 String decrypted = EncryptionUtil.decrypt(entry.getEncryptedContent(), user.getUserKey());
@@ -250,12 +250,12 @@ public class DiaryManager {
             return;
         }
         System.out.println("~~~~~~ Diary Entry Details ~~~~~~");
-        System.out.println("Title:      " + entry.getTitle());
-        System.out.println("Date:       " + entry.getDate());
-        System.out.println("Mood:       " + entry.getMood());
-        System.out.println("Location:   " + entry.getLocation());
+        System.out.println("| Title:      " + entry.getTitle());
+        System.out.println("| Date:       " + entry.getDate());
+        System.out.println("| Mood:       " + entry.getMood());
+        System.out.println("| Location:   " + entry.getLocation());
         if (entry.getEncrypted()){}
-        else {System.out.println("Content: " + entry.getPublicContent());}
+        else {System.out.println("| Content: " + entry.getPublicContent());}
         System.out.println("================================");
     }
 
@@ -271,10 +271,19 @@ public class DiaryManager {
             return;
         }
         System.out.println("~~~~~~ Diary Entry Details ~~~~~~");
-        System.out.println("Author: " + entry.getAuthor());
-        System.out.println("Title:  " + entry.getTitle());
-        System.out.println("Date:   " + entry.getDate());
+        System.out.println("| Author: " + entry.getAuthor());
+        System.out.println("| Title:  " + entry.getTitle());
+        System.out.println("| Date:   " + entry.getDate());
         System.out.println("================================");
+    }
+
+    public static void menuOptions() {
+        System.out.println("~~~~~~| What do you want to do? |~~~~~~");
+        System.out.println("|1| Create new diary entry");
+        System.out.println("|2| See Diary Index");
+        System.out.println("|3| See Your diaries");
+        System.out.println("|4| See other author's diaries");
+        System.out.println("|5| Exit");
     }
     
     public String getMood() {return mood;}

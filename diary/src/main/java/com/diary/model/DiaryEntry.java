@@ -64,7 +64,7 @@ public class DiaryEntry {
     // Constructor used to create a new diary entry interactively
     public DiaryEntry(User user, File moodFile, File locationFile, Scanner scanner, ObjectMapper mapper) throws Exception {
 
-        System.out.print("Enter diary title: ");
+        System.out.print("| Enter diary title: ");
         this.title = scanner.nextLine();
         
         // Choose mood
