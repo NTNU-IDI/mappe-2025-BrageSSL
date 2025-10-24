@@ -4,6 +4,7 @@ import java.io.Console;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 import java.util.Scanner;
 
 import javax.crypto.SecretKey;
@@ -13,6 +14,7 @@ import com.diary.util.EncryptionUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class User {
 
@@ -36,11 +38,17 @@ public class User {
         this.userName = userName;
         this.userPassword = userPassword;
         this.encodedKey = encodedKey;
+
+        if (encodedKey != null) {
+            byte[] decoded = Base64.getDecoder().decode(encodedKey);
+            this.userKey = new SecretKeySpec(decoded, 0, decoded.length, "AES");
+        } else {
+            this.userKey = null;
+        }
     }
 
     // Constructor for interactive user creation
-    public User(boolean interactive, Scanner scanner) {
-        if (!interactive) return;
+    public User(Scanner scanner) {
         Console console = System.console();
         if (console == null) {
             throw new RuntimeException("No console available. Run from a terminal.");
@@ -48,7 +56,7 @@ public class User {
 
         System.out.print("Enter username: ");
         this.userName = scanner.nextLine();
-        this.userId = java.util.UUID.randomUUID().toString();
+        this.userId = UUID.randomUUID().toString();
 
         char[] tempPassword;
         char[] tempPassword2;

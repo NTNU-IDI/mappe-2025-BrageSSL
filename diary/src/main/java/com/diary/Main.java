@@ -15,13 +15,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class Main {
     public static void main(String[] args) {
+        User user = null;
         try (Scanner scanner = new Scanner(System.in)) {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            
-            User user = null;
+
 
             // ---------- Load users ----------
             File userFile = new File("diary/data/user.json");
@@ -41,9 +41,9 @@ public class Main {
 
             if (users.isEmpty()){
                 System.out.println("--- No users found, creating new user ---");
-                user = new User(true, scanner);
-                users.add(user);
-                mapper.writeValue(userFile, user);
+                User newUser = new User(scanner);
+                users.add(newUser);
+                mapper.writeValue(userFile, users);
                 System.out.println("----Logging inn----");
                 user = User.userAuth(users, scanner);              
             }
@@ -68,7 +68,7 @@ public class Main {
                         break;
                     case 2:
                         System.out.println("----Creating new user----");
-                        user = new User(true, scanner);
+                        user = new User(scanner);
                         users.add(user);
                         mapper.writeValue(userFile, users);
                         System.out.println("----Logg inn----");

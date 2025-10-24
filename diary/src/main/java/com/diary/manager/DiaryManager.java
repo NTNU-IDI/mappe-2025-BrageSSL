@@ -103,10 +103,16 @@ public class DiaryManager {
             String input = scanner.nextLine().trim();
 
             try {
+                
                 choice = Integer.parseInt(input); // safely parse
-                break;
+                if (choice > userCreatedMoods.size()+1){
+                    System.out.println("Invalid input. Please enter a valid number");
+                }
+                else{
+                    break; 
+                }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number a valid number");
+                System.out.println("Invalid input. Please enter a valid number");
             }
         }
 
@@ -165,7 +171,12 @@ public class DiaryManager {
 
             try {
                 choice = Integer.parseInt(input); // safely parse
-                break;
+                if (choice > userCreatedLocations.size()+1){
+                    System.out.println("Invalid input. Please enter a valid number");
+                }
+                else{
+                    break; 
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a number a valid number");
             }
