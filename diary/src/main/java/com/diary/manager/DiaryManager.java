@@ -89,12 +89,12 @@ public class DiaryManager {
         }   
 
         for (int i = 0; i < userCreatedMoods.size(); i++) {
-            System.out.println((i + 1) + ". " + userCreatedMoods.get(i).getMood());
+            System.out.println("|" + (i + 1) + "| " + userCreatedMoods.get(i).getMood());
         }
         
         int choice;
         while (true) {    
-            System.out.println((userCreatedMoods.size() + 1) + ". Create a new mood");
+            System.out.println("|" + (userCreatedMoods.size() + 1) + "| Create a new mood");
             System.out.print("Choose a mood by number: ");
             String input = scanner.nextLine().trim();
 
@@ -102,13 +102,13 @@ public class DiaryManager {
                 
                 choice = Integer.parseInt(input); // safely parse
                 if (choice > userCreatedMoods.size()+1){
-                    System.out.println("Invalid input. Please enter a valid number");
+                    System.out.println("---| Invalid input. Please enter a valid number |---");
                 }
                 else{
                     break; 
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number");
+                System.out.println("---| Invalid input. Please enter a valid number |---");
             }
         }
 
@@ -116,7 +116,7 @@ public class DiaryManager {
             userMood.add(userCreatedMoods.get(choice - 1));
         } else if (choice == userCreatedMoods.size() + 1) {
             // Create new mood
-            System.out.print("Enter your new mood: ");
+            System.out.print("| Enter your new mood: ");
             String newMoodName = scanner.nextLine();
 
             DiaryManager newMood = new DiaryManager();
@@ -132,9 +132,9 @@ public class DiaryManager {
                 e.printStackTrace();
             }
 
-            System.out.println("New mood saved!");
+            System.out.println("~~~~~~~| New mood saved! |~~~~~~~");
         } else {
-            System.out.println("Invalid choice.");
+            System.out.println("---| Invalid choice. |---");
         }
         
         return userMood;
@@ -161,7 +161,7 @@ public class DiaryManager {
         int choice;
         while (true) {
             System.out.println("|"+ (userCreatedLocations.size() + 1) + "| Create a new Location");
-            System.out.print("~~~~| Choose a Location by number: |~~~~ ");
+            System.out.print("| Choose a Location by number: ");
 
             String input = scanner.nextLine().trim();
             
@@ -183,7 +183,7 @@ public class DiaryManager {
             userLocation.add(userCreatedLocations.get(choice - 1));
         } else if (choice == userCreatedLocations.size() + 1) {
             // Create new location
-            System.out.print("~~~~| Enter your new Location: |~~~~");
+            System.out.print("| Enter your new Location: ");
             String newLocationName = scanner.nextLine();
 
             DiaryManager newLocation = new DiaryManager();
@@ -219,11 +219,11 @@ public class DiaryManager {
             return;
         }
         System.out.println("~~~~~~ Diary Entry Details ~~~~~~~");
-        System.out.println("Title: " + entry.getTitle());
-        System.out.println("Author: " + entry.getAuthor());
-        System.out.println("Date: " + entry.getDate());
-        System.out.println("Mood: " + entry.getMood());
-        System.out.println("Location: " + entry.getLocation());
+        System.out.println("Title:      " + entry.getTitle());
+        System.out.println("Author:     " + entry.getAuthor());
+        System.out.println("Date:       " + entry.getDate());
+        System.out.println("Mood:       " + entry.getMood());
+        System.out.println("Location:   " + entry.getLocation());
         if (entry.getEncrypted()) {
             try {
                 String decrypted = EncryptionUtil.decrypt(entry.getEncryptedContent(), user.getUserKey());
@@ -250,10 +250,10 @@ public class DiaryManager {
             return;
         }
         System.out.println("~~~~~~ Diary Entry Details ~~~~~~");
-        System.out.println("Title: " + entry.getTitle());
-        System.out.println("Date: " + entry.getDate());
-        System.out.println("Mood: " + entry.getMood());
-        System.out.println("Location: " + entry.getLocation());
+        System.out.println("Title:      " + entry.getTitle());
+        System.out.println("Date:       " + entry.getDate());
+        System.out.println("Mood:       " + entry.getMood());
+        System.out.println("Location:   " + entry.getLocation());
         if (entry.getEncrypted()){}
         else {System.out.println("Content: " + entry.getPublicContent());}
         System.out.println("================================");
@@ -272,8 +272,8 @@ public class DiaryManager {
         }
         System.out.println("~~~~~~ Diary Entry Details ~~~~~~");
         System.out.println("Author: " + entry.getAuthor());
-        System.out.println("Title: " + entry.getTitle());
-        System.out.println("Date: " + entry.getDate());
+        System.out.println("Title:  " + entry.getTitle());
+        System.out.println("Date:   " + entry.getDate());
         System.out.println("================================");
     }
     

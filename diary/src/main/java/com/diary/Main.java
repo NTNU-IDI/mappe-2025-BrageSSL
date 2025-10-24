@@ -38,7 +38,7 @@ public class Main {
             // ---------- Load moods ----------
             File moodFile = new File("diary/data/mood.json");
             List<DiaryManager> mood = DiaryManager.loadMood(moodFile, mapper);
-
+            boolean running = true;
             if (users.isEmpty()){
                 System.out.println("---| No users found, creating new user |---");
                 User newUser = new User(scanner);
@@ -48,41 +48,52 @@ public class Main {
                 System.out.println("~~~~~~| Logging inn |~~~~~~");
                 user = User.userAuth(users, scanner);              
             }
-
+                
             else{
-                DiaryRead.clearConsole();
-                System.out.println("|1| Logg inn \n|2| Register");
-                String input = scanner.nextLine().trim();
-                int choice;
-                while (true) {
+                while (running) {
+                    DiaryRead.clearConsole();
+                    System.out.println("|1| Logg inn \n|2| Register");
+                    String input = scanner.nextLine().trim();
+                    int choice = 0;
                     try {
                         choice = Integer.parseInt(input); // safely parse
-                        break;
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid input. Please enter a number 1 or 2");
-                        continue; // restart the loop
+                        continue;
                     }
-                }
-                switch (choice) {
-                    case 1:
-                        DiaryRead.clearConsole();
-                        System.out.println("~~~~~~| Logging inn |~~~~~~");
-                        user = User.userAuth(users, scanner);
-                        break;
-                    case 2:
-                        DiaryRead.clearConsole();
-                        System.out.println("~~~~~~| Creating new user |~~~~~~");
-                        user = new User(scanner);
-                        users.add(user);
-                        mapper.writeValue(userFile, users);
-                        DiaryRead.clearConsole();
-                        System.out.println("~~~~~~| Logg inn |~~~~~~");
-                        user = User.userAuth(users, scanner);
-                        break;
+                    switch (choice) {
+                        case 1:
+                            DiaryRead.clearConsole();
+                            System.out.println("~~~~~~| Logging inn |~~~~~~");
+                            user = User.userAuth(users, scanner);
+                            running = false;
+                            break;
+
+                        case 2:
+                            DiaryRead.clearConsole();
+                            System.out.println("~~~~~~| Creating new user |~~~~~~");
+                            user = new User(scanner);
+                            users.add(user);
+                            mapper.writeValue(userFile, users);
+                            DiaryRead.clearConsole();
+                            System.out.println("~~~~~~| Logg inn |~~~~~~");
+                            user = User.userAuth(users, scanner);
+                            running = false;
+                            break;
+                        default:
+                            DiaryRead.clearConsole();
+                            System.out.println("Invalid choice. Please try again.");
+                            try {
+                                Thread.sleep(1000); // wait 3 seconds before throwing
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                            }
+                            break;
+                    }
                 }
             }  
 
-            boolean running = true;
+            running = true;
 
             DiaryRead.clearConsole();
             while (running) { 

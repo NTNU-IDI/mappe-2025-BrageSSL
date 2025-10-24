@@ -100,8 +100,14 @@ public class User {
 
         String hashedInputPassword = EncryptionUtil.hashPassword(inputPassword, getUserKey());
         if (!userName.equals(getUserName()) || !hashedInputPassword.equals(getUserPassword())) {
-            DiaryRead.clearConsole();
-            throw new Exception("Authentication failed: Incorrect username or password");
+            
+            try {
+                Thread.sleep(3000); // wait 3 seconds before throwing
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.print("Authentication failed: Incorrect username or password");
+            }
+            throw new Exception();
         }
     }
     public static User userAuth(List<User> users, Scanner scanner){
