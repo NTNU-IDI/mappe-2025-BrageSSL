@@ -15,27 +15,12 @@ public class DiaryManager {
     private String creator;
     private String location;
 
-    public String getMood() {
-        return mood;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-    public void setMood(String mood) {
-        this.mood = mood;
-    }
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    public String getMood() {return mood;}
+    public String getCreator() {return creator;}
+    public String getLocation() {return location;}
+    public void setCreator(String creator) {this.creator = creator;}
+    public void setMood(String mood) {this.mood = mood;}
+    public void setLocation(String location) {this.location = location;}
 
     public static List<User> loadUser (File fileName, ObjectMapper mapper) {
         // ---------- Load users ----------
