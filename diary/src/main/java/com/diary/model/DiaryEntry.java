@@ -119,6 +119,14 @@ public class DiaryEntry {
         this.id = UUID.randomUUID().toString();
         this.author = user.getUserName();
     }
+    
+    @JsonIgnore
+    public byte[] getEncryptedContent() {
+        if (encryptedContent == null && encodedContent != null) {
+            return Base64.getDecoder().decode(encodedContent);
+        }
+        return encryptedContent;
+    }
 
     // Getters (Jackson uses these when writing JSON)
     public String getId() { return id; }
@@ -130,12 +138,4 @@ public class DiaryEntry {
     public String getEncodedContent() { return encodedContent; }
     public String getPublicContent() { return publicContent; }
     public boolean getEncrypted() { return encrypted; }
-
-    @JsonIgnore
-    public byte[] getEncryptedContent() {
-        if (encryptedContent == null && encodedContent != null) {
-            return Base64.getDecoder().decode(encodedContent);
-        }
-        return encryptedContent;
-    }
 }

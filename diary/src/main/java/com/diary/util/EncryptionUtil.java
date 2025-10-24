@@ -50,7 +50,5 @@ public class EncryptionUtil {
     }
 
     // Getter for the secret key
-    public static SecretKey getSecretKey() {
-        return secretKey;
-    }
+    public static SecretKey getSecretKey() {return secretKey;}
 }

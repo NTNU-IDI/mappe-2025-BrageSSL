@@ -14,7 +14,7 @@ import com.diary.util.EncryptionUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class User {
 
@@ -87,32 +87,6 @@ public class User {
     System.out.println("Successfully created User: " + userName);
     }
 
-    // Getters for Jackson
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public String getEncodedKey() {
-        return encodedKey;
-    }
-
-    @JsonIgnore
-    public SecretKey getUserKey() {
-        if (userKey == null && encodedKey != null) {
-            byte[] decoded = Base64.getDecoder().decode(encodedKey);
-            userKey = new SecretKeySpec(decoded, 0, decoded.length, "AES");
-        }
-        return userKey;
-    }
-
     // Authentication logic
     public void passwordAuth(String userName, Scanner scanner) throws Exception {
         Console console = System.console();
@@ -155,4 +129,19 @@ public class User {
             }
         }
     }
+
+    @JsonIgnore
+    public SecretKey getUserKey() {
+        if (userKey == null && encodedKey != null) {
+            byte[] decoded = Base64.getDecoder().decode(encodedKey);
+            userKey = new SecretKeySpec(decoded, 0, decoded.length, "AES");
+        }
+        return userKey;
+    }
+
+    // Getters for Jackson
+    public String getUserId() {return userId;}
+    public String getUserName() {return userName;}
+    public String getUserPassword() {return userPassword;}
+    public String getEncodedKey() {return encodedKey;}
 }
