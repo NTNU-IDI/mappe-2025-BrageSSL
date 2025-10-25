@@ -8,6 +8,7 @@ import com.diary.manager.DiaryManager;
 import com.diary.model.DiaryEntry;
 import com.diary.model.User;
 import com.diary.util.DiaryRead;
+import com.diary.util.Interfaces;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -15,10 +16,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class Main {
     public static void main(String[] args) {
+
+        User user = null;
+        boolean exit = false;
         
         try (Scanner scanner = new Scanner(System.in)) {              
-            while (true){
-                User user = null;
+            while (exit == false) {
 
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.registerModule(new JavaTimeModule());
@@ -41,7 +44,7 @@ public class Main {
                 List<DiaryManager> mood = DiaryManager.loadMood(moodFile, mapper);
 
                 boolean running = true;
-                if (users == null) {
+                if (user == null) {
                     if (users.isEmpty()){
                         System.out.println("---| No users found, creating new user |---");
 
@@ -58,7 +61,7 @@ public class Main {
                     else{
                         while (running) {
                             DiaryRead.clearConsole();
-                            System.out.println("|1| Logg inn \n|2| Register");
+                            Interfaces.loginMenu();
                             String input = scanner.nextLine().trim();
                             int choice = 0;
                             try {
@@ -70,21 +73,25 @@ public class Main {
                             switch (choice) {
                                 case 1:
                                     DiaryRead.clearConsole();
-                                    System.out.println("~~~~~~| Logging inn |~~~~~~");
+                                    System.out.println("\n\n\n~~~~~~| Logging inn |~~~~~~");
                                     user = User.userAuth(users, scanner);
                                     running = false;
                                     break;
-
                                 case 2:
                                     DiaryRead.clearConsole();
-                                    System.out.println("~~~~~~| Creating new user |~~~~~~");
+                                    System.out.println("\n\n\n~~~~~~| Creating new user |~~~~~~");
                                     user = new User(scanner);
                                     users.add(user);
                                     mapper.writeValue(userFile, users);
                                     DiaryRead.clearConsole();
-                                    System.out.println("~~~~~~| Logg inn |~~~~~~");
+                                    System.out.println("\n\n\n~~~~~~| Logg inn |~~~~~~");
                                     user = User.userAuth(users, scanner);
                                     running = false;
+                                    break;
+                                case 3:
+                                    DiaryRead.clearConsole();
+                                    running = false;
+                                    exit = true;
                                     break;
                                 default:
                                     DiaryRead.clearConsole();
@@ -104,7 +111,7 @@ public class Main {
 
                     DiaryRead.clearConsole();
                     while (running) { 
-                        DiaryManager.menuOptions();                
+                        Interfaces.menuOptions();                
                         String input = scanner.nextLine().trim();
                         int choice;
                         try {
@@ -139,14 +146,13 @@ public class Main {
                                 DiaryRead.otherIndex(Author, diaryFile);
                                 break;
                             case 5:
-                                DiaryRead.clearConsole();
+                                user = null;
                                 running = false;
                                 break;
                             case 6:
                                 DiaryRead.clearConsole();
-                                System.out.println("~~~~~~| Exiting Diary Application. Goodbye! |~~~~~~");
-                                user = null;
                                 running = false;
+                                exit = true;
                                 break;
                             default:
                                 DiaryRead.clearConsole();

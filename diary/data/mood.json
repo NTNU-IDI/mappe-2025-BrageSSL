@@ -22,4 +22,8 @@
   "mood" : "Dreadfull",
   "creator" : "Carl",
   "location" : null
+}, {
+  "mood" : "Forskrekket",
+  "creator" : "Per",
+  "location" : null
 } ]

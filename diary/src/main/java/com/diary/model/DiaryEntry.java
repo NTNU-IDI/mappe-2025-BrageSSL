@@ -8,8 +8,10 @@ import java.util.UUID;
 import java.time.LocalDateTime;
 import java.io.File;
 
+import com.diary.util.Interfaces;
 import com.diary.manager.DiaryManager;
 import com.diary.util.EncryptionUtil;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -93,7 +95,7 @@ public class DiaryEntry {
         boolean encrypt = true;
         while (valg) { 
 
-            System.out.println("~~~~| Do you wish to encrypt the content? |~~~~ \n|1| yes: \n|2| no ");
+            Interfaces.encryptionMenu();
             String input = scanner.nextLine().trim();
             int choice;
             try {
@@ -129,7 +131,7 @@ public class DiaryEntry {
         this.date = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(), now.getMinute());
         this.id = UUID.randomUUID().toString();
         this.author = user.getUserName();
-        DiaryManager.showEntry(this.id, List.of(this), user);
+        Interfaces.showEntry(this.id, List.of(this), user);
     }
     
     @JsonIgnore

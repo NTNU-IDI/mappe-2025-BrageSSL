@@ -18,4 +18,8 @@
   "mood" : null,
   "creator" : "Carl",
   "location" : "georgia"
+}, {
+  "mood" : null,
+  "creator" : "Per",
+  "location" : "Senga"
 } ]

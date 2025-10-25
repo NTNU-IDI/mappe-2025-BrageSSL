@@ -3,7 +3,6 @@ package com.diary.util;
 import java.io.File;
 import java.util.List;
 
-import com.diary.manager.DiaryManager;
 import com.diary.model.DiaryEntry;
 import com.diary.model.User;
 
@@ -28,7 +27,7 @@ public class DiaryRead {
 
             System.out.println("===== Diary Entries =====");
             for (DiaryEntry entry : diaryList) {
-                DiaryManager.showIndexEntry(entry.getId(), diaryList);
+                Interfaces.showIndexEntry(entry.getId(), diaryList);
             }
 
         } catch (Exception e) {
@@ -53,7 +52,7 @@ public class DiaryRead {
             for (DiaryEntry entry : diaryList) {
                 if (!entry.getAuthor().equals(user.getUserName())) continue; // only show this user's entries
 
-                DiaryManager.showEntry(entry.getId(), diaryList, user);
+                Interfaces.showEntry(entry.getId(), diaryList, user);
             }
 
         } catch (Exception e) {
@@ -79,7 +78,7 @@ public class DiaryRead {
             System.out.println("===== Diary Entries =====");
             for (DiaryEntry entry : diaryList) {
                 if (!entry.getAuthor().equals(user)) continue; // only show this user's entries
-                DiaryManager.showOtherEntry(entry.getId(), diaryList);
+                Interfaces.showOtherEntry(entry.getId(), diaryList);
             }
 
         } catch (Exception e) {
