@@ -21,6 +21,9 @@ public class User {
 
     private String userId;
     private String userName;
+    private String email;
+    private String phoneNumber;
+    private String description;
     private String userPassword;
     private String encodedKey; // Base64 version of SecretKey
 
@@ -32,11 +35,17 @@ public class User {
     public User(
             @JsonProperty("userId") String userId,
             @JsonProperty("userName") String userName,
+            @JsonProperty("email") String email,
+            @JsonProperty("phoneNumber") String phoneNumber,
+            @JsonProperty("description") String description,
             @JsonProperty("userPassword") String userPassword,
             @JsonProperty("encodedKey") String encodedKey) {
 
         this.userId = userId;
         this.userName = userName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.description = description;
         this.userPassword = userPassword;
         this.encodedKey = encodedKey;
 
