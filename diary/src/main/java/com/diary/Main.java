@@ -48,7 +48,7 @@ public class Main {
                     if (users.isEmpty()){
                         System.out.println("---| No users found, creating new user |---");
 
-                        User newUser = new User(scanner);
+                        User newUser = new User(users, scanner);
 
                         users.add(newUser);
                         mapper.writeValue(userFile, users);
@@ -80,7 +80,7 @@ public class Main {
                                 case 2:
                                     DiaryRead.clearConsole();
                                     System.out.println("\n\n\n~~~~~~| Creating new user |~~~~~~");
-                                    user = new User(scanner);
+                                    user = new User(users, scanner);
                                     users.add(user);
                                     mapper.writeValue(userFile, users);
                                     DiaryRead.clearConsole();

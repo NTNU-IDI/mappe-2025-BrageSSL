@@ -58,43 +58,66 @@ public class User {
     }
 
     // Constructor for interactive user creation
-    public User(Scanner scanner) {
+    public User(List<User> users,Scanner scanner) {
         Console console = System.console();
         if (console == null) {
             throw new RuntimeException("---| No console available. Run from a terminal. |---");
         }
-
-        System.out.print("| Enter username: ");
-        this.userName = scanner.nextLine();
-        this.userId = UUID.randomUUID().toString();
-
-        char[] tempPassword;
-        char[] tempPassword2;
-
-        while (true) {
-            tempPassword = console.readPassword("| Enter password: ");
-            tempPassword2 = console.readPassword("| Repeat password: ");
-
-            if (Arrays.equals(tempPassword, tempPassword2)) {
-                Arrays.fill(tempPassword2, ' ');
+        String name;
+        while(true){
+            System.out.print("| Enter username: ");
+            name = scanner.nextLine();
+            if(findUser(users, name) != null){
+                System.out.println("---| Username already exists. Please choose another. |---");
+            } else {
                 break;
             }
-            
-            System.out.println("---| Passwords do not match. Please try again. |---");
-            Arrays.fill(tempPassword, ' ');
-            Arrays.fill(tempPassword2, ' ');
+        }
+        this.userName = name;
+        this.userId = UUID.randomUUID().toString();
+
+        // Get optional information
+        System.out.print("| Enter email (or press Enter to skip): ");
+        this.email = scanner.nextLine().trim();
+        if (this.email.isEmpty()) {
+            this.email = null;
         }
 
-        try {
-            this.userKey = EncryptionUtil.generateSecretKey();
-            this.userPassword = EncryptionUtil.hashPassword(new String(tempPassword), userKey);
-            this.encodedKey = Base64.getEncoder().encodeToString(userKey.getEncoded());
-            Arrays.fill(tempPassword, ' ');
-        } catch (Exception e) {
-            throw new RuntimeException("---| Failed to create user |---", e);
+        System.out.print("| Enter phone number (or press Enter to skip): ");
+        this.phoneNumber = scanner.nextLine().trim();
+        if (this.phoneNumber.isEmpty()) {
+            this.phoneNumber = null;
         }
+
+        System.out.print("| Enter description/bio (or press Enter to skip): ");
+        this.description = scanner.nextLine().trim();
+        if (this.description.isEmpty()) {
+            this.description = null;
+        }
+
+        String password = passwordEntry(console);
+        encryptPassword(password);
+
 
     System.out.println("~~~~| Successfully created User: " + userName +" |~~~~");
+    }
+
+    private String passwordEntry(Console console) {
+        while (true) {
+            char[] tempPassword = console.readPassword("| Enter password: ");
+            char[] tempPassword2 = console.readPassword("| Repeat password: ");
+
+            try {
+                if (Arrays.equals(tempPassword, tempPassword2)) {
+                    return new String(tempPassword);
+                }
+                System.out.println("---| Passwords do not match. Please try again. |---");
+            } finally {
+                // Always clear passwords from memory
+                Arrays.fill(tempPassword, ' ');
+                Arrays.fill(tempPassword2, ' ');
+            }
+        }
     }
 
     // Authentication logic
@@ -119,18 +142,14 @@ public class User {
             throw new Exception();
         }
     }
+
     public static User userAuth(List<User> users, Scanner scanner){
         while (true){
             System.out.print("| Enter username: ");
             String userName = scanner.nextLine();
 
-            User found = null;
-            for (User u : users) {
-                if (u.getUserName().equals(userName)){
-                    found = u;
-                    break;
-                }
-            }
+            User found = findUser(users, userName);
+
             if (found == null){
                 DiaryRead.clearConsole();
                 System.out.println("---| User not found, try again. |---");
@@ -148,6 +167,23 @@ public class User {
         }
     }
 
+    private void encryptPassword(String password){
+        try {
+            this.userKey = EncryptionUtil.generateSecretKey();
+            this.userPassword = EncryptionUtil.hashPassword(password, userKey);
+            this.encodedKey = Base64.getEncoder().encodeToString(userKey.getEncoded());
+        } catch (Exception e) {
+            throw new RuntimeException("---| Failed to create user |---", e);
+        }
+    }
+
+    public static User findUser(List<User> users, String userName) {
+        return users.stream()
+            .filter(u -> u.getUserName().equals(userName))
+            .findFirst()
+            .orElse(null);
+    }
+
     @JsonIgnore
     public SecretKey getUserKey() {
         if (userKey == null && encodedKey != null) {
@@ -160,6 +196,13 @@ public class User {
     // Getters for Jackson
     public String getUserId() {return userId;}
     public String getUserName() {return userName;}
+    public String getEmail() {return email;}
+    public String getPhoneNumber() {return phoneNumber;}
+    public String getDescription() {return description;}
     public String getUserPassword() {return userPassword;}
     public String getEncodedKey() {return encodedKey;}
+
+    public void setEmail(String email) {this.email = email;}
+    public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
+    public void setDescription(String description) {this.description = description;}
 }

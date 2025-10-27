@@ -89,7 +89,7 @@ public class Interfaces {
     public static void loginMenu() {
         System.out.println("\n\n\n~~~~~~| Welcome to the Diary Application |~~~~~~");
         System.out.println("|1| Login");
-        System.out.println("|2| Create new user");
+        System.out.println("|2| Register");
         System.out.println("|3| Exit");
         System.out.print  ("|~| ");
     }
