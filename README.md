@@ -52,7 +52,7 @@ diary/
 ```
 
 ## Link to repository
-https://github.com/NTNU-IDI/mappe-2025-BrageSS
+https://github.com/NTNU-IDI/mappe-2025-BrageSSL
 
 ## How to run the project
 You need:
