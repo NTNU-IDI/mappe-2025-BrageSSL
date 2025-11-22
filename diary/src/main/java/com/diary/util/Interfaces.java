@@ -86,6 +86,7 @@ public class Interfaces {
         System.out.println("|6| Exit");
         System.out.print  ("|~| ");
     }
+
     public static void loginMenu() {
         System.out.println("\n\n\n~~~~~~| Welcome to the Diary Application |~~~~~~");
         System.out.println("|1| Login");
@@ -93,11 +94,42 @@ public class Interfaces {
         System.out.println("|3| Exit");
         System.out.print  ("|~| ");
     }
+
     public static void encryptionMenu() {
         System.out.println("\n\n\n~~~~~~| Encryption Options |~~~~~~");
         System.out.println("|1| Encrypt diary entries");
         System.out.println("|2| Do not encrypt diary entries");
         System.out.print  ("|~| ");
     }
+
+    public static void errorMessageNumber() {System.out.println("---| Invalid input. Please enter a valid Number. |---");}
+    public static void errorMessageText() {System.out.println("---| Invalid input. Please enter valid text. |---");}
+    public static void errorMessageNoUserFound() {System.out.println("---| No user found with that username. |---");}
+    public static void errorMessageUserExists() {System.out.println("---| User already exists. Please choose a different username. |---");}
+    public static void errorMessageInvalidLogin() {System.out.println("---| Authentication failed: Incorrect username or password |---");}
+    public static void errorMessagePasswordsDoNotMatch() {System.out.println("---| Passwords do not match. Please try again. |---");}
+    public static void errorMessageUnableToLoad() {System.out.println("---| Unable to load data. Please try again. |---");}
+    public static void errorMessageNoConsoleFound() {System.out.println("---| No console available. Run from a terminal. |---");}
+    public static void errorMessageFailedUserCreation() {System.out.println("---| Failed to create user. Please try again. |---");}
+    public static void errorMessageEncryptionFailed() {System.out.println("---| Encryption error occurred. Please try again. |---");}
+
     
+    public static void messagePromptUsername() {System.out.print("| Enter username: ");}
+    public static void messagePromptPassword() {System.out.print("| Enter password: ");}
+    public static void messagePromptPasswordAgain() {System.out.print("\n| Repeat password: ");}
+    public static void messagePromptemail() {System.out.print("| Enter email: ");}
+    public static void messagePromptPhone() {System.out.print("| Enter phone number: ");}
+    public static void messagePromptDescription() {System.out.print("| Enter description: ");}
+    public static void messageUserCreated() {System.out.println("\n\n\n===== User created successfully! =====");}
+
+    public static void messagecreatingEntry() {System.out.println("\n\n\n~~~~~~ Creating a new diary entry ~~~~~~");}
+    public static void messagePromptTitle() {System.out.print("| Enter title: ");}
+    public static void messagePromptMood() {System.out.print("| Enter mood: ");}
+    public static void messagePromptLocation() {System.out.print("| Enter location: ");}
+    public static void messagePromptContent() {System.out.print("System.out.println(\"~~~~| Enter diary content (type 'END' on a new line to finish) |~~~~\");");}
+    public static void messagePromptEncryptionChoice() {System.out.print("| doo you want to encrypt the content? \n|1| No\n|2| Yes\n|~| ");}
+    
+
+    public static void messageLogin() {System.out.println("\n\n\n=====Login succsess=====");}
+    public static void messageExit() {System.out.println("~~~~~~| Exiting Diary Application. Goodbye! |~~~~~~");}
 }

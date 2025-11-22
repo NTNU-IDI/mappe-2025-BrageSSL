@@ -49,6 +49,12 @@ public class EncryptionUtil {
         return Base64.getEncoder().encodeToString(hashedBytes);
     }
 
+    public static String encodeKey(SecretKey secretKey) {
+        return Base64.getEncoder().encodeToString(secretKey.getEncoded());
+    }
+
     // Getter for the secret key
-    public static SecretKey getSecretKey() {return secretKey;}
+    public static SecretKey getSecretKey() {
+        return secretKey;
+    }
 }
