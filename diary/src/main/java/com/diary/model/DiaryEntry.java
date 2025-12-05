@@ -9,30 +9,44 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DiaryEntry {
-
+    
+    /** 
+     * DiaryEntry attributes.
+    */
     private final String id;
     private final String author;
     private final String title;
     private final LocalDateTime date;
-    private LocalDateTime editedTime;
     private final String mood;
     private final String location;
-    private String encodedContent;
-    private String publicContent;
+    private final String encodedContent;
+    private final String publicContent;
     private final boolean encrypted;
 
-    // This will not be saved in JSON
+    /** 
+     * Decoded encrypted content.
+    */
     @JsonIgnore
     private final byte[] encryptedContent;
 
-    // Constructor used by Jackson when reading JSON
+    /**
+     * Constructor used by Jackson when reading JSON.   
+     * @param id
+     * @param author
+     * @param title
+     * @param date
+     * @param mood
+     * @param location
+     * @param encodedContent
+     * @param publicContent
+     * @param encrypted
+     */
     @JsonCreator
     public DiaryEntry(
             @JsonProperty("id") String id,
             @JsonProperty("author") String author,
             @JsonProperty("title") String title,
             @JsonProperty("date") LocalDateTime date,
-            @JsonProperty("editedTime") LocalDateTime editedTime,
             @JsonProperty("mood") String mood,
             @JsonProperty("location") String location,
             @JsonProperty("encodedContent") String encodedContent,
@@ -43,7 +57,6 @@ public class DiaryEntry {
         this.author = author;
         this.title = title;
         this.date = date;
-        this.editedTime = editedTime;
         this.mood = mood;
         this.location = location;
         this.encodedContent = encodedContent;
@@ -57,60 +70,82 @@ public class DiaryEntry {
         }
     }
 
-    // Getters (Jackson uses these when writing JSON)
-    public String getId() { 
+    /** 
+     * Getters for DiaryEntry attributes.
+    */
+    public String getId() {
         return id;
     }
 
-    public String getAuthor() { 
-        return author; 
+    /** 
+     * Retrieves the author.
+     * @return Author as a String.
+    */
+    public String getAuthor() {
+        return author;
     }
 
-    public String getTitle() { 
-        return title; 
-    }
-    
-    public LocalDateTime getDate() { 
-        return date; 
-    }
-
-    public String getMood() { 
-        return mood; 
+    /** 
+     * Retrieves the title.
+     * @return Title as a String.
+    */
+    public String getTitle() {
+        return title;
     }
 
-    public String getLocation() { 
-        return location; 
+    /** 
+     * Retrieves the date.
+     * @return Date as a LocalDateTime.
+    */
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public String getEncodedContent() { 
-        return encodedContent; 
+    /** 
+     * Retrieves the mood.
+     * @return Mood as a String.
+    */
+    public String getMood() {
+        return mood;
     }
 
+    /** 
+     * Retrieves the location.
+     * @return Location as a String.
+    */
+    public String getLocation() {
+        return location;
+    }
+
+    /** 
+     * Retrieves the encoded content.
+     * @return Encoded content as a String.
+    */
+    public String getEncodedContent() {
+        return encodedContent;
+    }
+
+    /** 
+     * Retrieves the encrypted content.
+     * @return Encrypted content as a byte array.
+    */
     public byte[] getEncryptedContent() {
         return encryptedContent;
     }
 
-    public String getPublicContent() { 
-        return publicContent; 
+    /** 
+     * Retrieves the public content.
+     * @return Public content as a String.
+    */
+    public String getPublicContent() {
+        return publicContent;
     }
 
-    public boolean getEncrypted() { 
-        return encrypted; 
-    }
-    
-    public LocalDateTime getEditedTime() {
-        return editedTime;
-    }
-
-    public void setPublicContent(String publicContent) {
-        this.publicContent = publicContent;
-        LocalDateTime now = LocalDateTime.now();
-        this.editedTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(), now.getMinute());
-    }
-
-    public void setEncodedContent(String encodedContent) {
-        this.encodedContent = encodedContent;
-        LocalDateTime now = LocalDateTime.now();
-        this.editedTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(), now.getMinute());
+    /** 
+     * Retrieves the encrypted status.
+     * @return Encrypted status as a boolean.
+    */
+    public boolean getEncrypted() {
+        return encrypted;
     }
 }

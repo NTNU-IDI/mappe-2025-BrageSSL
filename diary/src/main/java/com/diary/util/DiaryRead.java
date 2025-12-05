@@ -12,11 +12,15 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class DiaryRead {
 
+    /** 
+     * Show index of all diary entries.
+     * @param diaryFile File containing diary entries.
+    */
     public static void showIndex(File diaryFile) {
         DiaryRead.clearConsole();
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
-                System.out.println("---| No diary entries found.|---");
+                Interfaces.errorMessageNoDiaryEntriesFound();
                 return;
             }
 
@@ -25,21 +29,27 @@ public class DiaryRead {
             
             List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
 
-            System.out.println("===== Diary Entries =====");
+            Interfaces.messageDiaryEntries();
             for (DiaryEntry entry : diaryList) {
                 Interfaces.showIndexEntry(entry.getId(), diaryList);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("---| Failed to read diary entries. |---");
+            Interfaces.errorMessageFailedToReadEntries();
         }
     }
+    
+    /** 
+     * Show index of diary entries for a specific user.
+     * @param user User whose entries to show.
+     * @param diaryFile File containing diary entries.
+    */
     public static void myIndex(User user, File diaryFile) {
         DiaryRead.clearConsole();
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
-                System.out.println("---| No diary entries found. |---");
+                Interfaces.errorMessageNoDiaryEntriesFound();
                 return;
             }
 
@@ -48,7 +58,7 @@ public class DiaryRead {
             
             List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
 
-            System.out.println("===== Diary Entries =====");
+            Interfaces.messageDiaryEntries();
             for (DiaryEntry entry : diaryList) {
                 if (!entry.getAuthor().equals(user.getUserName())) continue; // only show this user's entries
 
@@ -57,14 +67,20 @@ public class DiaryRead {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("---| Failed to read diary entries. |---");
+            Interfaces.errorMessageFailedToReadEntries();
         }
     }
+
+    /** 
+     * Show index of diary entries for a specific user.
+     * @param user User whose entries to show.
+     * @param diaryFile File containing diary entries.
+    */
     public static void otherIndex(String user, File diaryFile) {
         DiaryRead.clearConsole();
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
-                System.out.println("---| No diary entries found. |---");
+                Interfaces.errorMessageNoDiaryEntriesFound();
                 return;
             }
 
@@ -75,7 +91,7 @@ public class DiaryRead {
 
             clearConsole();
             
-            System.out.println("===== Diary Entries =====");
+            Interfaces.messageDiaryEntries();
             for (DiaryEntry entry : diaryList) {
                 if (!entry.getAuthor().equals(user)) continue; // only show this user's entries
                 Interfaces.showOtherEntry(entry.getId(), diaryList);
@@ -83,9 +99,13 @@ public class DiaryRead {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("---| Failed to read diary entries. |---");
+            Interfaces.errorMessageFailedToReadEntries();
         }
     }
+
+    /** 
+     * Clear the console screen.
+    */
     public static void clearConsole() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
@@ -94,7 +114,7 @@ public class DiaryRead {
                 new ProcessBuilder("clear").inheritIO().start().waitFor();
             }
         } catch (Exception e) {
-            System.out.println("---| Could not clear console |---");
+            Interfaces.errorMessageUnableToClearConsole();
         }
     }
 

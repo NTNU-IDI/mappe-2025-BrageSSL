@@ -7,7 +7,11 @@ import com.diary.util.Interfaces;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.io.File;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -16,18 +20,32 @@ import java.io.Console;
 import javax.crypto.SecretKey;
 
 public class UserManager {
-    private ArrayList<User> users;
+    /** 
+     * List of users.
+    */
+    private ArrayList<User> users = new ArrayList<>();
 
-    public void createUser() {
-        Scanner scanner = new Scanner(System.in);
+    /** 
+     * Constructors.
+    */
+    public UserManager() {}
+    public UserManager(List<User> initialUsers) {
+        if (initialUsers != null) this.users.addAll(initialUsers);
+    }
 
+    /** 
+     * Create a new user.
+     * @param scanner Scanner for user input.
+     * @return Created User object.
+    */
+    public User createUser(Scanner scanner) {
         String userId = UUID.randomUUID().toString();
+
+        String userName = createUserName(scanner);
 
         String[] parts = createPassword();
         String userPassword = parts[0];
         String encodedKey = parts[1];
-
-        String userName = createUserName(scanner);
 
         Interfaces.messagePromptemail();
         String email = scanner.nextLine().trim();
@@ -42,12 +60,18 @@ public class UserManager {
         if (description.isEmpty()) description = null;
         
         User newUser = new User(userId, userName, email, phoneNumber, description, userPassword, encodedKey);
-        
         users.add(newUser);
         
         Interfaces.messageUserCreated();
+
+        return newUser;
     }
 
+    /** 
+     * Create a new username.
+     * @param scanner Scanner for user input.
+     * @return Created username as a String.
+    */
     public String createUserName(Scanner scanner) {
         String userName;
         while (true) {
@@ -63,6 +87,10 @@ public class UserManager {
         return userName;
     }
 
+    /** 
+     * Create a new password.
+     * @return Array containing hashed password and encoded key.
+    */
     public String[] createPassword(){
         Console console = System.console();
         
@@ -102,7 +130,12 @@ public class UserManager {
         return new String[]{hashedPassword, encodedKey};
     }
 
-    // Authentication logic
+    /** 
+     * Authenticate user password.
+     * @param user User to authenticate.
+     * @param scanner Scanner for user input.
+     * @return True if authentication is successful, false otherwise.
+    */
     public boolean passwordAuth(User user, Scanner scanner) throws Exception {
         Console console = System.console();
         if (console == null) {
@@ -128,6 +161,11 @@ public class UserManager {
         return true; // successful login, return this user
     }
 
+    /** 
+     * Authenticate user.
+     * @param scanner Scanner for user input.
+     * @return Authenticated User object.
+    */
     public User userAuth(Scanner scanner)throws Exception{
         while (true){
             Interfaces.messagePromptUsername();
@@ -148,6 +186,11 @@ public class UserManager {
         }
     }
     
+    /** 
+     * Find a user by username.
+     * @param userName Username to search for.
+     * @return Found User object or null if not found.
+    */
     public User findUser(String userName) {
         for (User user : users) {
             if (user.getUserName().equals(userName)) {
@@ -157,7 +200,69 @@ public class UserManager {
         return null;
     }
 
+    /** 
+     * Retrieves the list of users.
+     * @return List of users as an ArrayList.
+    */
     public ArrayList<User> getUsers() {
         return users;
+    }
+
+    /** 
+     * Create a new user.
+     * @param scanner Scanner for user input.
+    */
+    public void newUser(Scanner scanner, ObjectMapper mapper, File userFile) {
+        try {
+            mapper.writeValue(userFile, getUsers());
+        } catch (Exception e) {
+            Interfaces.errorMessageUnableToWrite();
+        }
+    }
+
+    /** 
+     * Update user profile settings.
+     * @param user User whose profile is to be updated.
+     * @param scanner Scanner for user input.
+     * @param mapper ObjectMapper for JSON operations.
+     * @param userFile File to write updated user data to.
+    */
+    public void profileSettings(User user, Scanner scanner, ObjectMapper mapper, File userFile) {
+        Interfaces.messageProfileSettingsMenu();
+        String choice = scanner.nextLine().trim();
+        switch (choice) {
+            case "1":
+                Interfaces.messagePromptemail();
+                String newUserEmail = scanner.nextLine().trim();
+                user.setEmail(newUserEmail);
+                break;
+            case "2":
+                Interfaces.messagePromptPhone();
+                String newUserPhone = scanner.nextLine().trim();
+                user.setPhoneNumber(newUserPhone);
+                break;
+            case "3":
+                Interfaces.messagePromptDescription();
+                String newUserDescription = scanner.nextLine().trim();
+                if (newUserDescription.isEmpty()) newUserDescription = null;
+                user.setDescription(newUserDescription);
+                break;
+            case "4":
+                Interfaces.messagePromptDescription();
+                String description = scanner.nextLine().trim();
+                if (description.isEmpty()) description = null;
+                user.setDescription(description);
+                break;
+            default:
+                Interfaces.errorMessageNumber();
+                return;
+        }
+        try {
+            mapper.writeValue(userFile, getUsers());
+            DiaryRead.clearConsole();
+            Interfaces.messageProfileUpdated();
+        } catch (Exception e) {
+            Interfaces.errorMessageUnableToWrite();
+        }
     }
 }

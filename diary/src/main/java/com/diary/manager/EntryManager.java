@@ -1,41 +1,50 @@
 package com.diary.manager;
 
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
-import java.util.Collections;
+
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import com.diary.model.DiaryEntry;
 import com.diary.model.Locations;
 import com.diary.model.Moods;
 import com.diary.util.EncryptionUtil;
 import com.diary.util.Interfaces;
 import com.diary.model.User;
+import com.diary.util.DiaryRead;
 
 public class EntryManager {
-    private final List<DiaryEntry> entries = new ArrayList<>();
+    /** 
+     * Lists of entries, locations, and moods.
+    */
+    private ArrayList<DiaryEntry> entries = new ArrayList<>();
+    private ArrayList<Locations> locations = new ArrayList<>();
+    private ArrayList<Moods> moods = new ArrayList<>();
 
-    public EntryManager() {
-        // optionally load entries/moods/locations here using DiaryManager if you want caching
-        try {
-            List<DiaryEntry> loaded = DiaryManager.loadEntries(new File("diary/data/diary.json"), createMapper());
-            if (loaded != null) entries.addAll(loaded);
-        } catch (Exception ignored) {}
+    /** 
+     * Constructors.
+    */
+    public EntryManager(List<DiaryEntry> loadedEntries, List<Locations> loadedLocations, List<Moods> loadedMoods) {
+        if (loadedEntries != null) this.entries.addAll(loadedEntries);
+        if (loadedLocations != null) this.locations.addAll(loadedLocations);
+        if (loadedMoods != null) this.moods.addAll(loadedMoods);
     }
-
-    // Caller must pass shared Scanner from Main
-    public void createEntry(User user, Scanner scanner) {
+    /** 
+     * Create a new diary entry.
+     * @param user User creating the entry.
+     * @param scanner Scanner for user input.
+     * @param mapper ObjectMapper for JSON operations.
+     * @param entryFile File to write updated entries to.
+     * @param locationFile File to write updated locations to.
+     * @param moodFile File to write updated moods to.
+    */
+    public void createEntry(User user, Scanner scanner, ObjectMapper mapper, File entryFile, File locationFile, File moodFile) {
         String id = UUID.randomUUID().toString();
         String author = user.getUserName();
         LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
@@ -63,7 +72,7 @@ public class EntryManager {
                 if (choice == 1) { encrypt = true; break; }
                 if (choice == 2) { encrypt = false; break; }
             } catch (NumberFormatException ignored) {}
-            System.out.println("---| Invalid input. Enter 1 or 2. |---");
+            Interfaces.errorMessageNumber();
         }
 
         String encodedContent = "";
@@ -84,102 +93,155 @@ public class EntryManager {
 
         // For now let user pick a mood/location name from their lists or skip
         String mood = null;
-        List<String> userMoodNames = listUserMoodNames(user);
-        if (!userMoodNames.isEmpty()) {
-            System.out.println("Choose mood by number or press Enter to skip:");
+        List<Moods> userMoodNames = listUserMoodNames(user);
+        while (true) {
             for (int i = 0; i < userMoodNames.size(); i++) {
-                System.out.println((i + 1) + ". " + userMoodNames.get(i));
+
+                System.out.println((i + 1) + ". " + userMoodNames.get(i).getMood());
             }
-            String sel = scanner.nextLine().trim();
-            if (!sel.isEmpty()) {
-                try {
-                    int idx = Integer.parseInt(sel) - 1;
-                    if (idx >= 0 && idx < userMoodNames.size()) mood = userMoodNames.get(idx);
-                } catch (NumberFormatException ignored) {}
+            System.out.println("|" + (userMoodNames.size() + 1) + "|" + " Create new mood");
+
+            Interfaces.messagePromptChooseMood();
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice >= 1 && choice <= userMoodNames.size()) {
+                mood = userMoodNames.get(choice - 1).getMood();
+                break;
+            } else if (choice == userMoodNames.size() + 1) {
+                Interfaces.messagePromptNewMood();
+                String newMoodName = scanner.nextLine().trim();
+                createMood(user, newMoodName, mapper, moodFile);
+                mood = newMoodName;
+                break;
+            } else {
+                Interfaces.errorMessageNumber();
             }
         }
 
         String location = null;
-        List<String> userLocationNames = listUserLocationNames(user);
-        if (!userLocationNames.isEmpty()) {
-            System.out.println("Choose location by number or press Enter to skip:");
+        List<Locations> userLocationNames = listUserLocationNames(user);
+        while (true) {
             for (int i = 0; i < userLocationNames.size(); i++) {
-                System.out.println((i + 1) + ". " + userLocationNames.get(i));
+
+                System.out.println((i + 1) + ". " + userLocationNames.get(i).getLocation());
             }
-            String sel = scanner.nextLine().trim();
-            if (!sel.isEmpty()) {
-                try {
-                    int idx = Integer.parseInt(sel) - 1;
-                    if (idx >= 0 && idx < userLocationNames.size()) location = userLocationNames.get(idx);
-                } catch (NumberFormatException ignored) {}
+            System.out.println("|" + (userLocationNames.size() + 1) + "|" + " Create new location");
+            Interfaces.messagePromptChooseLocation();
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice >= 1 && choice <= userLocationNames.size()) {
+                location = userLocationNames.get(choice - 1).getLocation();
+                break;
+            } else if (choice == userLocationNames.size() + 1) {
+                Interfaces.messagePromptNewLocation();
+                String newLocationName = scanner.nextLine().trim();
+                createLocation(user, newLocationName, mapper, locationFile);
+                location = newLocationName;
+                break;
+            } else {
+                Interfaces.errorMessageNumber();
             }
         }
 
-        DiaryEntry newEntry = new DiaryEntry(id, author, title, now, now, mood, location, encodedContent, publicContent, encrypt);
+        DiaryEntry newEntry = new DiaryEntry(id, author, title, now, mood, location, encodedContent, publicContent, encrypt);
         entries.add(newEntry);
-
-        // show entry — pass id, the entries list and the user
+        try {
+            mapper.writeValue(entryFile, getEntries());
+        } catch (Exception e) {
+            Interfaces.errorMessageUnableToWrite();
+        }
+        DiaryRead.clearConsole();
+        Interfaces.currentUser(user);
         Interfaces.showEntry(id, entries, user);
     }
 
-    private ObjectMapper createMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        return mapper;
-    }
-
-    // Use DiaryManager.loadMood(File, ObjectMapper)
-    public static List<Moods> loadMood(File fileName, ObjectMapper mapper) throws IOException {
-        if (fileName == null || !fileName.exists() || fileName.length() == 0) {
-            return Collections.emptyList();
-        }
-        Moods[] arr = mapper.readValue(fileName, Moods[].class);
-        return Arrays.asList(arr);
-    }
-
-    // Load locations from file as List<Locations>
-    public static List<Locations> loadLocation(File fileName, ObjectMapper mapper) throws IOException {
-        if (fileName == null || !fileName.exists() || fileName.length() == 0) {
-            return Collections.emptyList();
-        }
-        Locations[] arr = mapper.readValue(fileName, Locations[].class);
-        return Arrays.asList(arr);
-    }
-
-    // Add these two methods to return names for the given user
-    public List<String> listUserMoodNames(User user) {
-        File moodFile = new File("diary/data/mood.json");
-        List<Moods> all;
+    /** 
+     * Create a new mood.
+     * @param author User creating the mood.
+     * @param moodName Name of the new mood.
+     * @param mapper ObjectMapper for JSON operations.
+     * @param moodFile File to write updated moods to.
+    */
+    public void createMood (User author, String moodName, ObjectMapper mapper, File moodFile) {
+        Moods newMood = new Moods(author.getUserName(), moodName);
+        moods.add(newMood);
         try {
-            all = loadMood(moodFile, createMapper()); // calls the static loader already in this class
-        } catch (IOException e) {
-            return Collections.emptyList();
+            mapper.writeValue(moodFile, getMoods());
+        } catch (Exception e) {
+            Interfaces.errorMessageUnableToWrite();
         }
-        return all.stream()
-                  .filter(Objects::nonNull)
-                  .filter(m -> user.getUserName().equals(m.getCreator()))
-                  .map(Moods::getMood)
-                  .collect(Collectors.toList());
     }
 
-    public List<String> listUserLocationNames(User user) {
-        File locFile = new File("diary/data/location.json");
-        List<Locations> all;
+    /** 
+     * Create a new location.
+     * @param author User creating the location.
+     * @param locationName Name of the new location.
+     * @param mapper ObjectMapper for JSON operations.
+     * @param locationFile File to write updated locations to.
+    */
+    public void createLocation (User author, String locationName, ObjectMapper mapper, File locationFile) {
+        Locations newLocation = new Locations(author.getUserName(), locationName);
+        locations.add(newLocation);
         try {
-            all = loadLocation(locFile, createMapper());
-        } catch (IOException e) {
-            return Collections.emptyList();
+            mapper.writeValue(locationFile, getLocations());
+        } catch (Exception e) {
+            Interfaces.errorMessageUnableToWrite();
         }
-        return all.stream()
-                  .filter(Objects::nonNull)
-                  .filter(l -> user.getUserName().equals(l.getCreator()))
-                  .map(Locations::getLocation)
-                  .collect(Collectors.toList());
     }
 
-    // optional getter
+    /** 
+     * Lists user-specific mood names.
+     * @param user User whose moods are to be listed.
+     * @return List of Moods created by the user.
+    */
+    public List<Moods> listUserMoodNames (User user) {
+        ArrayList<Moods> userMoodNames = new ArrayList<>();
+        for (Moods m : moods) {
+            if (m.getCreator().equals(user.getUserName())) {
+                userMoodNames.add(m);
+            }
+        }
+        return userMoodNames;
+    }
+
+    /** 
+     * Lists user-specific location names.
+     * @param user User whose locations are to be listed.
+     * @return List of Locations created by the user.
+    */
+    public ArrayList<Locations> listUserLocationNames (User user) {
+        ArrayList<Locations> newLocations = new ArrayList<>();
+        for (Locations l : locations) {
+            if (l.getCreator().equals(user.getUserName())) {
+                newLocations.add(l);
+            }
+        }
+        return newLocations;
+    }
+
+    /**     
+     * Retrieves the list of diary entries.
+     * @return List of diary entries as an ArrayList.
+    */
     public List<DiaryEntry> getEntries() {
         return entries;
+    }
+
+    /**     
+     * Retrieves the list of locations.
+     * @return List of locations as an ArrayList.
+    */
+    public List<Locations> getLocations() {
+        return locations; 
+    }
+
+    /**     
+     * Retrieves the list of moods.
+     * @return List of moods as an ArrayList.
+    */
+    public List<Moods> getMoods() { 
+        return moods; 
     }
 }
