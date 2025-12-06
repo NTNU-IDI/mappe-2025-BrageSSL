@@ -109,6 +109,8 @@ public class Main {
                         continue;
                 }
             }
+            DiaryRead.clearConsole();
+            Interfaces.currentUser(user);
             while (user != null) {
                 Interfaces.menuOptions();
                 choice = scanner.nextLine().trim();
@@ -121,12 +123,12 @@ public class Main {
                     case "2":
                         DiaryRead.clearConsole();
                         Interfaces.currentUser(user);
-                        DiaryRead.myIndex(user, diaryFile);
+                        entryManager.sortOptions(user, scanner, diaryFile);
                         break;
                     case "3":
                         DiaryRead.clearConsole();
                         Interfaces.currentUser(user);
-                        DiaryRead.showIndex(diaryFile);
+                        entryManager.sortOptions(null, scanner, diaryFile);
                         break;
                     case "4":
                         DiaryRead.clearConsole();

@@ -1,10 +1,14 @@
 package com.diary.util;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Scanner;
+
 
 import com.diary.model.DiaryEntry;
 import com.diary.model.User;
+import com.diary.util.Interfaces;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +21,7 @@ public class DiaryRead {
      * @param diaryFile File containing diary entries.
     */
     public static void showIndex(File diaryFile) {
-        DiaryRead.clearConsole();
+        clearConsole();        
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
                 Interfaces.errorMessageNoDiaryEntriesFound();
@@ -46,7 +50,7 @@ public class DiaryRead {
      * @param diaryFile File containing diary entries.
     */
     public static void myIndex(User user, File diaryFile) {
-        DiaryRead.clearConsole();
+        clearConsole();
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
                 Interfaces.errorMessageNoDiaryEntriesFound();
@@ -77,7 +81,7 @@ public class DiaryRead {
      * @param diaryFile File containing diary entries.
     */
     public static void otherIndex(String user, File diaryFile) {
-        DiaryRead.clearConsole();
+        clearConsole();
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
                 Interfaces.errorMessageNoDiaryEntriesFound();
@@ -99,6 +103,104 @@ public class DiaryRead {
 
         } catch (Exception e) {
             e.printStackTrace();
+            Interfaces.errorMessageFailedToReadEntries();
+        }
+    }
+
+    public static void IndexFromDateToDate(File diaryFile, Scanner scanner, User user) {
+        clearConsole();
+        LocalDateTime from;
+        LocalDateTime to;
+        
+        try {
+            if (!diaryFile.exists() || diaryFile.length() == 0) {
+                Interfaces.errorMessageNoDiaryEntriesFound();
+                return;
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            
+            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
+
+            clearConsole();
+
+            while (true) {
+                Interfaces.messagePromptDate();
+                String fromDate = scanner.nextLine().trim();
+                Interfaces.messagePromptDate();
+                String toDate = scanner.nextLine().trim();
+
+                try {
+                    from = LocalDateTime.parse(fromDate);
+                    to = LocalDateTime.parse(toDate);
+                } catch (Exception e) {
+                    Interfaces.errorMessageInvalidDateFormat();
+                    continue;
+                }
+                break;
+            }
+
+            if (user == null) {
+                Interfaces.errorMessageNoUserFound();
+                return;
+            } else {
+                Interfaces.messageDiaryEntries();
+                for (DiaryEntry entry : diaryList) {
+                    if (!entry.getAuthor().equals(user.toString())) continue;
+                        if (entry.getDate().isBefore(from) || entry.getDate().isAfter(to)) continue;
+                    Interfaces.showOtherEntry(entry.getId(), diaryList);
+    
+                }
+            }
+        } catch (Exception e) {
+            Interfaces.errorMessageFailedToReadEntries();
+        }
+    }
+
+    public static void IndexAfterDate(File diaryFile, Scanner scanner, User user) {
+        clearConsole();
+        LocalDateTime date;
+        
+        try {
+            if (!diaryFile.exists() || diaryFile.length() == 0) {
+                Interfaces.errorMessageNoDiaryEntriesFound();
+                return;
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            
+            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
+
+            clearConsole();
+
+            while (true) {
+                Interfaces.messagePromptDate();
+                String atdate = scanner.nextLine().trim();
+
+                try {
+                    date = LocalDateTime.parse(atdate);
+                } catch (Exception e) {
+                    Interfaces.errorMessageInvalidDateFormat();
+                    continue;
+                }
+                break;
+            }
+
+            if (user == null) {
+                Interfaces.errorMessageNoUserFound();
+                return;
+            } else {
+                Interfaces.messageDiaryEntries();
+                for (DiaryEntry entry : diaryList) {
+                    if (!entry.getAuthor().equals(user.toString())) continue;
+                        if (!entry.getDate().isAfter(date)) continue;
+                        Interfaces.showOtherEntry(entry.getId(), diaryList);
+                }
+            }
+
+        } catch (Exception e) {
             Interfaces.errorMessageFailedToReadEntries();
         }
     }

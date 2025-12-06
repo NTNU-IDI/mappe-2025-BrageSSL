@@ -154,6 +154,15 @@ public class Interfaces {
         System.out.print  ("|~| ");
     }
 
+    public static void messagePromptSortOption() {
+        System.out.println("\n\n\n~~~~~~| Sort Diary Entries |~~~~~~");
+        System.out.println("|1| At Date");
+        System.out.println("|2| From Date to Date");
+        System.out.println("|3| None");
+        System.out.println("|4| Back to main menu");
+        System.out.print  ("|~| ");
+    }
+
     //error messages
     /** *Display error message for invalid number input.*/
     public static void errorMessageNumber() {System.out.println("---| Invalid input. Please enter a valid Number. |---");}
@@ -197,6 +206,8 @@ public class Interfaces {
     public static void errorMessageEntryCreationTestFailed() {System.out.println("\n\n\n---| Diary entry creation failed. Please try again. |---");}
     /** *Display error message for user edit test failiure.*/
     public static void errorMessageUserEditTestFailed() {System.out.println("\n\n\n---| User edit test failed. |---");}
+    /** *Display error message for invalid date format.*/
+    public static void errorMessageInvalidDateFormat() {System.out.println("---| Invalid date format. Please use yyyy-MM-dd or yyyy-MM-ddTHH:mm |---");}
 
     //prompts for user input
     /** * Prompt message for username input.*/
@@ -229,6 +240,8 @@ public class Interfaces {
     public static void messagePromptChooseMood() {System.out.print("| Choose mood by number: ");}
     /** * Prompt message for author's name input.*/
     public static void messagePromptAuthorName() {System.out.print("| Enter Author's name: ");}
+    /** * Prompt message for date input.*/
+    public static void messagePromptDate() {System.out.print("| Enter date (yyyy-MM-dd): ");}
     /** * Prompt message for diary text input.*/
     public static void messageDiaryEntries() {System.out.println("===== Diary Entries =====");}
     /** * Prompt message for diary text input.*/

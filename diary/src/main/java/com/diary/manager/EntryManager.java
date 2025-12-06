@@ -1,6 +1,7 @@
 package com.diary.manager;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -47,7 +48,7 @@ public class EntryManager {
     public void createEntry(User user, Scanner scanner, ObjectMapper mapper, File entryFile, File locationFile, File moodFile) {
         String id = UUID.randomUUID().toString();
         String author = user.getUserName();
-        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);   
 
         Interfaces.messagePromptTitle();
         String title = scanner.nextLine().trim();
@@ -155,6 +156,32 @@ public class EntryManager {
         DiaryRead.clearConsole();
         Interfaces.currentUser(user);
         Interfaces.showEntry(id, entries, user);
+    }
+
+    public void sortOptions(User user, Scanner scanner, File diaryFile) {
+        while (true) {
+            Interfaces.messagePromptSortOption();
+            String choice = scanner.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    DiaryRead.IndexAfterDate(diaryFile, scanner, user);
+                    return;
+                case "2":
+                    DiaryRead.IndexFromDateToDate(diaryFile, scanner, user);
+                    return;
+                case "3":
+                    if (user == null) {
+                        DiaryRead.showIndex(diaryFile);
+                        return;
+                    } else {
+                        DiaryRead.myIndex(user, diaryFile);
+                    }
+                case "4":
+                    return;
+                default:
+                    Interfaces.errorMessageNumber();
+            }
+        }
     }
 
     /** 
