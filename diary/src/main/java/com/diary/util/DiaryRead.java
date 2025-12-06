@@ -1,7 +1,7 @@
 package com.diary.util;
 
 import java.io.File;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -109,8 +109,8 @@ public class DiaryRead {
 
     public static void IndexFromDateToDate(File diaryFile, Scanner scanner, User user) {
         clearConsole();
-        LocalDateTime from;
-        LocalDateTime to;
+        LocalDate from;
+        LocalDate to;
         
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
@@ -132,8 +132,9 @@ public class DiaryRead {
                 String toDate = scanner.nextLine().trim();
 
                 try {
-                    from = LocalDateTime.parse(fromDate);
-                    to = LocalDateTime.parse(toDate);
+                    from = LocalDate.parse(fromDate);
+                    to = LocalDate.parse(toDate);
+
                 } catch (Exception e) {
                     Interfaces.errorMessageInvalidDateFormat();
                     continue;
@@ -160,7 +161,7 @@ public class DiaryRead {
 
     public static void IndexAfterDate(File diaryFile, Scanner scanner, User user) {
         clearConsole();
-        LocalDateTime date;
+        LocalDate date;
         
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
@@ -180,7 +181,7 @@ public class DiaryRead {
                 String atdate = scanner.nextLine().trim();
 
                 try {
-                    date = LocalDateTime.parse(atdate);
+                    date = LocalDate.parse(atdate);
                 } catch (Exception e) {
                     Interfaces.errorMessageInvalidDateFormat();
                     continue;

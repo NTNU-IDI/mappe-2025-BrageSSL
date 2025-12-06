@@ -156,7 +156,7 @@ public class Interfaces {
 
     public static void messagePromptSortOption() {
         System.out.println("\n\n\n~~~~~~| Sort Diary Entries |~~~~~~");
-        System.out.println("|1| At Date");
+        System.out.println("|1| After Date");
         System.out.println("|2| From Date to Date");
         System.out.println("|3| None");
         System.out.println("|4| Back to main menu");
@@ -207,7 +207,7 @@ public class Interfaces {
     /** *Display error message for user edit test failiure.*/
     public static void errorMessageUserEditTestFailed() {System.out.println("\n\n\n---| User edit test failed. |---");}
     /** *Display error message for invalid date format.*/
-    public static void errorMessageInvalidDateFormat() {System.out.println("---| Invalid date format. Please use yyyy-MM-dd or yyyy-MM-ddTHH:mm |---");}
+    public static void errorMessageInvalidDateFormat() {System.out.println("---| Invalid date format. Please use yyyy-MM-dd |---");}
 
     //prompts for user input
     /** * Prompt message for username input.*/

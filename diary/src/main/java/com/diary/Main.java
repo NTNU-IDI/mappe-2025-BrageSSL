@@ -92,8 +92,8 @@ public class Main {
                 choice = scanner.nextLine().trim();
                 switch (choice) {
                     case "1":
-                        userManager.newUser(scanner, mapper, userFile);
                         user = userManager.createUser(scanner);
+                        userManager.newUser(scanner, mapper, userFile);
                         break;
                     case "2":
                         try {

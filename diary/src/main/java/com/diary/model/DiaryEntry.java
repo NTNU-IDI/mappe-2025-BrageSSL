@@ -2,7 +2,7 @@ package com.diary.model;
 
 import java.util.Base64;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,7 +16,7 @@ public class DiaryEntry {
     private final String id;
     private final String author;
     private final String title;
-    private final LocalDateTime date;
+    private final LocalDate date;
     private final String mood;
     private final String location;
     private final String encodedContent;
@@ -46,7 +46,7 @@ public class DiaryEntry {
             @JsonProperty("id") String id,
             @JsonProperty("author") String author,
             @JsonProperty("title") String title,
-            @JsonProperty("date") LocalDateTime date,
+            @JsonProperty("date") LocalDate date,
             @JsonProperty("mood") String mood,
             @JsonProperty("location") String location,
             @JsonProperty("encodedContent") String encodedContent,
@@ -95,9 +95,9 @@ public class DiaryEntry {
 
     /** 
      * Retrieves the date.
-     * @return Date as a LocalDateTime.
+     * @return Date as a LocalDate.
     */
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 

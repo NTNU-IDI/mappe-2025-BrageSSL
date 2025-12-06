@@ -1,0 +1,17 @@
+[ {
+  "userId" : "408a5d40-7d7c-4850-aefc-65d495580d5a",
+  "userName" : "Brage",
+  "email" : "Brageseb3@gmail.com",
+  "phoneNumber" : "92679594",
+  "description" : "Megfr",
+  "userPassword" : "nRyyk9Vvov/XwbQZoIGMzG9Fvj/N19oHpbvqxZp2wbk=",
+  "encodedKey" : "PDuO6jvbAo43oHMWf1z+E/q1JB/xAqETYymJWDPxKos="
+}, {
+  "userId" : "b1aa7218-0e3c-4551-937c-dabab51e3654",
+  "userName" : "bob",
+  "email" : "bob@mail.no",
+  "phoneNumber" : "99",
+  "description" : "hei",
+  "userPassword" : "FY0nxsOqejtHA/ZAriuXSlk0Mor5CT2Z8V4eBbfASfA=",
+  "encodedKey" : "52viOkZLqLx/pViRVZQeXPeTc94GunRO8yxXLyJ55EU="
+} ]

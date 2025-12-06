@@ -2,7 +2,7 @@ package com.diary.util;
 
 import java.io.File;
 import java.util.Scanner;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.diary.model.User;
 import com.diary.model.Moods;
@@ -95,7 +95,7 @@ public class UnitTests {
      * @param diaryFile
      */
     public static void TestDiaryEntryCreationEncryption(Scanner scanner, ObjectMapper mapper, File diaryFile) {
-        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+        LocalDate now = LocalDate.now();
         DiaryEntry encryptedEntry = new DiaryEntry("1", "Bob", "Encrypted Entry", now, "Happy", "Home", "U2FsdGVkX1+5nVbWc3J3p3bG5vY2tldA==", null, true);
         try {
             mapper.writeValue(diaryFile, encryptedEntry);
@@ -112,7 +112,7 @@ public class UnitTests {
      * @param diaryFile
      */
     public static void TestDiaryEntryCreationNoEncryption(Scanner scanner, ObjectMapper mapper, File diaryFile) {
-        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+        LocalDate now = LocalDate.now();
         DiaryEntry partialEncryptedEntry = new DiaryEntry("2", "Per", "Partially Encrypted Entry", now, "Sad", "Work", "", "This is public content", true);
         try {
             mapper.writeValue(diaryFile, partialEncryptedEntry);
@@ -129,7 +129,7 @@ public class UnitTests {
      * @param diaryFile
      */
     public static void TestBadDiaryEntryCreation(Scanner scanner, ObjectMapper mapper, File diaryFile) {
-        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+        LocalDate now = LocalDate.now();
         DiaryEntry badEntry = new DiaryEntry("3", "random", "æpøæ'påøæø", now, "fedaddv1|12ddooiajdoi", "Srrweadasdawda", "ffsadfafaS>", "maby something like that", false);
         try {
             mapper.writeValue(diaryFile, badEntry);
