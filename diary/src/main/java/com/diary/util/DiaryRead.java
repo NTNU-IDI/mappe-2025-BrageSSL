@@ -143,15 +143,16 @@ public class DiaryRead {
             }
 
             if (user == null) {
-                Interfaces.errorMessageNoUserFound();
-                return;
+                for (DiaryEntry entry : diaryList) {
+                    if (entry.getDate().isBefore(from) || entry.getDate().isAfter(to)) continue;
+                    Interfaces.showOtherEntry(entry.getId(), diaryList);
+                }
             } else {
                 Interfaces.messageDiaryEntries();
                 for (DiaryEntry entry : diaryList) {
-                    if (!entry.getAuthor().equals(user.toString())) continue;
-                        if (entry.getDate().isBefore(from) || entry.getDate().isAfter(to)) continue;
+                    if (!entry.getAuthor().equals(user.getUserName())) continue;
+                    if (entry.getDate().isBefore(from) || entry.getDate().isAfter(to)) continue;
                     Interfaces.showOtherEntry(entry.getId(), diaryList);
-    
                 }
             }
         } catch (Exception e) {
@@ -190,17 +191,19 @@ public class DiaryRead {
             }
 
             if (user == null) {
-                Interfaces.errorMessageNoUserFound();
-                return;
+                Interfaces.messageDiaryEntries();
+                for (DiaryEntry entry : diaryList) {
+                        if (!entry.getDate().isAfter(date)) continue;
+                        Interfaces.showOtherEntry(entry.getId(), diaryList);
+                }
             } else {
                 Interfaces.messageDiaryEntries();
                 for (DiaryEntry entry : diaryList) {
-                    if (!entry.getAuthor().equals(user.toString())) continue;
+                    if (!entry.getAuthor().equals(user.getUserName())) continue;
                         if (!entry.getDate().isAfter(date)) continue;
                         Interfaces.showOtherEntry(entry.getId(), diaryList);
                 }
             }
-
         } catch (Exception e) {
             Interfaces.errorMessageFailedToReadEntries();
         }
