@@ -20,24 +20,28 @@ import java.io.Console;
 import javax.crypto.SecretKey;
 
 public class UserManager {
-    /** 
+    /**
      * List of users.
-    */
+     */
     private ArrayList<User> users = new ArrayList<>();
 
-    /** 
+    /**
      * Constructors.
-    */
-    public UserManager() {}
-    public UserManager(List<User> initialUsers) {
-        if (initialUsers != null) this.users.addAll(initialUsers);
+     */
+    public UserManager() {
     }
 
-    /** 
+    public UserManager(List<User> initialUsers) {
+        if (initialUsers != null)
+            this.users.addAll(initialUsers);
+    }
+
+    /**
      * Create a new user.
+     * 
      * @param scanner Scanner for user input.
      * @return Created User object.
-    */
+     */
     public User createUser(Scanner scanner) {
         String userId = UUID.randomUUID().toString();
 
@@ -49,29 +53,33 @@ public class UserManager {
 
         Interfaces.messagePromptemail();
         String email = scanner.nextLine().trim();
-        if (email.isEmpty()) email = null;
+        if (email.isEmpty())
+            email = null;
 
         Interfaces.messagePromptPhone();
         String phoneNumber = scanner.nextLine().trim();
-        if (phoneNumber.isEmpty()) phoneNumber = null;
+        if (phoneNumber.isEmpty())
+            phoneNumber = null;
 
         Interfaces.messagePromptDescription();
         String description = scanner.nextLine().trim();
-        if (description.isEmpty()) description = null;
-        
+        if (description.isEmpty())
+            description = null;
+
         User newUser = new User(userId, userName, email, phoneNumber, description, userPassword, encodedKey);
         users.add(newUser);
-        
+
         Interfaces.messageUserCreated();
 
         return newUser;
     }
 
-    /** 
+    /**
      * Create a new username.
+     * 
      * @param scanner Scanner for user input.
      * @return Created username as a String.
-    */
+     */
     public String createUserName(Scanner scanner) {
         String userName;
         while (true) {
@@ -79,7 +87,7 @@ public class UserManager {
             userName = scanner.nextLine();
             if (findUser(userName) != null) {
                 Interfaces.clearConsole();
-                Interfaces.errorMessageUserExists();    
+                Interfaces.errorMessageUserExists();
             } else {
                 break;
             }
@@ -87,13 +95,14 @@ public class UserManager {
         return userName;
     }
 
-    /** 
+    /**
      * Create a new password.
+     * 
      * @return Array containing hashed password and encoded key.
-    */
-    public String[] createPassword(){
+     */
+    public String[] createPassword() {
         Console console = System.console();
-        
+
         String hashedPassword = null;
         String encodedKey = null;
 
@@ -127,22 +136,23 @@ public class UserManager {
                 Arrays.fill(tempPassword2, ' ');
             }
         }
-        return new String[]{hashedPassword, encodedKey};
+        return new String[] { hashedPassword, encodedKey };
     }
 
-    /** 
+    /**
      * Authenticate user password.
-     * @param user User to authenticate.
+     * 
+     * @param user    User to authenticate.
      * @param scanner Scanner for user input.
      * @return True if authentication is successful, false otherwise.
-    */
+     */
     public boolean passwordAuth(User user, Scanner scanner) throws Exception {
         Console console = System.console();
         if (console == null) {
             Interfaces.errorMessageNoConsoleFound();
             return false;
         }
-        Interfaces.messagePromptPassword(); 
+        Interfaces.messagePromptPassword();
         char[] passwordChars = console.readPassword("");
         String inputPassword = new String(passwordChars);
         Arrays.fill(passwordChars, ' '); // Clear password from memory
@@ -161,27 +171,28 @@ public class UserManager {
         return true; // successful login, return this user
     }
 
-    /** 
+    /**
      * Authenticate user.
+     * 
      * @param scanner Scanner for user input.
      * @return Authenticated User object.
-    */
-    public User userAuth(Scanner scanner)throws Exception{
+     */
+    public User userAuth(Scanner scanner) throws Exception {
         int Attempts = 0;
-        while (true){
-            
+        while (true) {
+
             Interfaces.messagePromptUsername();
             String userName = scanner.nextLine();
 
             User found = findUser(userName);
 
-            if (found == null){
+            if (found == null) {
                 Interfaces.clearConsole();
-                Interfaces.errorMessageNoUserFound(); 
+                Interfaces.errorMessageNoUserFound();
                 Attempts++;
                 if (Attempts >= 3) {
                     return found;
-                }  
+                }
                 continue;
             }
             // Call the instance method on the found user
@@ -191,12 +202,13 @@ public class UserManager {
             }
         }
     }
-    
-    /** 
+
+    /**
      * Find a user by username.
+     * 
      * @param userName Username to search for.
      * @return Found User object or null if not found.
-    */
+     */
     public User findUser(String userName) {
         for (User user : users) {
             if (user.getUserName().equals(userName)) {
@@ -206,18 +218,20 @@ public class UserManager {
         return null;
     }
 
-    /** 
+    /**
      * Retrieves the list of users.
+     * 
      * @return List of users as an ArrayList.
-    */
+     */
     public ArrayList<User> getUsers() {
         return users;
     }
 
-    /** 
+    /**
      * Create a new user.
+     * 
      * @param scanner Scanner for user input.
-    */
+     */
     public void newUser(Scanner scanner, ObjectMapper mapper, File userFile) {
         try {
             mapper.writeValue(userFile, getUsers());
@@ -226,13 +240,14 @@ public class UserManager {
         }
     }
 
-    /** 
+    /**
      * Update user profile settings.
-     * @param user User whose profile is to be updated.
-     * @param scanner Scanner for user input.
-     * @param mapper ObjectMapper for JSON operations.
+     * 
+     * @param user     User whose profile is to be updated.
+     * @param scanner  Scanner for user input.
+     * @param mapper   ObjectMapper for JSON operations.
      * @param userFile File to write updated user data to.
-    */
+     */
     public void profileSettings(User user, Scanner scanner, ObjectMapper mapper, File userFile) {
         Interfaces.clearPlusUser(user);
         Interfaces.messageProfileSettingsMenu();
@@ -243,25 +258,29 @@ public class UserManager {
             case "1":
                 Interfaces.messagePromptemail();
                 String newUserEmail = scanner.nextLine().trim();
-                if (newUserEmail.isEmpty()) newUserEmail = null;
+                if (newUserEmail.isEmpty())
+                    newUserEmail = null;
                 user.setEmail(newUserEmail);
                 break;
             case "2":
                 Interfaces.messagePromptPhone();
                 String newUserPhone = scanner.nextLine().trim();
-                if (newUserPhone.isEmpty()) newUserPhone = null;
+                if (newUserPhone.isEmpty())
+                    newUserPhone = null;
                 user.setPhoneNumber(newUserPhone);
                 break;
             case "3":
                 Interfaces.messagePromptDescription();
                 String newUserDescription = scanner.nextLine().trim();
-                if (newUserDescription.isEmpty()) newUserDescription = null;
+                if (newUserDescription.isEmpty())
+                    newUserDescription = null;
                 user.setDescription(newUserDescription);
                 break;
             case "4":
                 Interfaces.messagePromptDescription();
                 String description = scanner.nextLine().trim();
-                if (description.isEmpty()) description = null;
+                if (description.isEmpty())
+                    description = null;
                 user.setDescription(description);
                 break;
             default:

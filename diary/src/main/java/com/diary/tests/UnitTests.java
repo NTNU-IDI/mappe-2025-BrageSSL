@@ -23,13 +23,15 @@ public class UnitTests {
     /**
      * A test to show that a User can be created
      * Only requirement is that all fields are Strings
+     * 
      * @param scanner
      * @param mapper
      * @param userFile
-     */ 
-    public static  void TestUserCreation(ObjectMapper mapper, File userFile) {
+     */
+    public static void TestUserCreation(ObjectMapper mapper, File userFile) {
         ArrayList<User> users = DiaryManager.loadUser(userFile, mapper);
-        User Bob = new User("6a8b2c4c-8a4d-4273-9433-3bf883197d79", "Bob", "Bobb@mail.no", "12345678", "a big man", "E/pixbdSr2VQx8Soq/A5s7wkyP1zSj1u9UUx2g7pHd0=", "VfqgUXO+fjWA8r8Ri5RtbFKKi5Fxv/VXcd8xN3UV0XI=");
+        User Bob = new User("6a8b2c4c-8a4d-4273-9433-3bf883197d79", "Bob", "Bobb@mail.no", "12345678", "a big man",
+                "E/pixbdSr2VQx8Soq/A5s7wkyP1zSj1u9UUx2g7pHd0=", "VfqgUXO+fjWA8r8Ri5RtbFKKi5Fxv/VXcd8xN3UV0XI=");
         users.add(Bob);
         try {
             Interfaces.currentUser(Bob);
@@ -40,11 +42,13 @@ public class UnitTests {
         }
     }
 
-
     /**
-     * A test to show that Users content fields do not need to have Specific properties
-     * Phone number with letters, invalid email, weak password, special characters in description with no character limit.
+     * A test to show that Users content fields do not need to have Specific
+     * properties
+     * Phone number with letters, invalid email, weak password, special characters
+     * in description with no character limit.
      * No Password, Id and Key means bad security and possible encryption failiure.
+     * 
      * @param scanner
      * @param mapper
      * @param userFile
@@ -52,14 +56,16 @@ public class UnitTests {
     public static void TestBadUserCreation(ObjectMapper mapper, File userFile) {
         ArrayList<User> users = DiaryManager.loadUser(userFile, mapper);
         try {
-            User Per = new User("", "per", "87654321", "bokstaver", "æøåæøåæølopkpiokpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "", "");
+            User Per = new User("", "per", "87654321", "bokstaver",
+                    "æøåæøåæølopkpiokpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp",
+                    "", "");
             users.add(Per);
             Interfaces.currentUser(Per);
             mapper.writeValue(userFile, users);
             Interfaces.errorMessageBadUserCreationTestFailed();
         } catch (Exception e) {
             Interfaces.messageBadUserCreationTestSuccess();
-            
+
         }
     }
 
@@ -81,10 +87,11 @@ public class UnitTests {
 
     /**
      * A test to show that a User's info can be edited
+     * 
      * @param mapper
      * @param userFile
      */
-    public static void testUserInfoEdit(ObjectMapper mapper, File userFile){
+    public static void testUserInfoEdit(ObjectMapper mapper, File userFile) {
         ArrayList<User> users = DiaryManager.loadUser(userFile, mapper);
         UserManager userManager = new UserManager(users);
         User user = userManager.findUser("Bob");
@@ -96,7 +103,7 @@ public class UnitTests {
                 Interfaces.currentUser(user);
                 mapper.writeValue(userFile, userManager.getUsers());
                 Interfaces.messageUserCreationTestSuccess();
-                
+
             } catch (Exception e) {
                 Interfaces.errorMessageUserEditTestFailed();
             }
@@ -108,6 +115,7 @@ public class UnitTests {
     /**
      * A test to show that Moods can be created
      * Only requirement is that both fields are Strings
+     * 
      * @param scanner
      * @param mapper
      * @param moodFile
@@ -115,8 +123,8 @@ public class UnitTests {
     public static void TestMoodCreation(ObjectMapper mapper, File moodFile) {
         ArrayList<Moods> moods = DiaryManager.loadMood(moodFile, mapper);
 
-        Moods happy = new Moods("Happy","Bob");
-        Moods sad = new Moods("Sad","Per");
+        Moods happy = new Moods("Happy", "Bob");
+        Moods sad = new Moods("Sad", "Per");
         moods.add(happy);
         moods.add(sad);
         try {
@@ -127,8 +135,9 @@ public class UnitTests {
         }
     }
 
-    /** 
+    /**
      * A test to show that Moods can be found for a specific user
+     * 
      * @param mapper
      * @param moodFile
      */
@@ -148,8 +157,9 @@ public class UnitTests {
         }
     }
 
-    /** 
+    /**
      * A test to show that Locations can be found for a specific user
+     * 
      * @param mapper
      * @param moodFile
      */
@@ -173,14 +183,15 @@ public class UnitTests {
     /**
      * A test to show that Locations can be created
      * Only requirement is that both fields are Strings
+     * 
      * @param scanner
      * @param mapper
      * @param locationFile
      */
     public static void TestLocationCreation(ObjectMapper mapper, File locationFile) {
         ArrayList<Locations> locations = DiaryManager.loadLocations(locationFile, mapper);
-        Locations home = new Locations("Home","Bob");
-        Locations work = new Locations("Work","Per");
+        Locations home = new Locations("Home", "Bob");
+        Locations work = new Locations("Work", "Per");
         locations.add(home);
         locations.add(work);
 
@@ -194,6 +205,7 @@ public class UnitTests {
 
     /**
      * A test to show that Diary Entries can be created with encryption
+     * 
      * @param scanner
      * @param mapper
      * @param diaryFile
@@ -223,8 +235,10 @@ public class UnitTests {
             publicContent = content;
         }
 
-        DiaryEntry encryptedEntry = new DiaryEntry("1", "Bob", "Encrypted Entry", now, edited, "Happy", "Home", encodedContent, publicContent, encrypt);
-        DiaryEntry encryptedEntry2 = new DiaryEntry("2", "Bob", "Encrypted Entry2", now, edited, "Happy2", "Home2", encodedContent, publicContent, encrypt);
+        DiaryEntry encryptedEntry = new DiaryEntry("1", "Bob", "Encrypted Entry", now, edited, "Happy", "Home",
+                encodedContent, publicContent, encrypt);
+        DiaryEntry encryptedEntry2 = new DiaryEntry("2", "Bob", "Encrypted Entry2", now, edited, "Happy2", "Home2",
+                encodedContent, publicContent, encrypt);
         entries.add(encryptedEntry);
         entries.add(encryptedEntry2);
         try {
@@ -237,6 +251,7 @@ public class UnitTests {
 
     /**
      * A test to show that Diary Entries can be created without encryption
+     * 
      * @param scanner
      * @param mapper
      * @param diaryFile
@@ -246,7 +261,8 @@ public class UnitTests {
 
         LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
         LocalDateTime edited = LocalDateTime.now().withSecond(0).withNano(0);
-        DiaryEntry noEncryption = new DiaryEntry("3", "Bob", "Partially Encrypted Entry", now, edited,"Sad", "Work", "", "This is public content", false);
+        DiaryEntry noEncryption = new DiaryEntry("3", "Bob", "Partially Encrypted Entry", now, edited, "Sad", "Work",
+                "", "This is public content", false);
         entries.add(noEncryption);
         try {
 
@@ -260,6 +276,7 @@ public class UnitTests {
     /**
      * A test to show that Diary Entries can be created with invalid content fields
      * this will make reading its content either fail or produce wierd results
+     * 
      * @param scanner
      * @param mapper
      * @param diaryFile
@@ -270,9 +287,10 @@ public class UnitTests {
         UserManager userManager = new UserManager(users);
         LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
         LocalDateTime edited = LocalDateTime.now().withSecond(0).withNano(0);
-        
+
         try {
-            DiaryEntry badEntry = new DiaryEntry("4", "random", "æpøæ'påøæø", now, edited, "fedaddv1|12ddooiajdoi", "Srrweadasdawda", "text", "maby something like that", false);
+            DiaryEntry badEntry = new DiaryEntry("4", "random", "æpøæ'påøæø", now, edited, "fedaddv1|12ddooiajdoi",
+                    "Srrweadasdawda", "text", "maby something like that", false);
             entries.add(badEntry);
             mapper.writeValue(diaryFile, entries);
             Interfaces.errorMessageEntryCreationTestFailed();
@@ -282,8 +300,9 @@ public class UnitTests {
         }
     }
 
-    /** 
+    /**
      * A test to show that a Diary Entry can be retrieved by its ID
+     * 
      * @param mapper
      * @param diaryFile
      */
@@ -305,8 +324,9 @@ public class UnitTests {
         }
     }
 
-    /** 
+    /**
      * A test to show that a Diary Entry can be deleted by its ID
+     * 
      * @param mapper
      * @param diaryFile
      */
@@ -316,9 +336,9 @@ public class UnitTests {
         EntryManager entryManager = new EntryManager(entries, null, null);
         UserManager userManager = new UserManager();
         User user = userManager.findUser("Bob");
-        
+
         try {
-            entries.removeIf(entryManager.getEntryById("2") ::equals);
+            entries.removeIf(entryManager.getEntryById("2")::equals);
             mapper.writeValue(diaryFile, entries);
             Interfaces.messageEntryDeleted();
         } catch (Exception e) {
@@ -326,8 +346,9 @@ public class UnitTests {
         }
     }
 
-    /** 
+    /**
      * A test to show that a Diary Entry can be edited by its ID
+     * 
      * @param mapper
      * @param diaryFile
      */
@@ -345,7 +366,8 @@ public class UnitTests {
         }
     }
 
-    public static void runAllTests(ObjectMapper mapper, File userFile, File moodFile, File locationFile, File diaryFile) {
+    public static void runAllTests(ObjectMapper mapper, File userFile, File moodFile, File locationFile,
+            File diaryFile) {
         TestUserCreation(mapper, userFile);
         TestBadUserCreation(mapper, userFile);
         testFindUserByName(userFile, mapper);
