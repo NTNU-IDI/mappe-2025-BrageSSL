@@ -16,39 +16,40 @@ I am using MAVEN
 ```
 diary/
 ├── pom.xml
-├── data/ 
-│   ├── users.json
-│   └── diary.json
+├── LICENSE.txt
+├── README.md
+├── data/
+│   ├── diary.json
+│   ├── location.json
+│   ├── mood.json
+│   └── user.json
 ├── src/
 │   ├── main/
-│   │   ├── java/
-│   │   │   └── com/
-│   │   │       └── diary/
-│   │   │           ├── Main.java
-│   │   │           ├── manager/
-│   │   │           │   └── DiaryManager.java
-│   │   │           ├── util/
-│   │   │           │   ├── EncryptionUtil.java
-│   │   │           │   └── DiaryRead.java
-│   │   │           └── model/
-│   │   │               ├── DiaryEntry.java
-│   │   │               └── User.java
-│   │   └── resources/
-│   │       └── log4j2.xml
-│   └── test/
-│       ├── java/
-│       │   └── com/
-│       │       └── diary/
-│       │           ├── UserTest.java
-│       │           ├── DiaryEntryTest.java
-│       │           └── EncryptionUtilTest.java
-│       └── resources/
-│           └── test-data.json  
-└── target/                                
-    ├── classes/                           
-    ├── test-classes/                      
-    ├── diary-1.0-SNAPSHOT.jar             
-    └── surefire-reports/  
+│   │   └── java/
+│   │       └── com/
+│   │           └── diary/
+│   │               ├── Main.java
+│   │               ├── manager/
+│   │               │   ├── DiaryManager.java
+│   │               │   ├── EntryManager.java
+│   │               │   └── UserManager.java
+│   │               ├── model/
+│   │               │   ├── DiaryEntry.java
+│   │               │   ├── Locations.java
+│   │               │   ├── Moods.java
+│   │               │   └── User.java
+│   │               └── util/
+│   │                   ├── DiaryRead.java
+│   │                   ├── EncryptionUtil.java
+│   │                   └── Interfaces.java
+│   └── tests/
+│       └── UnitTests.java
+├── test/
+└── target/
+    ├── classes/
+    ├── test-classes/
+    ├── surefire-reports/
+    └── (build artifacts)  
 ```
 
 ## Link to repository
