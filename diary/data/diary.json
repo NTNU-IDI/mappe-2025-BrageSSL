@@ -1,0 +1,34 @@
+[ {
+  "id" : "1",
+  "author" : "Bob",
+  "title" : "Encrypted Entry",
+  "date" : [ 2025, 12, 7, 20, 12 ],
+  "mood" : "Exited",
+  "location" : "New location!!",
+  "encodedContent" : "SE9QkGqqoB6vM97DfFHASjbnOc123+F33oLxnnik6W61bGpUfzhnDh+vy6y14vYkqXfkggVMCkbL0MCUWjKSyQ==",
+  "publicContent" : "",
+  "dateEdited" : [ 2025, 12, 7, 20, 12 ],
+  "encrypted" : true
+}, {
+  "id" : "3",
+  "author" : "Bob",
+  "title" : "Partially Encrypted Entry",
+  "date" : [ 2025, 12, 7, 20, 12 ],
+  "mood" : "Sad",
+  "location" : "Work",
+  "encodedContent" : "",
+  "publicContent" : "This is public content",
+  "dateEdited" : [ 2025, 12, 7, 20, 12 ],
+  "encrypted" : false
+}, {
+  "id" : "4",
+  "author" : "random",
+  "title" : "æpøæ'påøæø",
+  "date" : [ 2025, 12, 7, 20, 12 ],
+  "mood" : "fedaddv1|12ddooiajdoi",
+  "location" : "Srrweadasdawda",
+  "encodedContent" : "text",
+  "publicContent" : "maby something like that",
+  "dateEdited" : [ 2025, 12, 7, 20, 12 ],
+  "encrypted" : false
+} ]

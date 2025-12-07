@@ -1,9 +1,17 @@
 [ {
-  "userId" : "d57cdcd2-943f-443d-a8ed-d8a8baf62fc7",
+  "userId" : "0e4c30fb-2a10-41af-80fe-801c4a569e46",
   "userName" : "Brage",
   "email" : "mail",
   "phoneNumber" : "9",
   "description" : "her",
-  "userPassword" : "DoRm/LBJsZKEECGhoQOytWwYgRWIGFXHrJcTd6V+R70=",
-  "encodedKey" : "T+xIxulAq6AvUMWGy3Gh/ZGVyYNyEf1dKg6HsPE46ts="
+  "userPassword" : "s/i8BqiFZSZFx8ZOezHzClcJRDpH2udG/y5rDTdCK9Y=",
+  "encodedKey" : "9jEUcRS5PLgqeZTIzJEBb4ruPaw1h5VOqUAyAihj1Ms="
+}, {
+  "userId" : "6a8b2c4c-8a4d-4273-9433-3bf883197d79",
+  "userName" : "Bob",
+  "email" : "newfakemail@example.com",
+  "phoneNumber" : "87654321",
+  "description" : "Updated description",
+  "userPassword" : "E/pixbdSr2VQx8Soq/A5s7wkyP1zSj1u9UUx2g7pHd0=",
+  "encodedKey" : "VfqgUXO+fjWA8r8Ri5RtbFKKi5Fxv/VXcd8xN3UV0XI="
 } ]
