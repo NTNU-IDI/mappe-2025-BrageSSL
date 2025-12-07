@@ -1,45 +1,55 @@
 package com.diary.model;
 
 import java.util.Base64;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
 
 import java.time.LocalDateTime;
-import java.io.File;
-
-import com.diary.util.Interfaces;
-import com.diary.manager.DiaryManager;
-import com.diary.util.EncryptionUtil;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DiaryEntry {
-
+    
+    /** 
+     * DiaryEntry attributes.
+    */
     private final String id;
     private final String author;
-    private final String title;
+    private String title;
     private final LocalDateTime date;
-    private final String mood;
-    private final String location;
-    private final String encodedContent;
-    private final String publicContent;
-    private final boolean encrypted;
+    private LocalDateTime dateEdited;
+    private String mood;
+    private String location;
+    private String encodedContent;
+    private String publicContent;
+    private boolean encrypted;
 
-    // This will not be saved in JSON
+    /** 
+     * Decoded encrypted content.
+    */
     @JsonIgnore
     private final byte[] encryptedContent;
 
-    // Constructor used by Jackson when reading JSON
+    /**
+     * Constructor used by Jackson when reading JSON.   
+     * @param id
+     * @param author
+     * @param title
+     * @param date
+     * @param dateEdited
+     * @param mood
+     * @param location
+     * @param encodedContent
+     * @param publicContent
+     * @param encrypted
+     */
     @JsonCreator
     public DiaryEntry(
             @JsonProperty("id") String id,
             @JsonProperty("author") String author,
             @JsonProperty("title") String title,
             @JsonProperty("date") LocalDateTime date,
+            @JsonProperty("now") LocalDateTime dateEdited,
             @JsonProperty("mood") String mood,
             @JsonProperty("location") String location,
             @JsonProperty("encodedContent") String encodedContent,
@@ -50,6 +60,7 @@ public class DiaryEntry {
         this.author = author;
         this.title = title;
         this.date = date;
+        this.dateEdited = dateEdited;
         this.mood = mood;
         this.location = location;
         this.encodedContent = encodedContent;
@@ -63,93 +74,116 @@ public class DiaryEntry {
         }
     }
 
-    // Constructor used to create a new diary entry interactively
-    public DiaryEntry(User user, File moodFile, File locationFile, Scanner scanner, ObjectMapper mapper) throws Exception {
-
-        System.out.print("| Enter diary title: ");
-        this.title = scanner.nextLine();
-        
-        // Choose mood
-        List<DiaryManager> moods = DiaryManager.chooseMood(scanner, user.getUserName(),moodFile, mapper);
-        this.mood = moods.get(0).getMood();
-        // Choose location
-        List<DiaryManager> locations = DiaryManager.chooseLocation(scanner, user.getUserName(),locationFile, mapper);
-        this.location = locations.get(0).getLocation();
-
-        System.out.println("~~~~| Enter diary content (type 'END' on a new line to finish) |~~~~");
-        StringBuilder contentBuilder = new StringBuilder();
-        String line;
-
-        while (true) {
-            line = scanner.nextLine();
-            if (line.equalsIgnoreCase("END")) {
-                break;
-            }
-            contentBuilder.append(line).append(System.lineSeparator());
-        }
-
-        String content = contentBuilder.toString().trim();
-
-        
-        boolean valg = true;
-        boolean encrypt = true;
-        while (valg) { 
-
-            Interfaces.encryptionMenu();
-            String input = scanner.nextLine().trim();
-            int choice;
-            try {
-                choice = Integer.parseInt(input); // safely parse
-            } catch (NumberFormatException e) {
-                System.out.println("---| Invalid input. Please enter a number between 1 and 5. |---");
-                continue; // restart the loop
-            }
-            switch (choice) {
-                case 1 :
-                    encrypt = true;
-                    valg = false;
-                    break;
-                case 2:
-                    encrypt = false;
-                    valg = false;
-                    break;
-            } 
-        }
-        this.encrypted =encrypt;
-        byte[] encrypts = EncryptionUtil.encrypt(content, user.getUserKey());
-        this.encryptedContent = encrypts;
-
-        if (encrypt){
-            this.encodedContent = Base64.getEncoder().encodeToString(encrypts);
-            this.publicContent = "";
-        } else {  
-            this.encodedContent = "";
-            this.publicContent = content;
-        }
-        
-        LocalDateTime now = LocalDateTime.now();
-        this.date = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(), now.getMinute());
-        this.id = UUID.randomUUID().toString();
-        this.author = user.getUserName();
-        Interfaces.showEntry(this.id, List.of(this), user);
+    /** 
+     * Getters for DiaryEntry attributes.
+    */
+    public String getId() {
+        return id;
     }
-    
-    @JsonIgnore
+
+    /** 
+     * Retrieves the author.
+     * @return Author as a String.
+    */
+    public String getAuthor() {
+        return author;
+    }
+
+    /** 
+     * Retrieves the title.
+     * @return Title as a String.
+    */
+    public String getTitle() {
+        return title;
+    }
+
+    /** 
+     * Retrieves the date.
+     * @return Date as a LocalDate.
+    */
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    /** 
+     * Retrieves the mood.
+     * @return Mood as a String.
+    */
+    public String getMood() {
+        return mood;
+    }
+
+    /** 
+     * Retrieves the location.
+     * @return Location as a String.
+    */
+    public String getLocation() {
+        return location;
+    }
+
+    /** 
+     * Retrieves the encoded content.
+     * @return Encoded content as a String.
+    */
+    public String getEncodedContent() {
+        return encodedContent;
+    }
+
+    /** 
+     * Retrieves the encrypted content.
+     * @return Encrypted content as a byte array.
+    */
     public byte[] getEncryptedContent() {
-        if (encryptedContent == null && encodedContent != null) {
-            return Base64.getDecoder().decode(encodedContent);
-        }
         return encryptedContent;
     }
 
-    // Getters (Jackson uses these when writing JSON)
-    public String getId() { return id; }
-    public String getAuthor() { return author; }
-    public String getTitle() { return title; }
-    public LocalDateTime getDate() { return date; }
-    public String getMood() { return mood; }
-    public String getLocation() { return location; }
-    public String getEncodedContent() { return encodedContent; }
-    public String getPublicContent() { return publicContent; }
-    public boolean getEncrypted() { return encrypted; }
+    /** 
+     * Retrieves the public content.
+     * @return Public content as a String.
+    */
+    public String getPublicContent() {
+        return publicContent;
+    }
+
+    /** 
+     * Retrieves the encrypted status.
+     * @return Encrypted status as a boolean.
+    */
+    public boolean getEncrypted() {
+        return encrypted;
+    }
+
+    public LocalDateTime getDateEdited() {
+        return dateEdited;
+    }
+
+    public void setDateEdited(LocalDateTime dateEdited) {
+        this.dateEdited = dateEdited;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setMood(String mood) {
+        this.mood = mood;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setPublicContent(String publicContent) {
+        this.publicContent = publicContent;
+    }
+
+    public void setEncodedContent(String encodedContent) {
+        this.encodedContent = encodedContent;
+    }
+
+    public void setEncrypted(boolean encrypted) {
+        this.encrypted = encrypted;
+    }
+
+
 }
