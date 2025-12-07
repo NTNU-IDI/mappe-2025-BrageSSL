@@ -20,10 +20,10 @@ public class DiaryManager {
      * @param mapper ObjectMapper for JSON operations.
      * @return List of loaded User objects.
     */
-    public static List<User> loadUser (File fileName, ObjectMapper mapper) {
+    public static ArrayList<User> loadUser (File fileName, ObjectMapper mapper) {
         // ---------- Load users ----------
         File userFile = fileName;
-        List<User> users = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<>();
         try{
             if (userFile.exists() && userFile.length() > 0) {
                 User[] loadedUsers = mapper.readValue(userFile, User[].class);
@@ -41,10 +41,10 @@ public class DiaryManager {
      * @param mapper ObjectMapper for JSON operations.
      * @return List of loaded DiaryEntry objects.
     */
-    public static List<DiaryEntry> loadEntries (File fileName, ObjectMapper mapper) {
+    public static ArrayList<DiaryEntry> loadEntries (File fileName, ObjectMapper mapper) {
         // ---------- Load diary entries ----------
         File diaryFile = fileName;
-        List<DiaryEntry> entries = new ArrayList<>();
+        ArrayList<DiaryEntry> entries = new ArrayList<>();
         try{
             if (diaryFile.exists() && diaryFile.length() > 0) {
                 DiaryEntry[] loadedDiary = mapper.readValue(diaryFile, DiaryEntry[].class);
@@ -62,10 +62,10 @@ public class DiaryManager {
      * @param mapper ObjectMapper for JSON operations.
      * @return List of loaded Locations objects.
     */
-    public static List<Locations> loadLocations (File fileName, ObjectMapper mapper) {
+    public static ArrayList<Locations> loadLocations (File fileName, ObjectMapper mapper) {
         // ---------- Load locations ----------
         File locationsFile = fileName;
-        List<Locations> locations = new ArrayList<>();
+        ArrayList<Locations> locations = new ArrayList<>();
         try {
             if (locationsFile.exists() && locationsFile.length() > 0) {
                 Locations[] loadedLocations = mapper.readValue(locationsFile, Locations[].class);
@@ -83,10 +83,10 @@ public class DiaryManager {
      * @param mapper ObjectMapper for JSON operations.
      * @return List of loaded Moods objects.
     */
-    public static List<Moods> loadMood (File fileName, ObjectMapper mapper) {
+    public static ArrayList<Moods> loadMood (File fileName, ObjectMapper mapper) {
         // ---------- Load diary moods ----------
         File moodFile = fileName;
-        List<Moods> mood = new ArrayList<>();
+        ArrayList<Moods> mood = new ArrayList<>();
         try{
             if (moodFile.exists() && moodFile.length() > 0) {
                 Moods[] loadedmood = mapper.readValue(moodFile, Moods[].class);

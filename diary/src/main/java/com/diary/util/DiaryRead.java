@@ -111,6 +111,12 @@ public class DiaryRead {
         }
     }
 
+    /** 
+     * Show index of diary entries between two dates.
+     * @param diaryFile File containing diary entries.
+     * @param scanner Scanner for user input.
+     * @param user Current user (can be null).
+    */
     public static void IndexFromDateToDate(File diaryFile, Scanner scanner, User user) {
         Interfaces.clearConsole();
         LocalDateTime from;
@@ -164,6 +170,12 @@ public class DiaryRead {
         }
     }
 
+    /** 
+     * Show index of diary entries after a specific date.
+     * @param diaryFile File containing diary entries.
+     * @param scanner Scanner for user input.
+     * @param user Current user (can be null).
+    */
     public static void IndexAfterDate(File diaryFile, Scanner scanner, User user) {
         Interfaces.clearConsole();
         LocalDateTime date;

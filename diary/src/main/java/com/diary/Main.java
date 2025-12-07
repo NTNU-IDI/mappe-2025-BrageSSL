@@ -11,6 +11,7 @@ import com.diary.model.DiaryEntry;
 import com.diary.model.User;
 import com.diary.model.Locations;
 import com.diary.model.Moods;
+import com.diary.tests.UnitTests;
 import com.diary.util.Interfaces;
 import com.diary.util.DiaryRead;
 
@@ -147,6 +148,11 @@ public class Main {
                         userManager.profileSettings(user, scanner, mapper, userFile);
                         break;
                     case "8":
+                        Interfaces.clearPlusUser(user);
+                        UnitTests.runAllTests(mapper, userFile, moodFile, locationFile, diaryFile); 
+                        exit = true;
+                        break;
+                    case "9":
                         Interfaces.clearConsole();
                         Interfaces.messageExit();
                         exit = true;

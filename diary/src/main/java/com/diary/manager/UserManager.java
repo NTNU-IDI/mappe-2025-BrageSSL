@@ -243,11 +243,13 @@ public class UserManager {
             case "1":
                 Interfaces.messagePromptemail();
                 String newUserEmail = scanner.nextLine().trim();
+                if (newUserEmail.isEmpty()) newUserEmail = null;
                 user.setEmail(newUserEmail);
                 break;
             case "2":
                 Interfaces.messagePromptPhone();
                 String newUserPhone = scanner.nextLine().trim();
+                if (newUserPhone.isEmpty()) newUserPhone = null;
                 user.setPhoneNumber(newUserPhone);
                 break;
             case "3":

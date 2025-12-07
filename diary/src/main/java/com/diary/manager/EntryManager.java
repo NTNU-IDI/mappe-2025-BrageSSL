@@ -196,8 +196,8 @@ public class EntryManager {
      * @param user User whose locations are to be listed.
      * @return List of Locations created by the user.
     */
-    public ArrayList<Locations> listUserLocationNames (User user) {
-        ArrayList<Locations> newLocations = new ArrayList<>();
+    public List<Locations> listUserLocationNames (User user) {
+        List<Locations> newLocations = new ArrayList<>();
         for (Locations l : locations) {
             if (l.getCreator().equals(user.getUserName())) {
                 newLocations.add(l);

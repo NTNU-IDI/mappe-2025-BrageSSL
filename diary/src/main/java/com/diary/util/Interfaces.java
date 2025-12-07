@@ -226,16 +226,30 @@ public class Interfaces {
     public static void errorMessageUserCreationFailed() {System.out.println("\n\n\n---| User creation failed. Please try again. |---");}
     /** *Display error message for user creation test failiure.*/
     public static void errorMessageUserCreationTestFailed() {System.out.println("\n\n\n---| User creation test failed. |---");}
+    /** *Display error message for bad user creation test failiure.*/
+    public static void errorMessageBadUserCreationTestFailed() {System.out.println("\n\n\n---| Bad user creation test failed. |---");}
     /** *Display error message for Mood creation failiure.*/
     public static void errorMessageMoodCreationTestFailed() {System.out.println("\n\n\n---| Mood creation test failed. |---");}
+    /** *Display error message for no moods found.*/
+    public static void errorMessageNoMoodsFound() {System.out.println("\n\n\n---| No moods found|. |---");}
+    /** *Display error message for no locations found.*/
+    public static void errorMessageNoLocationsFound() {System.out.println("\n\n\n---| No locations found|. |---");}
     /** *Display error message for Location creation failiure.*/
     public static void errorMessageLocationCreationTestFailed() {System.out.println("\n\n\n---| Location creation test failed. |---");}
     /** *Display error message for diary entry creation failiure.*/
     public static void errorMessageEntryCreationTestFailed() {System.out.println("\n\n\n---| Diary entry creation failed. Please try again. |---");}
     /** *Display error message for user edit test failiure.*/
     public static void errorMessageUserEditTestFailed() {System.out.println("\n\n\n---| User edit test failed. |---");}
+    /** *Display error message for user edit test failiure fast.*/
+    public static void errorMessageUserEditTestFailedFast() {System.out.println("\n\n\n---| User edit test failed fast. |---");}
     /** *Display error message for invalid date format.*/
     public static void errorMessageInvalidDateFormat() {System.out.println("---| Invalid date format. Please use yyyy-MM-dd |---");}
+    /** *Display error message for user not found in test.*/
+    public static void errorMessageUserFoundTestFailed() {System.out.println("\n\n\n---| User not found. |---");}
+    /** *Display error message for unable to delete diary entry.*/
+    public static void errorMessageUnableToDeleteEntry() {System.out.println("\n\n\n---| Unable to delete diary entry. |---");}
+    /** *Display error message for diary entry retrieval by ID test faied*/
+    public static void errorMessageGetEntryByIdTestFailed() {System.out.println("\n\n\n---| Diary entry retrieval by ID failed. |---");}
 
     //prompts for user input
     /** * Prompt message for username input.*/
@@ -270,8 +284,7 @@ public class Interfaces {
     public static void messagePromptAuthorName() {System.out.print("| Enter Author's name: ");}
     /** * Prompt message for date input.*/
     public static void messagePromptDate() {System.out.print("| Enter date (yyyy-MM-dd): ");}
-    /** * Prompt message for diary text input.*/
-    public static void messageDiaryEntries() {System.out.println("===== Diary Entries =====");}
+    
     /** * Prompt message for diary text input.*/
     public static void messagePromptText() {System.out.print("|~| ");}
 
@@ -285,6 +298,8 @@ public class Interfaces {
     public static void currentUser(User user) {System.out.println("===== Logged in as: " + user.getUserName() + " =====");}
     /** * Confirmation message for successful user creation test.*/
     public static void messageUserCreationTestSuccess() {System.out.println("\n\n\n===== User creation test succeeded! =====");}
+    /** * Confirmation message for successful bad user creation test.*/
+    public static void messageBadUserCreationTestSuccess() {System.out.println("\n\n\n===== Bad user creation test succeeded! =====");}
     /** * Confirmation message for successful mood creation test.*/
     public static void messageMoodCreationTestSuccess() {System.out.println("\n\n\n===== Mood creation test succeeded! =====");}
     /** * Confirmation message for successful location creation test.*/
@@ -295,9 +310,15 @@ public class Interfaces {
     public static void messageUserEditTestSuccess() {System.out.println("\n\n\n===== User edit test succeeded! =====");}
     /** * Confirmation message for successful diary entry deletion.*/
     public static void messageEntryDeleted() {System.out.println("===== Diary entry deleted successfully! =====");}
+    /** * Confirmation message for successful user found in test.*/
+    public static void messageUserFoundTestSuccess() {System.out.println("\n\n\n===== User found successfully! =====");}
+    /** * Confirmation message for successful diary entry retrieval by ID in test.*/
+    public static void messageGetEntryByIdTestSuccess() {System.out.println("\n\n\n===== Diary entry retrieved successfully by ID! =====");}
 
 
     //headings, or short prompts that require multiple lines
+    /** * Prompt message for diary text input.*/
+    public static void messageDiaryEntries() {System.out.println("~~~~ Diary Entries ~~~~");}
     /** * Prompt user to create or login.*/ 
     public static void messageUserCreateOrLogin() {System.out.print("\n\n\n~~~~ Choose action ~~~~\n|1| Create new user\n|2| Login\n|~| ");}
     /** * Informational message for creating a new diary entry.*/
