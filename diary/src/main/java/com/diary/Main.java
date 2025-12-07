@@ -79,81 +79,80 @@ public class Main {
             Interfaces.errorMessageNoUserFound();
             user = userManager.createUser(scanner);
             userManager.newUser(scanner, mapper, userFile);
-            DiaryRead.clearConsole();
         }
 
         /** 
          * Application loop for user authentication and menu navigation.
         */
+        Interfaces.clearConsole();
         while (exit!=true) {
             if (user == null) {
-                DiaryRead.clearConsole();
                 Interfaces.messageUserCreateOrLogin();
                 choice = scanner.nextLine().trim();
                 switch (choice) {
                     case "1":
+                        Interfaces.clearConsole();
                         user = userManager.createUser(scanner);
                         userManager.newUser(scanner, mapper, userFile);
                         break;
                     case "2":
                         try {
+                            Interfaces.clearConsole();
                             user = userManager.userAuth(scanner);
-                            DiaryRead.clearConsole();
-                            Interfaces.currentUser(user);
                         } catch (Exception e) {
                             Interfaces.errorMessageAuthFailed();
-                            System.exit(0);
+                            continue;
                         }
                     default:
                         Interfaces.errorMessageNumber();
                         continue;
                 }
             }
-            DiaryRead.clearConsole();
-            Interfaces.currentUser(user);
+            Interfaces.clearPlusUser(user);
             while (user != null) {
                 Interfaces.menuOptions();
                 choice = scanner.nextLine().trim();
                 switch (choice) {
                     case "1":
-                        DiaryRead.clearConsole();
-                        Interfaces.currentUser(user);
+                        Interfaces.clearPlusUser(user);
                         entryManager.createEntry(user, scanner, mapper, diaryFile, locationFile, moodFile);
                         break;
                     case "2":
-                        DiaryRead.clearConsole();
-                        Interfaces.currentUser(user);
+                        Interfaces.clearPlusUser(user);
                         entryManager.sortOptions(user, scanner, diaryFile);
                         break;
                     case "3":
-                        DiaryRead.clearConsole();
-                        Interfaces.currentUser(user);
+                        Interfaces.clearPlusUser(user);
                         entryManager.sortOptions(null, scanner, diaryFile);
                         break;
                     case "4":
-                        DiaryRead.clearConsole();
-                        Interfaces.currentUser(user);
+                        Interfaces.clearPlusUser(user);
                         Interfaces.messagePromptAuthorName();
                         String otherUserName = scanner.nextLine().trim();
-                        DiaryRead.otherIndex(otherUserName, diaryFile);
+                        DiaryRead.otherIndex(user, otherUserName, diaryFile);
                         break;
                     case "5":
-                        DiaryRead.clearConsole();
+                        Interfaces.clearConsole();
                         Interfaces.messageLogout();
                         user = null;
                         break;
                     case "6":
-                        DiaryRead.clearConsole();
-                        Interfaces.currentUser(user);
+                        Interfaces.clearPlusUser(user);
+                        entryManager.updateEntry(user, mapper, diaryFile, scanner);
+                        break;
+                        
+                    case "7":
+                        Interfaces.clearPlusUser(user);
                         userManager.profileSettings(user, scanner, mapper, userFile);
                         break;
-                    case "7":
-                        DiaryRead.clearConsole();
+                    case "8":
+                        Interfaces.clearConsole();
                         Interfaces.messageExit();
                         exit = true;
                         user = null;
                         break;
                     default:
+                        Interfaces.clearConsole();
                         Interfaces.errorMessageNumber();
                         break;
                 }        

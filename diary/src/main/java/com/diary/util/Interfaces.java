@@ -103,8 +103,9 @@ public class Interfaces {
         System.out.println("|3| See Diary Index");
         System.out.println("|4| See other author's diaries");
         System.out.println("|5| Logout");
-        System.out.println("|6| Profile settings");
-        System.out.println("|7| Exit");
+        System.out.println("|6| Edit diary entry");
+        System.out.println("|7| Profile settings");
+        System.out.println("|8| Exit");
         System.out.print  ("|~| ");
     }
 
@@ -154,12 +155,39 @@ public class Interfaces {
         System.out.print  ("|~| ");
     }
 
+    public static void showUserProfile(User user) {
+        System.out.println("\n\n\n~~~~~~| User Profile |~~~~~~");
+        System.out.println("| Username:    " + user.getUserName());
+        System.out.println("| Email:       " + (user.getEmail()));
+        System.out.println("| Phone Number:" + (user.getPhoneNumber()));
+        System.out.println("| Description: " + (user.getDescription()));
+        System.out.println("================================");
+    }
+
+    /** 
+     * Display Dioary Sorting Options.
+    */
     public static void messagePromptSortOption() {
         System.out.println("\n\n\n~~~~~~| Sort Diary Entries |~~~~~~");
         System.out.println("|1| After Date");
         System.out.println("|2| From Date to Date");
         System.out.println("|3| None");
         System.out.println("|4| Back to main menu");
+        System.out.print  ("|~| ");
+    }
+
+    /** 
+     * Display Entry Managing Options.
+    */
+    public static void messagePromptManageEntries() {
+        System.out.println("\n\n\n~~~~~~| ManageEntries |~~~~~~");
+        System.out.println("|1| Change Title");
+        System.out.println("|2| Change Mood");
+        System.out.println("|3| Change Location");
+        System.out.println("|4| Change Content");
+        System.out.println("|5| Delete Entry");
+        System.out.println("|6| Choose other entry");
+        System.out.println("|7| Back to main menu");
         System.out.print  ("|~| ");
     }
 
@@ -265,6 +293,8 @@ public class Interfaces {
     public static void messageEntryCreationTestSuccess() {System.out.println("\n\n\n===== Entry creation test succeeded! =====");}
     /** * Confirmation message for successful user edit test.*/
     public static void messageUserEditTestSuccess() {System.out.println("\n\n\n===== User edit test succeeded! =====");}
+    /** * Confirmation message for successful diary entry deletion.*/
+    public static void messageEntryDeleted() {System.out.println("===== Diary entry deleted successfully! =====");}
 
 
     //headings, or short prompts that require multiple lines
@@ -280,4 +310,24 @@ public class Interfaces {
     public static void messageLogout() {System.out.println("~~~~~~| Logging out... |~~~~~~");}
     /** * Confirmation message for exiting the application.*/   
     public static void messageExit() {System.out.println("~~~~~~| Exiting Diary Application. Goodbye! |~~~~~~");}
+
+    /** 
+     * Clear the console screen.
+    */
+    public static void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (Exception e) {
+            Interfaces.errorMessageUnableToClearConsole();
+        }
+    }
+
+    public static void clearPlusUser(User user){
+        clearConsole();
+        currentUser(user);
+    }
 }

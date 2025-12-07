@@ -4,4 +4,16 @@
 }, {
   "mood" : "Brage",
   "creator" : "Snake"
+}, {
+  "mood" : "Brage",
+  "creator" : "dead"
+}, {
+  "mood" : "Brage",
+  "creator" : "Exited"
+}, {
+  "mood" : "Brage",
+  "creator" : "Confused"
+}, {
+  "mood" : "Mood Number 1",
+  "creator" : "Brage"
 } ]

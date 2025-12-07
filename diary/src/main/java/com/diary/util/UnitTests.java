@@ -3,6 +3,7 @@ package com.diary.util;
 import java.io.File;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.diary.model.User;
 import com.diary.model.Moods;
@@ -40,7 +41,7 @@ public class UnitTests {
      * @param userFile
      */
     public static void TestBadUserCreation(Scanner scanner, ObjectMapper mapper, File userFile) {
-        User Bob = new User("", "Bob", "87654321", "bokstaver", "æøåæøåæølopkpiokpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "", "");
+        User Bob = new User("", "per", "87654321", "bokstaver", "æøåæøåæølopkpiokpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "", "");
         try {
             Interfaces.currentUser(Bob);
             Interfaces.messageUserCreationTestSuccess();
@@ -95,8 +96,9 @@ public class UnitTests {
      * @param diaryFile
      */
     public static void TestDiaryEntryCreationEncryption(Scanner scanner, ObjectMapper mapper, File diaryFile) {
-        LocalDate now = LocalDate.now();
-        DiaryEntry encryptedEntry = new DiaryEntry("1", "Bob", "Encrypted Entry", now, "Happy", "Home", "U2FsdGVkX1+5nVbWc3J3p3bG5vY2tldA==", null, true);
+        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+        LocalDateTime edited = LocalDateTime.now().withSecond(0).withNano(0);
+        DiaryEntry encryptedEntry = new DiaryEntry("1", "Bob", "Encrypted Entry", now, edited, "Happy", "Home", "U2FsdGVkX1+5nVbWc3J3p3bG5vY2tldA==", null, true);
         try {
             mapper.writeValue(diaryFile, encryptedEntry);
             Interfaces.messageEntryCreationTestSuccess();
@@ -112,8 +114,9 @@ public class UnitTests {
      * @param diaryFile
      */
     public static void TestDiaryEntryCreationNoEncryption(Scanner scanner, ObjectMapper mapper, File diaryFile) {
-        LocalDate now = LocalDate.now();
-        DiaryEntry partialEncryptedEntry = new DiaryEntry("2", "Per", "Partially Encrypted Entry", now, "Sad", "Work", "", "This is public content", true);
+        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+        LocalDateTime edited = LocalDateTime.now().withSecond(0).withNano(0);
+        DiaryEntry partialEncryptedEntry = new DiaryEntry("2", "Per", "Partially Encrypted Entry", now, edited,"Sad", "Work", "", "This is public content", true);
         try {
             mapper.writeValue(diaryFile, partialEncryptedEntry);
             Interfaces.messageEntryCreationTestSuccess();
@@ -129,8 +132,9 @@ public class UnitTests {
      * @param diaryFile
      */
     public static void TestBadDiaryEntryCreation(Scanner scanner, ObjectMapper mapper, File diaryFile) {
-        LocalDate now = LocalDate.now();
-        DiaryEntry badEntry = new DiaryEntry("3", "random", "æpøæ'påøæø", now, "fedaddv1|12ddooiajdoi", "Srrweadasdawda", "ffsadfafaS>", "maby something like that", false);
+        LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+        LocalDateTime edited = LocalDateTime.now().withSecond(0).withNano(0);
+        DiaryEntry badEntry = new DiaryEntry("3", "random", "æpøæ'påøæø", now, edited, "fedaddv1|12ddooiajdoi", "Srrweadasdawda", "ffsadfafaS>", "maby something like that", false);
         try {
             mapper.writeValue(diaryFile, badEntry);
             Interfaces.messageEntryCreationTestSuccess();

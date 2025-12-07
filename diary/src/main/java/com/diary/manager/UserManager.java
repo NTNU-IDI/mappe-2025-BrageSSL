@@ -78,7 +78,7 @@ public class UserManager {
             Interfaces.messagePromptUsername();
             userName = scanner.nextLine();
             if (findUser(userName) != null) {
-                DiaryRead.clearConsole();
+                Interfaces.clearConsole();
                 Interfaces.errorMessageUserExists();    
             } else {
                 break;
@@ -167,15 +167,21 @@ public class UserManager {
      * @return Authenticated User object.
     */
     public User userAuth(Scanner scanner)throws Exception{
+        int Attempts = 0;
         while (true){
+            
             Interfaces.messagePromptUsername();
             String userName = scanner.nextLine();
 
             User found = findUser(userName);
 
             if (found == null){
-                DiaryRead.clearConsole();
-                Interfaces.errorMessageNoUserFound();   
+                Interfaces.clearConsole();
+                Interfaces.errorMessageNoUserFound(); 
+                Attempts++;
+                if (Attempts >= 3) {
+                    return found;
+                }  
                 continue;
             }
             // Call the instance method on the found user
@@ -228,7 +234,10 @@ public class UserManager {
      * @param userFile File to write updated user data to.
     */
     public void profileSettings(User user, Scanner scanner, ObjectMapper mapper, File userFile) {
+        Interfaces.clearPlusUser(user);
         Interfaces.messageProfileSettingsMenu();
+        Interfaces.showUserProfile(user);
+
         String choice = scanner.nextLine().trim();
         switch (choice) {
             case "1":
@@ -259,7 +268,7 @@ public class UserManager {
         }
         try {
             mapper.writeValue(userFile, getUsers());
-            DiaryRead.clearConsole();
+            Interfaces.clearPlusUser(user);
             Interfaces.messageProfileUpdated();
         } catch (Exception e) {
             Interfaces.errorMessageUnableToWrite();

@@ -1,9 +1,11 @@
 package com.diary.util;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 
 import com.diary.model.DiaryEntry;
@@ -20,8 +22,7 @@ public class DiaryRead {
      * Show index of all diary entries.
      * @param diaryFile File containing diary entries.
     */
-    public static void showIndex(File diaryFile) {
-        clearConsole();        
+    public static void showIndex(User user, File diaryFile) {      
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
                 Interfaces.errorMessageNoDiaryEntriesFound();
@@ -32,6 +33,8 @@ public class DiaryRead {
             mapper.registerModule(new JavaTimeModule());
             
             List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
+
+            Interfaces.clearPlusUser(user);
 
             Interfaces.messageDiaryEntries();
             for (DiaryEntry entry : diaryList) {
@@ -50,7 +53,6 @@ public class DiaryRead {
      * @param diaryFile File containing diary entries.
     */
     public static void myIndex(User user, File diaryFile) {
-        clearConsole();
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
                 Interfaces.errorMessageNoDiaryEntriesFound();
@@ -61,6 +63,8 @@ public class DiaryRead {
             mapper.registerModule(new JavaTimeModule());
             
             List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
+
+            Interfaces.clearPlusUser(user);
 
             Interfaces.messageDiaryEntries();
             for (DiaryEntry entry : diaryList) {
@@ -80,8 +84,8 @@ public class DiaryRead {
      * @param user User whose entries to show.
      * @param diaryFile File containing diary entries.
     */
-    public static void otherIndex(String user, File diaryFile) {
-        clearConsole();
+    public static void otherIndex(User user, String userName, File diaryFile) {
+        Interfaces.clearPlusUser(user);
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
                 Interfaces.errorMessageNoDiaryEntriesFound();
@@ -93,11 +97,11 @@ public class DiaryRead {
             
             List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
 
-            clearConsole();
+            Interfaces.clearPlusUser(user);
             
             Interfaces.messageDiaryEntries();
             for (DiaryEntry entry : diaryList) {
-                if (!entry.getAuthor().equals(user)) continue; // only show this user's entries
+                if (!entry.getAuthor().equals(userName)) continue; // only show this user's entries
                 Interfaces.showOtherEntry(entry.getId(), diaryList);
             }
 
@@ -108,9 +112,9 @@ public class DiaryRead {
     }
 
     public static void IndexFromDateToDate(File diaryFile, Scanner scanner, User user) {
-        clearConsole();
-        LocalDate from;
-        LocalDate to;
+        Interfaces.clearConsole();
+        LocalDateTime from;
+        LocalDateTime to;
         
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
@@ -123,7 +127,7 @@ public class DiaryRead {
             
             List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
 
-            clearConsole();
+            Interfaces.clearPlusUser(user);
 
             while (true) {
                 Interfaces.messagePromptDate();
@@ -132,8 +136,8 @@ public class DiaryRead {
                 String toDate = scanner.nextLine().trim();
 
                 try {
-                    from = LocalDate.parse(fromDate);
-                    to = LocalDate.parse(toDate);
+                    from = LocalDateTime.parse(fromDate);
+                    to = LocalDateTime.parse(toDate);
 
                 } catch (Exception e) {
                     Interfaces.errorMessageInvalidDateFormat();
@@ -161,8 +165,8 @@ public class DiaryRead {
     }
 
     public static void IndexAfterDate(File diaryFile, Scanner scanner, User user) {
-        clearConsole();
-        LocalDate date;
+        Interfaces.clearConsole();
+        LocalDateTime date;
         
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
@@ -175,14 +179,14 @@ public class DiaryRead {
             
             List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
 
-            clearConsole();
+            Interfaces.clearConsole();
 
             while (true) {
                 Interfaces.messagePromptDate();
                 String atdate = scanner.nextLine().trim();
 
                 try {
-                    date = LocalDate.parse(atdate);
+                    date = LocalDateTime.parse(atdate);
                 } catch (Exception e) {
                     Interfaces.errorMessageInvalidDateFormat();
                     continue;
@@ -206,21 +210,6 @@ public class DiaryRead {
             }
         } catch (Exception e) {
             Interfaces.errorMessageFailedToReadEntries();
-        }
-    }
-
-    /** 
-     * Clear the console screen.
-    */
-    public static void clearConsole() {
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        } catch (Exception e) {
-            Interfaces.errorMessageUnableToClearConsole();
         }
     }
 

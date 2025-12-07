@@ -2,7 +2,7 @@ package com.diary.model;
 
 import java.util.Base64;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,13 +15,14 @@ public class DiaryEntry {
     */
     private final String id;
     private final String author;
-    private final String title;
-    private final LocalDate date;
-    private final String mood;
-    private final String location;
-    private final String encodedContent;
-    private final String publicContent;
-    private final boolean encrypted;
+    private String title;
+    private final LocalDateTime date;
+    private LocalDateTime dateEdited;
+    private String mood;
+    private String location;
+    private String encodedContent;
+    private String publicContent;
+    private boolean encrypted;
 
     /** 
      * Decoded encrypted content.
@@ -35,6 +36,7 @@ public class DiaryEntry {
      * @param author
      * @param title
      * @param date
+     * @param dateEdited
      * @param mood
      * @param location
      * @param encodedContent
@@ -46,7 +48,8 @@ public class DiaryEntry {
             @JsonProperty("id") String id,
             @JsonProperty("author") String author,
             @JsonProperty("title") String title,
-            @JsonProperty("date") LocalDate date,
+            @JsonProperty("date") LocalDateTime date,
+            @JsonProperty("now") LocalDateTime dateEdited,
             @JsonProperty("mood") String mood,
             @JsonProperty("location") String location,
             @JsonProperty("encodedContent") String encodedContent,
@@ -57,6 +60,7 @@ public class DiaryEntry {
         this.author = author;
         this.title = title;
         this.date = date;
+        this.dateEdited = dateEdited;
         this.mood = mood;
         this.location = location;
         this.encodedContent = encodedContent;
@@ -97,7 +101,7 @@ public class DiaryEntry {
      * Retrieves the date.
      * @return Date as a LocalDate.
     */
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -148,4 +152,38 @@ public class DiaryEntry {
     public boolean getEncrypted() {
         return encrypted;
     }
+
+    public LocalDateTime getDateEdited() {
+        return dateEdited;
+    }
+
+    public void setDateEdited(LocalDateTime dateEdited) {
+        this.dateEdited = dateEdited;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setMood(String mood) {
+        this.mood = mood;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setPublicContent(String publicContent) {
+        this.publicContent = publicContent;
+    }
+
+    public void setEncodedContent(String encodedContent) {
+        this.encodedContent = encodedContent;
+    }
+
+    public void setEncrypted(boolean encrypted) {
+        this.encrypted = encrypted;
+    }
+
+
 }
