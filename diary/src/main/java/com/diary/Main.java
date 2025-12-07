@@ -74,6 +74,7 @@ public class Main {
         /** 
          * Main application loop for user interaction.
         */
+        Interfaces.clearConsole();
         Scanner scanner = new Scanner(System.in);
         if (users.isEmpty()) {
             Interfaces.errorMessageNoUserFound();

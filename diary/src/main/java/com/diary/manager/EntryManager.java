@@ -223,12 +223,12 @@ public class EntryManager {
                 System.out.println("|" + (i + 1) + "| " + userMoodNames.get(i).getMood());
             }
             System.out.println("|" + (userMoodNames.size() + 1) + "|" + " Create new mood");
-
-            Interfaces.messagePromptChooseMood();
-            String Temp = scanner.nextLine().trim();
-            int choice = Integer.parseInt(Temp);
+            
+            Interfaces.messagePromptChooseLocation();
+            String temp = scanner.nextLine().trim();
+            int choice;
             try {
-                choice = Integer.parseInt(Temp);
+                choice = Integer.parseInt(temp);
             } catch (NumberFormatException e) {
                 Interfaces.clearPlusUser(user);
                 Interfaces.errorMessageNumber();
@@ -264,13 +264,20 @@ public class EntryManager {
         while (true) {
             for (int i = 0; i < userLocationNames.size(); i++) {
 
-                System.out.println((i + 1) + ". " + userLocationNames.get(i).getLocation());
+                System.out.println("|" +(i + 1) + "| " + userLocationNames.get(i).getLocation());
             }
             System.out.println("|" + (userLocationNames.size() + 1) + "|" + " Create new location");
 
             Interfaces.messagePromptChooseLocation();
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            String temp = scanner.nextLine().trim();
+            int choice;
+            try {
+                choice = Integer.parseInt(temp);
+            } catch (NumberFormatException e) {
+                Interfaces.clearPlusUser(user);
+                Interfaces.errorMessageNumber();
+                continue;
+            }
 
             if (choice >= 1 && choice <= userLocationNames.size()) {
                 location = userLocationNames.get(choice - 1).getLocation();
@@ -289,6 +296,7 @@ public class EntryManager {
 
     /**     
      * Delete a diary entry by its ID if it belongs to the user.
+     * i found that removeif was a premade function!!!
      * @param user User attempting to delete the entry.
      * @param id ID of the diary entry to be deleted.
      * @param mapper ObjectMapper for JSON operations.

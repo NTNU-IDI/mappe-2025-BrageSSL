@@ -326,6 +326,11 @@ public class Interfaces {
         }
     }
 
+    /** 
+     * Clear secrrn and show current user.
+     * saves mmanny lines of code somehow
+     * @param user
+    */
     public static void clearPlusUser(User user){
         clearConsole();
         currentUser(user);

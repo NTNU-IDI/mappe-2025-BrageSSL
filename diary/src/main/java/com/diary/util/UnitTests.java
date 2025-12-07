@@ -2,14 +2,12 @@ package com.diary.util;
 
 import java.io.File;
 import java.util.Scanner;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.diary.model.User;
 import com.diary.model.Moods;
 import com.diary.model.Locations;
 import com.diary.model.DiaryEntry;
-import com.diary.manager.UserManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
