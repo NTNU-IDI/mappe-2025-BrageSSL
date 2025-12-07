@@ -1,54 +1,62 @@
 package com.diary.manager;
 
+import com.diary.model.DiaryEntry;
+import com.diary.model.Locations;
+import com.diary.model.Moods;
+import com.diary.model.User;
+import com.diary.util.DiaryRead;
+import com.diary.util.EncryptionUtil;
+import com.diary.util.Interfaces;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
-
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.diary.model.DiaryEntry;
-import com.diary.model.Locations;
-import com.diary.model.Moods;
-import com.diary.util.EncryptionUtil;
-import com.diary.util.Interfaces;
-import com.diary.model.User;
-import com.diary.util.DiaryRead;
-
+/**
+ * EntryManager class for managing diary entries, locations, and moods.
+ */
 public class EntryManager {
-    /** 
+    /**
      * Lists of entries, locations, and moods.
-    */
+     */
     private ArrayList<DiaryEntry> entries = new ArrayList<>();
     private ArrayList<Locations> locations = new ArrayList<>();
     private ArrayList<Moods> moods = new ArrayList<>();
 
-    /** 
+    /**
      * Entry manager Constructors.
-    */
+     */
     public EntryManager(List<DiaryEntry> loadedEntries, List<Locations> loadedLocations, List<Moods> loadedMoods) {
-        if (loadedEntries != null) this.entries.addAll(loadedEntries);
-        if (loadedLocations != null) this.locations.addAll(loadedLocations);
-        if (loadedMoods != null) this.moods.addAll(loadedMoods);
+        if (loadedEntries != null) {
+            this.entries.addAll(loadedEntries);
+        }
+        if (loadedLocations != null) {
+            this.locations.addAll(loadedLocations);
+        }
+        if (loadedMoods != null) {
+            this.moods.addAll(loadedMoods);
+        }
     }
-    /** 
+
+    /**
      * Create a new diary entry.
-     * @param user User creating the entry.
-     * @param scanner Scanner for user input.
-     * @param mapper ObjectMapper for JSON operations.
-     * @param entryFile File to write updated entries to.
+     * 
+     * @param user         User creating the entry.
+     * @param scanner      Scanner for user input.
+     * @param mapper       ObjectMapper for JSON operations.
+     * @param entryFile    File to write updated entries to.
      * @param locationFile File to write updated locations to.
-     * @param moodFile File to write updated moods to.
-    */
-    public void createEntry(User user, Scanner scanner, ObjectMapper mapper, File entryFile, File locationFile, File moodFile) {
+     * @param moodFile     File to write updated moods to.
+     */
+    public void createEntry(User user, Scanner scanner, ObjectMapper mapper, File entryFile, File locationFile,
+            File moodFile) {
         String id = UUID.randomUUID().toString();
         String author = user.getUserName();
-        LocalDateTime made = LocalDateTime.now().withSecond(0).withNano(0);    
+        LocalDateTime made = LocalDateTime.now().withSecond(0).withNano(0);
         LocalDateTime now = made.withSecond(0).withNano(0);
 
         Interfaces.messagePromptTitle();
@@ -59,7 +67,8 @@ public class EntryManager {
         String line;
         while (true) {
             line = scanner.nextLine();
-            if (line.equalsIgnoreCase("END")) break;
+            if (line.equalsIgnoreCase("END"))
+                break;
             contentBuilder.append(line).append(System.lineSeparator());
         }
         String content = contentBuilder.toString().trim();
@@ -71,9 +80,16 @@ public class EntryManager {
             String input = scanner.nextLine().trim();
             try {
                 int choice = Integer.parseInt(input);
-                if (choice == 1) { encrypt = true; break; }
-                if (choice == 2) { encrypt = false; break; }
-            } catch (NumberFormatException ignored) {}
+                if (choice == 1) {
+                    encrypt = true;
+                    break;
+                }
+                if (choice == 2) {
+                    encrypt = false;
+                    break;
+                }
+            } catch (NumberFormatException ignored) {
+            }
             Interfaces.errorMessageNumber();
         }
 
@@ -98,8 +114,9 @@ public class EntryManager {
 
         List<Locations> userLocationNames = listUserLocationNames(user);
         String location = listUserLocations(userLocationNames, user, scanner, mapper, locationFile);
-        
-        DiaryEntry newEntry = new DiaryEntry(id, author, title, made, now, mood, location, encodedContent, publicContent, encrypt);
+
+        DiaryEntry newEntry = new DiaryEntry(id, author, title, made, now, mood, location, encodedContent,
+                publicContent, encrypt);
         entries.add(newEntry);
         try {
             mapper.writeValue(entryFile, getEntries());
@@ -110,12 +127,13 @@ public class EntryManager {
         Interfaces.showEntry(id, entries, user);
     }
 
-    /** 
+    /**
      * Display sorting options for diary entries.
-     * @param user User whose entries are to be sorted.
-     * @param scanner Scanner for user input.
+     * 
+     * @param user      User whose entries are to be sorted.
+     * @param scanner   Scanner for user input.
      * @param diaryFile File containing diary entries.
-    */
+     */
     public void sortOptions(User user, Scanner scanner, File diaryFile) {
         while (true) {
             Interfaces.messagePromptSortOption();
@@ -142,14 +160,15 @@ public class EntryManager {
         }
     }
 
-    /** 
+    /**
      * Create a new mood.
-     * @param author User creating the mood.
+     * 
+     * @param author   User creating the mood.
      * @param moodName Name of the new mood.
-     * @param mapper ObjectMapper for JSON operations.
+     * @param mapper   ObjectMapper for JSON operations.
      * @param moodFile File to write updated moods to.
-    */
-    public void createMood (User author, String moodName, ObjectMapper mapper, File moodFile) {
+     */
+    public void createMood(User author, String moodName, ObjectMapper mapper, File moodFile) {
         Moods newMood = new Moods(moodName, author.getUserName());
         moods.add(newMood);
         try {
@@ -159,14 +178,15 @@ public class EntryManager {
         }
     }
 
-    /** 
+    /**
      * Create a new location.
-     * @param author User creating the location.
+     * 
+     * @param author       User creating the location.
      * @param locationName Name of the new location.
-     * @param mapper ObjectMapper for JSON operations.
+     * @param mapper       ObjectMapper for JSON operations.
      * @param locationFile File to write updated locations to.
-    */
-    public void createLocation (User author, String locationName, ObjectMapper mapper, File locationFile) {
+     */
+    public void createLocation(User author, String locationName, ObjectMapper mapper, File locationFile) {
         Locations newLocation = new Locations(locationName, author.getUserName());
         locations.add(newLocation);
         try {
@@ -176,12 +196,13 @@ public class EntryManager {
         }
     }
 
-    /** 
+    /**
      * Lists user-specific mood names.
+     * 
      * @param user User whose moods are to be listed.
      * @return List of Moods created by the user.
-    */
-    public List<Moods> listUserMoodNames (User user) {
+     */
+    public List<Moods> listUserMoodNames(User user) {
         ArrayList<Moods> userMoodNames = new ArrayList<>();
         for (Moods m : moods) {
             if (m.getCreator().equals(user.getUserName())) {
@@ -191,12 +212,13 @@ public class EntryManager {
         return userMoodNames;
     }
 
-    /** 
+    /**
      * Lists user-specific location names.
+     * 
      * @param user User whose locations are to be listed.
      * @return List of Locations created by the user.
-    */
-    public List<Locations> listUserLocationNames (User user) {
+     */
+    public List<Locations> listUserLocationNames(User user) {
         List<Locations> newLocations = new ArrayList<>();
         for (Locations l : locations) {
             if (l.getCreator().equals(user.getUserName())) {
@@ -206,16 +228,18 @@ public class EntryManager {
         return newLocations;
     }
 
-    /** 
+    /**
      * Lists moods for user selection or creation.
+     * 
      * @param userMoodNames List of Moods created by the user.
-     * @param user User selecting or creating a mood.
-     * @param scanner Scanner for user input.
-     * @param mapper ObjectMapper for JSON operations.
-     * @param moodFile File to write updated moods to.
+     * @param user          User selecting or creating a mood.
+     * @param scanner       Scanner for user input.
+     * @param mapper        ObjectMapper for JSON operations.
+     * @param moodFile      File to write updated moods to.
      * @return Selected or newly created mood as a String.
-    */
-    public String listUserMoods(List<Moods> userMoodNames, User user, Scanner scanner, ObjectMapper mapper, File moodFile) {
+     */
+    public String listUserMoods(List<Moods> userMoodNames, User user, Scanner scanner, ObjectMapper mapper,
+            File moodFile) {
         String mood = null;
         while (true) {
             for (int i = 0; i < userMoodNames.size(); i++) {
@@ -223,7 +247,7 @@ public class EntryManager {
                 System.out.println("|" + (i + 1) + "| " + userMoodNames.get(i).getMood());
             }
             System.out.println("|" + (userMoodNames.size() + 1) + "|" + " Create new mood");
-            
+
             Interfaces.messagePromptChooseLocation();
             String temp = scanner.nextLine().trim();
             int choice;
@@ -250,21 +274,23 @@ public class EntryManager {
         }
     }
 
-    /** 
+    /**
      * Lists locations for user selection or creation.
+     * 
      * @param userLocationNames List of Locations created by the user.
-     * @param user User selecting or creating a location.
-     * @param scanner Scanner for user input.
-     * @param mapper ObjectMapper for JSON operations.
-     * @param locationFile File to write updated locations to.
+     * @param user              User selecting or creating a location.
+     * @param scanner           Scanner for user input.
+     * @param mapper            ObjectMapper for JSON operations.
+     * @param locationFile      File to write updated locations to.
      * @return Selected or newly created location as a String.
-    */
-    public String listUserLocations(List<Locations> userLocationNames, User user, Scanner scanner, ObjectMapper mapper, File locationFile) {
+     */
+    public String listUserLocations(List<Locations> userLocationNames, User user, Scanner scanner, ObjectMapper mapper,
+            File locationFile) {
         String location = null;
         while (true) {
             for (int i = 0; i < userLocationNames.size(); i++) {
 
-                System.out.println("|" +(i + 1) + "| " + userLocationNames.get(i).getLocation());
+                System.out.println("|" + (i + 1) + "| " + userLocationNames.get(i).getLocation());
             }
             System.out.println("|" + (userLocationNames.size() + 1) + "|" + " Create new location");
 
@@ -294,19 +320,22 @@ public class EntryManager {
         }
     }
 
-    /**     
+    /**
      * Delete a diary entry by its ID if it belongs to the user.
      * i found that removeif was a premade function!!!
-     * @param user User attempting to delete the entry.
-     * @param id ID of the diary entry to be deleted.
-     * @param mapper ObjectMapper for JSON operations.
+     * 
+     * @param user      User attempting to delete the entry.
+     * @param id        ID of the diary entry to be deleted.
+     * @param mapper    ObjectMapper for JSON operations.
      * @param entryFile File to write updated entries to.
      * @return true if deletion was successful, false otherwise.
-    */
+     */
     public boolean deleteOwnEntryById(User user, String id, ObjectMapper mapper, File entryFile) {
-        if (user == null || id == null || id.isEmpty()) return false;
+        if (user == null || id == null || id.isEmpty())
+            return false;
         boolean removed = entries.removeIf(e -> id.equals(e.getId()) && user.getUserName().equals(e.getAuthor()));
-        if (!removed) return false;
+        if (!removed)
+            return false;
         try {
             mapper.writeValue(entryFile, getEntries());
             return true;
@@ -316,13 +345,14 @@ public class EntryManager {
         }
     }
 
-    /**     
+    /**
      * Update an existing diary entry.
-     * @param user User updating the entry.
-     * @param mapper ObjectMapper for JSON operations.
+     * 
+     * @param user      User updating the entry.
+     * @param mapper    ObjectMapper for JSON operations.
      * @param entryFile File to write updated entries to.
-     * @param scanner Scanner for user input.
-    */
+     * @param scanner   Scanner for user input.
+     */
     public void updateEntry(User user, ObjectMapper mapper, File entryFile, Scanner scanner) {
         boolean running = true;
         while (true) {
@@ -337,7 +367,7 @@ public class EntryManager {
                 Interfaces.errorMessageNoDiaryEntriesFound();
                 return;
             }
-            while(running) {
+            while (running) {
                 Interfaces.clearPlusUser(user);
                 Interfaces.showEntry(id, entries, user);
                 Interfaces.messagePromptManageEntries();
@@ -364,7 +394,8 @@ public class EntryManager {
                         String line;
                         while (true) {
                             line = scanner.nextLine();
-                            if (line.equalsIgnoreCase("END")) break;
+                            if (line.equalsIgnoreCase("END"))
+                                break;
                             contentBuilder.append(line).append(System.lineSeparator());
                         }
                         String newContent = contentBuilder.toString().trim();
@@ -404,16 +435,17 @@ public class EntryManager {
                     Interfaces.errorMessageUnableToWrite();
                 }
             }
-            
+
         }
     }
 
-    /**     
+    /**
      * Retrieves a diary entry by its ID.
+     * 
      * @param id ID of the diary entry.
      * @return DiaryEntry object if found, otherwise null.
-    */
-    public DiaryEntry getEntryById (String id) {
+     */
+    public DiaryEntry getEntryById(String id) {
         for (DiaryEntry entry : entries) {
             if (id.equals(entry.getId())) {
                 return entry;
@@ -422,27 +454,30 @@ public class EntryManager {
         return null; // Entry not found
     }
 
-    /**     
+    /**
      * Retrieves the list of diary entries.
+     * 
      * @return List of diary entries as an ArrayList.
-    */
+     */
     public List<DiaryEntry> getEntries() {
         return entries;
     }
 
-    /**     
+    /**
      * Retrieves the list of locations.
+     * 
      * @return List of locations as an ArrayList.
-    */
+     */
     public List<Locations> getLocations() {
-        return locations; 
+        return locations;
     }
 
-    /**     
+    /**
      * Retrieves the list of moods.
+     * 
      * @return List of moods as an ArrayList.
-    */
-    public List<Moods> getMoods() { 
-        return moods; 
+     */
+    public List<Moods> getMoods() {
+        return moods;
     }
 }

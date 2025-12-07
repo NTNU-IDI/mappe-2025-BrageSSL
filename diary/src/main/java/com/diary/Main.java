@@ -22,7 +22,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 public class Main {
 
     /**
-     * Main method - entry point of the application.    
+     * Main method - entry point of the application.
+     * 
      * @param args
      */
     public static void main(String[] args) {
@@ -31,50 +32,25 @@ public class Main {
         boolean exit = false;
         String choice = "";
 
-        /**
-         * Initialize ObjectMapper for JSON operations.
-         */
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        mapper.enable(SerializationFeature.INDENT_OUTPUT); 
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        // ---------- Load users ----------
-        /**
-         * Load users from JSON file.
-         */
         File userFile = new File("diary/data/user.json");
         List<User> users = DiaryManager.loadUser(userFile, mapper);
 
-        // ---------- Load diary entries ----------
-        /**
-         * Load diary entries from JSON file.
-         */
         File diaryFile = new File("diary/data/diary.json");
         List<DiaryEntry> entries = DiaryManager.loadEntries(diaryFile, mapper);
-        
-        // ---------- Load locations ----------
-        /** 
-         * Load locations from JSON file.
-         */
+
         File locationFile = new File("diary/data/location.json");
         List<Locations> locations = DiaryManager.loadLocations(locationFile, mapper);
-        
-        // ---------- Load moods ----------
-        /** 
-         * Load moods from JSON file.
-         */
+
         File moodFile = new File("diary/data/mood.json");
         List<Moods> moods = DiaryManager.loadMood(moodFile, mapper);
 
-        /** 
-         * Initialize UserManager and EntryManager with loaded data.
-        */
         UserManager userManager = new UserManager(users);
         EntryManager entryManager = new EntryManager(entries, locations, moods);
 
-        /** 
-         * Main application loop for user interaction.
-        */
         Interfaces.clearConsole();
         Scanner scanner = new Scanner(System.in);
         if (users.isEmpty()) {
@@ -83,11 +59,8 @@ public class Main {
             userManager.newUser(scanner, mapper, userFile);
         }
 
-        /** 
-         * Application loop for user authentication and menu navigation.
-        */
         Interfaces.clearConsole();
-        while (exit!=true) {
+        while (exit != true) {
             if (user == null) {
                 Interfaces.messageUserCreateOrLogin();
                 choice = scanner.nextLine().trim();
@@ -142,14 +115,14 @@ public class Main {
                         Interfaces.clearPlusUser(user);
                         entryManager.updateEntry(user, mapper, diaryFile, scanner);
                         break;
-                        
+
                     case "7":
                         Interfaces.clearPlusUser(user);
                         userManager.profileSettings(user, scanner, mapper, userFile);
                         break;
                     case "8":
                         Interfaces.clearPlusUser(user);
-                        UnitTests.runAllTests(mapper, userFile, moodFile, locationFile, diaryFile); 
+                        UnitTests.runAllTests(mapper, userFile, moodFile, locationFile, diaryFile);
                         exit = true;
                         break;
                     case "9":
@@ -162,7 +135,7 @@ public class Main {
                         Interfaces.clearConsole();
                         Interfaces.errorMessageNumber();
                         break;
-                }        
+                }
             }
         }
     }

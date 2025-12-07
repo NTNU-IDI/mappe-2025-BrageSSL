@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-
 import com.diary.model.DiaryEntry;
 import com.diary.model.User;
 import com.diary.util.Interfaces;
@@ -18,11 +17,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class DiaryRead {
 
-    /** 
+    /**
      * Show index of all diary entries.
+     * 
      * @param diaryFile File containing diary entries.
-    */
-    public static void showIndex(User user, File diaryFile) {      
+     */
+    public static void showIndex(User user, File diaryFile) {
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
                 Interfaces.errorMessageNoDiaryEntriesFound();
@@ -31,8 +31,9 @@ public class DiaryRead {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            
-            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
+
+            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {
+            });
 
             Interfaces.clearPlusUser(user);
 
@@ -46,12 +47,13 @@ public class DiaryRead {
             Interfaces.errorMessageFailedToReadEntries();
         }
     }
-    
-    /** 
+
+    /**
      * Show index of diary entries for a specific user.
-     * @param user User whose entries to show.
+     * 
+     * @param user      User whose entries to show.
      * @param diaryFile File containing diary entries.
-    */
+     */
     public static void myIndex(User user, File diaryFile) {
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
@@ -61,14 +63,16 @@ public class DiaryRead {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            
-            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
+
+            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {
+            });
 
             Interfaces.clearPlusUser(user);
 
             Interfaces.messageDiaryEntries();
             for (DiaryEntry entry : diaryList) {
-                if (!entry.getAuthor().equals(user.getUserName())) continue; // only show this user's entries
+                if (!entry.getAuthor().equals(user.getUserName()))
+                    continue; // only show this user's entries
 
                 Interfaces.showEntry(entry.getId(), diaryList, user);
             }
@@ -79,11 +83,12 @@ public class DiaryRead {
         }
     }
 
-    /** 
+    /**
      * Show index of diary entries for a specific user.
-     * @param user User whose entries to show.
+     * 
+     * @param user      User whose entries to show.
      * @param diaryFile File containing diary entries.
-    */
+     */
     public static void otherIndex(User user, String userName, File diaryFile) {
         Interfaces.clearPlusUser(user);
         try {
@@ -94,14 +99,16 @@ public class DiaryRead {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            
-            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
+
+            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {
+            });
 
             Interfaces.clearPlusUser(user);
-            
+
             Interfaces.messageDiaryEntries();
             for (DiaryEntry entry : diaryList) {
-                if (!entry.getAuthor().equals(userName)) continue; // only show this user's entries
+                if (!entry.getAuthor().equals(userName))
+                    continue; // only show this user's entries
                 Interfaces.showOtherEntry(entry.getId(), diaryList);
             }
 
@@ -111,17 +118,18 @@ public class DiaryRead {
         }
     }
 
-    /** 
+    /**
      * Show index of diary entries between two dates.
+     * 
      * @param diaryFile File containing diary entries.
-     * @param scanner Scanner for user input.
-     * @param user Current user (can be null).
-    */
+     * @param scanner   Scanner for user input.
+     * @param user      Current user (can be null).
+     */
     public static void IndexFromDateToDate(File diaryFile, Scanner scanner, User user) {
         Interfaces.clearConsole();
         LocalDateTime from;
         LocalDateTime to;
-        
+
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
                 Interfaces.errorMessageNoDiaryEntriesFound();
@@ -130,8 +138,9 @@ public class DiaryRead {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            
-            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
+
+            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {
+            });
 
             Interfaces.clearPlusUser(user);
 
@@ -154,14 +163,17 @@ public class DiaryRead {
 
             if (user == null) {
                 for (DiaryEntry entry : diaryList) {
-                    if (entry.getDate().isBefore(from) || entry.getDate().isAfter(to)) continue;
+                    if (entry.getDate().isBefore(from) || entry.getDate().isAfter(to))
+                        continue;
                     Interfaces.showOtherEntry(entry.getId(), diaryList);
                 }
             } else {
                 Interfaces.messageDiaryEntries();
                 for (DiaryEntry entry : diaryList) {
-                    if (!entry.getAuthor().equals(user.getUserName())) continue;
-                    if (entry.getDate().isBefore(from) || entry.getDate().isAfter(to)) continue;
+                    if (!entry.getAuthor().equals(user.getUserName()))
+                        continue;
+                    if (entry.getDate().isBefore(from) || entry.getDate().isAfter(to))
+                        continue;
                     Interfaces.showOtherEntry(entry.getId(), diaryList);
                 }
             }
@@ -170,16 +182,17 @@ public class DiaryRead {
         }
     }
 
-    /** 
+    /**
      * Show index of diary entries after a specific date.
+     * 
      * @param diaryFile File containing diary entries.
-     * @param scanner Scanner for user input.
-     * @param user Current user (can be null).
-    */
+     * @param scanner   Scanner for user input.
+     * @param user      Current user (can be null).
+     */
     public static void IndexAfterDate(File diaryFile, Scanner scanner, User user) {
         Interfaces.clearConsole();
         LocalDateTime date;
-        
+
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
                 Interfaces.errorMessageNoDiaryEntriesFound();
@@ -188,8 +201,9 @@ public class DiaryRead {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            
-            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {});
+
+            List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {
+            });
 
             Interfaces.clearConsole();
 
@@ -209,15 +223,18 @@ public class DiaryRead {
             if (user == null) {
                 Interfaces.messageDiaryEntries();
                 for (DiaryEntry entry : diaryList) {
-                        if (!entry.getDate().isAfter(date)) continue;
-                        Interfaces.showOtherEntry(entry.getId(), diaryList);
+                    if (!entry.getDate().isAfter(date))
+                        continue;
+                    Interfaces.showOtherEntry(entry.getId(), diaryList);
                 }
             } else {
                 Interfaces.messageDiaryEntries();
                 for (DiaryEntry entry : diaryList) {
-                    if (!entry.getAuthor().equals(user.getUserName())) continue;
-                        if (!entry.getDate().isAfter(date)) continue;
-                        Interfaces.showOtherEntry(entry.getId(), diaryList);
+                    if (!entry.getAuthor().equals(user.getUserName()))
+                        continue;
+                    if (!entry.getDate().isAfter(date))
+                        continue;
+                    Interfaces.showOtherEntry(entry.getId(), diaryList);
                 }
             }
         } catch (Exception e) {
