@@ -110,7 +110,8 @@ public class Interfaces {
         System.out.println("|5| Logout");
         System.out.println("|6| Edit diary entry");
         System.out.println("|7| Profile settings");
-        System.out.println("|8| Exit");
+        System.out.println("|8| Run unit tests");
+        System.out.println("|9| Exit");
         System.out.print("|~| ");
     }
 
