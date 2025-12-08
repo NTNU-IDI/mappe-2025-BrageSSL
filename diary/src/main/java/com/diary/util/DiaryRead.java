@@ -90,7 +90,7 @@ public class DiaryRead {
      * @param diaryFile File containing diary entries.
      */
     public static void otherIndex(User user, String userName, File diaryFile) {
-        Interfaces.clearPlusUser(user);
+
         try {
             if (!diaryFile.exists() || diaryFile.length() == 0) {
                 Interfaces.errorMessageNoDiaryEntriesFound();
@@ -102,8 +102,6 @@ public class DiaryRead {
 
             List<DiaryEntry> diaryList = mapper.readValue(diaryFile, new TypeReference<List<DiaryEntry>>() {
             });
-
-            Interfaces.clearPlusUser(user);
 
             Interfaces.messageDiaryEntries();
             for (DiaryEntry entry : diaryList) {
@@ -263,6 +261,7 @@ public class DiaryRead {
 
             Interfaces.messageDiaryEntries();
             for (User u : users) {
+                entrycount = 0;
                 for (DiaryEntry entry : entries) {
                     if (!entry.getAuthor().equals(u.getUserName())) {
                         continue;

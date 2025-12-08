@@ -545,7 +545,7 @@ public class Interfaces {
 
     /** * Display author entry header. */
     public static void showAuthorEntry(String author, int entryCount) {
-        System.out.println("\n\n\n|~| Author: " + author + " |~| Total Entries: " + entryCount + " |~|");
+        System.out.println("|~| Author: " + author + " |~| Total Entries: " + entryCount + " |~|");
     }
 
     /**
