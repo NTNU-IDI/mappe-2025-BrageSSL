@@ -27,8 +27,9 @@ public class DiaryManager {
         try {
             if (userFile.exists() && userFile.length() > 0) {
                 User[] loadedUsers = mapper.readValue(userFile, User[].class);
-                for (User u : loadedUsers)
+                for (User u : loadedUsers) {
                     users.add(u);
+                }
             }
         } catch (Exception e) {
             Interfaces.errorMessageUnableToLoad();
