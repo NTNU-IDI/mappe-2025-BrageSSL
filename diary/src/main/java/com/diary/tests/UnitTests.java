@@ -1,7 +1,6 @@
 package com.diary.tests;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
@@ -366,6 +365,15 @@ public class UnitTests {
         }
     }
 
+    /**
+     * Run all unit tests.
+     * 
+     * @param mapper
+     * @param userFile
+     * @param moodFile
+     * @param locationFile
+     * @param diaryFile
+     */
     public static void runAllTests(ObjectMapper mapper, File userFile, File moodFile, File locationFile,
             File diaryFile) {
         TestUserCreation(mapper, userFile);

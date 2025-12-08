@@ -2,19 +2,19 @@ package com.diary.util;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.ArrayList;
-
+import com.diary.manager.DiaryManager;
 import com.diary.model.DiaryEntry;
 import com.diary.model.User;
-import com.diary.util.Interfaces;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+/**
+ * Utility class for reading and displaying diary entries.
+ */
 public class DiaryRead {
 
     /**
@@ -242,4 +242,40 @@ public class DiaryRead {
         }
     }
 
+    /**
+     * Show index of diary entries grouped by author.
+     * 
+     * @param diaryFile File containing diary entries.
+     * @param userFile  File containing user data.
+     * @param user      Current user.
+     * @param mapper    ObjectMapper for JSON processing.
+     */
+    public static void authorIndex(File diaryFile, File userFile, User user, ObjectMapper mapper) {
+        ArrayList<User> users = DiaryManager.loadUser(userFile, mapper);
+        ArrayList<DiaryEntry> entries = DiaryManager.loadEntries(diaryFile, mapper);
+        Interfaces.clearPlusUser(user);
+        int entrycount = 0;
+        try {
+            if (!diaryFile.exists() || diaryFile.length() == 0) {
+                Interfaces.errorMessageNoDiaryEntriesFound();
+                return;
+            }
+
+            Interfaces.messageDiaryEntries();
+            for (User u : users) {
+                for (DiaryEntry entry : entries) {
+                    if (!entry.getAuthor().equals(u.getUserName())) {
+                        continue;
+                    }
+                    entrycount++;
+
+                }
+                Interfaces.showAuthorEntry(u.getUserName(), entrycount);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Interfaces.errorMessageFailedToReadEntries();
+        }
+    }
 }

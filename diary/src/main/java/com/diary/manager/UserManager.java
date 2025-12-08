@@ -1,24 +1,21 @@
 package com.diary.manager;
 
 import com.diary.model.User;
-import com.diary.util.DiaryRead;
 import com.diary.util.EncryptionUtil;
 import com.diary.util.Interfaces;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.File;
 import java.util.List;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.Scanner;
 import java.util.UUID;
-
 import java.io.Console;
-
 import javax.crypto.SecretKey;
 
+/**
+ * UserManager class for managing user-related operations.
+ */
 public class UserManager {
     /**
      * List of users.
@@ -31,9 +28,9 @@ public class UserManager {
     public UserManager() {
     }
 
-    public UserManager(List<User> initialUsers) {
-        if (initialUsers != null)
-            this.users.addAll(initialUsers);
+    public UserManager(List<User> Users) {
+        if (Users != null)
+            this.users.addAll(Users);
     }
 
     /**

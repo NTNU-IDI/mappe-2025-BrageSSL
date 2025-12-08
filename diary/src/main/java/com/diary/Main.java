@@ -3,7 +3,6 @@ package com.diary;
 import java.io.File;
 import java.util.List;
 import java.util.Scanner;
-
 import com.diary.manager.DiaryManager;
 import com.diary.manager.UserManager;
 import com.diary.manager.EntryManager;
@@ -14,11 +13,13 @@ import com.diary.model.Moods;
 import com.diary.tests.UnitTests;
 import com.diary.util.Interfaces;
 import com.diary.util.DiaryRead;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+/**
+ * Main class Starting point of the Diary application.
+ */
 public class Main {
 
     /**
@@ -104,6 +105,7 @@ public class Main {
                         Interfaces.clearPlusUser(user);
                         Interfaces.messagePromptAuthorName();
                         String otherUserName = scanner.nextLine().trim();
+                        DiaryRead.authorIndex(diaryFile, userFile, user, mapper);
                         DiaryRead.otherIndex(user, otherUserName, diaryFile);
                         break;
                     case "5":

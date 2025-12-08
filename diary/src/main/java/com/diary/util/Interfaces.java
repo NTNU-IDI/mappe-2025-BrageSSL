@@ -1,10 +1,12 @@
 package com.diary.util;
 
 import java.util.List;
-
 import com.diary.model.DiaryEntry;
 import com.diary.model.User;
 
+/**
+ * Interface utility class for displaying messages and prompts.
+ */
 public class Interfaces {
     /**
      * Display detailed diary entry information.
@@ -161,6 +163,11 @@ public class Interfaces {
         System.out.print("|~| ");
     }
 
+    /**
+     * Display user profile information.
+     * 
+     * @param user
+     */
     public static void showUserProfile(User user) {
         System.out.println("\n\n\n~~~~~~| User Profile |~~~~~~");
         System.out.println("| Username:    " + user.getUserName());
@@ -534,6 +541,11 @@ public class Interfaces {
     /** * Confirmation message for exiting the application. */
     public static void messageExit() {
         System.out.println("~~~~~~| Exiting Diary Application. Goodbye! |~~~~~~");
+    }
+
+    /** * Display author entry header. */
+    public static void showAuthorEntry(String author, int entryCount) {
+        System.out.println("\n\n\n|~| Author: " + author + " |~| Total Entries: " + entryCount + " |~|");
     }
 
     /**
